@@ -86,6 +86,7 @@
 - 2023-08-06 
     * 增添【像素蛋糕】脚本
     * 取消【什么值得买】脚本的第二次抽奖功能
+    * 聚合脚本中增添Discord推送
 - 2023-08-05 
     * 增添【在线工具】脚本
 - 2023-07-31 
@@ -106,7 +107,8 @@
 
 ## 贡献者  
 <a href="https://github.com/jarryyen">@jarryyen</a>、
-<a href="https://github.com/darkbfly">@darkbfly</a>
+<a href="https://github.com/darkbfly">@darkbfly</a>、
+<a href="https://githubfast.com/SunWuyuan">@孙悟元</a>
 
 ## 代码参考
 <a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a></br>

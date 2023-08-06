@@ -19,6 +19,7 @@ var jsonPush = [
   { name: "ServerChan", key: "xxxxxx", flag: "0" },
   { name: "email", key: "xxxxxx", flag: "0" },
   { name: "dingtalk", key: "xxxxxx", flag: "0" },
+  { name: "discord", key: "xxxxxx", flag: "0" },
 ]; // 推送数据，flag=1则推送
 var jsonEmail = {
   server: "",
@@ -241,6 +242,14 @@ function dingtalk(message, key) {
   let url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
   let resp = HTTP.post(url, { msgtype: "text", text: { content: message } });
   // console.log(resp.text())
+  sleep(5000);
+}
+
+// 推送Discord机器人
+function discord(message, key) {
+  let url = key;
+  let resp = HTTP.post(url, { content: message });
+  //console.log(resp.text())
   sleep(5000);
 }
 
