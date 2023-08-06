@@ -108,7 +108,7 @@
 ## 贡献者  
 <a href="https://github.com/jarryyen">@jarryyen</a>、
 <a href="https://github.com/darkbfly">@darkbfly</a>、
-<a href="https://githubfast.com/SunWuyuan">@孙悟元</a>
+<a href="https://github.com/SunWuyuan">@孙悟元</a>
 
 ## 代码参考
 <a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a></br>
