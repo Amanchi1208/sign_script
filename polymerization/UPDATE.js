@@ -8,14 +8,15 @@
 // 叮咚买菜-叮咚果园、叮咚买菜-叮咚鱼塘
 
 // 定制化分配置表:
-// 阿里云盘（多用户版）
+// 阿里云盘（多用户版）、像素蛋糕、叮咚买菜
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
 var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
 var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba',
-'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 'xifushe', 'ddmc'];
+'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
+'xifushe', 'ddmc'];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -69,18 +70,25 @@ var subConfigContent = [
   ['xxxxxxxx2', '否', '昵称2']
 ]
 
-// 定制化分配置表内容
+// 定制化分配置表内容，阿里云盘
 var subConfigAliyundrive = [
   ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','月末才领取奖励(是/否)'],
   ['xxxxxxxx1', '是', '昵称1', '否'],
   ['xxxxxxxx2', '否', '昵称2', '否']
 ]
 
-// 定制化分配置表内容
+// 定制化分配置表内容，像素蛋糕
 var subConfigCake= [
   ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','xy-extra-data'],
   ['xxxxxxxx1', '是', '昵称1', 'xxxxxxxx'],
   ['xxxxxxxx2', '否', '昵称2', 'xxxxxxxx']
+]
+
+// 定制化分配置表内容，叮咚买菜
+var subConfigDdmc = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','seedId_ddgy','propsId_ddgy','seedId_ddyt','propsId_ddty'],
+  ['xxxxxxxx1', '是', '昵称1', '填果园seedId', '填果园propsId', '填鱼塘seedId', '填鱼塘propsId'],
+  ['xxxxxxxx2', '否', '昵称2', '填果园seedId', '填果园propsId', '填鱼塘seedId', '填鱼塘propsId']
 ]
 
 // var mosaic = "xxxxxxxx" // 马赛克
@@ -120,6 +128,11 @@ editConfigSheet(subConfigAliyundrive)  // editSubConfigCustomized(subConfigAliyu
 // 写入定制化内容
 ActivateSheet(subConfigWorkbook[8]) // 激活像素蛋糕分配置表
 editConfigSheet(subConfigCake)  
+
+// 写入定制化内容
+ActivateSheet(subConfigWorkbook[11]) // 激活叮咚买次分配置表
+editConfigSheet(subConfigDdmc)  
+
 
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
