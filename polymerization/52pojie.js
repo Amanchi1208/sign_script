@@ -303,6 +303,7 @@ function execHandle(cookie, pos) {
     var url3 = "https://www.52pojie.cn/home.php?mod=task&do=draw&id=2";
     cookie_json = cookie_to_json(cookie);
     try {
+      let flagSign = 0; // 签到成功标志
       htVC_2132_saltkey = cookie_json["htVC_2132_saltkey"];
       htVC_2132_auth = cookie_json["htVC_2132_auth"];
       cookie =
@@ -314,7 +315,8 @@ function execHandle(cookie, pos) {
       headers = {
         Accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "Accept-Encoding": "gzip, deflate, br",
+        // "Accept-Encoding": "gzip, deflate, br",
+        // "Accept-Encoding": "gbk",
         "Accept-Language": "zh-CN,zh;q=0.9",
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
@@ -345,8 +347,107 @@ function execHandle(cookie, pos) {
         method: "get",
         headers: headers,
       });
-      console.log("签到完成");
-      messageSuccess += messageName + "签到 ";
+      // console.log(resp.text())
+
+      // let Reg = /不是进行中的任务/i;
+      let Reg = /<p>(.*?)</i;
+      let html = resp.text();
+      // let body = resp.binary()
+      // console.log(body)
+      // let base64 = body.toString("base64") 
+      // console.log(html)
+      // let range = Application.Range('A7')
+      // 写入值到单元格中
+      // range.Value = html
+      let flagTrue = Reg.test(html); // 判断是否存在字符串
+      console.log(flagTrue)
+      if (resp.status == 200 && flagTrue == true) {
+        let result = Reg.exec(html); // 提取匹配的字符串，
+        // console.log(result)
+        result = result[1];
+        // result = result.toString("base64") 
+        console.log(result)
+        // mate1 = "77+977+977+9x73vv73vv73vv73vv73Qte+/ve+/ve+/ve+/ve+/vQ=="  // 不是进行中的任务
+        mate1 = "���ǽ����е�����"  // 不是进行中的任务
+        mate2 = "��ϲ������������ɣ���ע��̳΢�š��ᰮ�ƽ���̳����һ��ǩ������̳�ҡ�"  // 恭喜
+        mate3 = ""  // 您需要先登录才能继续本操作
+        // ����Ҫ�ȵ�¼���ܼ���������  签到失败乱码标识
+        if(result == mate1){
+          flagSign = 2;
+          messageSuccess += "帐号：" + messageName  + "已经签到过了 ";
+          console.log("帐号：" + messageName  + "已经签到过了 ")
+        }else if(result == mate2){
+          flagSign = 1;
+          messageSuccess += "帐号：" + messageName  + "签到成功 ";
+          console.log("帐号：" + messageName  + "签到成功 ")
+        }else{
+          // messageFail += "帐号：" + messageName + "签到失败 ";
+          console.log("帐号：" + messageName  + "签到失败 ")
+        }
+      } else {
+        // messageFail += "帐号：" + messageName + "签到失败 ";
+        console.log("帐号：" + messageName  + "签到失败 ")
+      }
+
+      // 如果签到失败重新发送一次签到
+      if(flagSign == 0){
+        console.log("尝试再次签到")
+        resp = HTTP.fetch(url1, {
+          method: "get",
+          headers: headers,
+        });
+        cookie_set = resp.headers["set-cookie"];
+        cookie = cookie + cookie_set;
+        sleep(1000);
+
+        headers["Cookie"] = cookie;
+        resp = HTTP.fetch(url2, {
+          method: "get",
+          headers: headers,
+        });
+        cookie_set = resp.headers["set-cookie"];
+        cookie = cookie + cookie_set;
+        sleep(1000);
+
+        headers["Cookie"] = cookie;
+        resp = HTTP.fetch(url3, {
+          method: "get",
+          headers: headers,
+        });
+        // console.log(resp.text())
+
+        Reg = /<p>(.*?)</i;
+        html = resp.text();
+        flagTrue = Reg.test(html); // 判断是否存在字符串
+        console.log(flagTrue)
+        if (resp.status == 200 && flagTrue == true) {
+          let result = Reg.exec(html); 
+          result = result[1];
+          console.log(result)
+          mate1 = "���ǽ����е�����"  // 不是进行中的任务
+          mate2 = "��ϲ������������ɣ���ע��̳΢�š��ᰮ�ƽ���̳����һ��ǩ������̳�ҡ�"  // 恭喜
+          mate3 = ""  // 您需要先登录才能继续本操作
+          if(result == mate1){
+            flagSign = 2;
+            messageSuccess += "帐号：" + messageName  + "已经签到过了 ";
+            console.log("帐号：" + messageName  + "已经签到过了 ")
+          }else if(result == mate2){
+            flagSign = 1;
+            messageSuccess += "帐号：" + messageName  + "签到成功 ";
+            console.log("帐号：" + messageName  + "签到成功 ")
+          }else{
+            messageFail += "帐号：" + messageName + "签到失败 ";
+            console.log("帐号：" + messageName  + "签到失败 ")
+          }
+        } else {
+          messageFail += "帐号：" + messageName + "签到失败 ";
+          console.log("帐号：" + messageName  + "签到失败 ")
+        }
+      }
+
+      
+      // console.log("签到完成");
+      // messageSuccess += messageName + "签到 ";
     } catch {
       messageFail += messageName + "的cookie有误，请重新填写 ";
       console.log(messageName + "的cookie有误，请重新填写");
