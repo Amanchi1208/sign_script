@@ -301,9 +301,10 @@ function execHandle(cookie, pos) {
     // let device_id = Application.Range("F" + pos).Text;
     
     // let url0 = 'https://sunquan.api.ddxq.mobi/api/v2/user/signin/'
-    // let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=' + station_id + '&stationId=' + station_id + '&native_version=&app_version=10.0.1&OSVersion=15&CityId=0201&latitude=40.1233&longitude=116.345&lat=40.1233&lng=116.3454&device_token=' + device_token + '&gameId=1&taskCode=DAILY_SIGN';
-    // let url2 = 'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=' + station_id + '&stationId=' + station_id + '&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.1233&longitude=114.3454&lat=40.1233&lng=114.3454&device_token=' + device_token + '&propsCode=FEED&seedId=230810143843750015&propsId=230810143843756015'
-    let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.0.1&OSVersion=15&CityId=0201&latitude=40.1233&longitude=116.345&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=DAILY_SIGN';
+    // let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.0.1&OSVersion=15&CityId=0201&latitude=40.1233&longitude=116.345&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=DAILY_SIGN';
+    // 签到
+    let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.1233&longitude=114.3454&lat=40.1233&lng=114.3454&device_token=&taskCode=CONTINUOUS_SIGN'
+    // 浇水
     let url2 = 'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.1233&longitude=114.3454&lat=40.1233&lng=114.3454&device_token=&propsCode=FEED&seedId=' + seedId + '&propsId=' + propsId
     
     // headers0 = {
@@ -384,7 +385,7 @@ function execHandle(cookie, pos) {
 
       if (resp.status == 200) {
         resp = resp.json();
-        console.log(resp);
+        // console.log(resp);
         code = resp["code"];
         msg = resp["msg"];
         if(code == 0){
@@ -393,6 +394,7 @@ function execHandle(cookie, pos) {
           amoutCount += 1;
           console.log("浇水中... ,剩余水量：" + amount)
         }else{
+          console.log(resp);
           console.log("提前退出浇水，错误消息为：" + msg)
           amount = 0; // 直接置水为0 退出浇水
         }

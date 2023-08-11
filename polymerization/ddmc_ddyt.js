@@ -385,7 +385,7 @@ function execHandle(cookie, pos) {
 
       if (resp.status == 200) {
         resp = resp.json();
-        console.log(resp);
+        // console.log(resp);
         code = resp["code"];
         msg = resp["msg"];
         if(code == 0){
@@ -394,6 +394,7 @@ function execHandle(cookie, pos) {
           amoutCount += 1;
           console.log("喂饲料中... ,剩余饲料：" + amount)
         }else{
+          console.log(resp);
           console.log("提前退出喂饲料，错误消息为：" + msg)
           amount = 0; // 直接置水为0 退出浇水
         }
