@@ -306,7 +306,8 @@ function execHandle(cookie, pos) {
     let url0 = 'https://sunquan.api.ddxq.mobi/api/v2/user/signin/'
     // 签到领饲料
     // let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=' + station_id + '&stationId=' + station_id + '&native_version=&app_version=10.1.2&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=CONTINUOUS_SIGN'
-    let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.1.2&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=CONTINUOUS_SIGN'
+    // let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.1.2&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=CONTINUOUS_SIGN'
+    let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=DAILY_SIGN'
     // 喂饲料
     let url2 = 'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version&app_version=10.0.1&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&propsId=' + propsId + '&seedId=' + seedId + '&cityCode=0201&feedPro=0&triggerMultiFeed=1'
     // console.log(url2)
