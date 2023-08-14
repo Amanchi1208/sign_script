@@ -310,6 +310,16 @@ function execHandle(cookie, pos) {
     let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=DAILY_SIGN'
     // 喂饲料
     let url2 = 'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version&app_version=10.0.1&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&propsId=' + propsId + '&seedId=' + seedId + '&cityCode=0201&feedPro=0&triggerMultiFeed=1'
+    // 获取任务taskCode
+    let url3 = 'https://farm.api.ddxq.mobi/api/v2/task/list?latitude=40.1233&longitude=116.3454&env=PE&station_id=&city_number=0201&api_version=9.44.0&app_client_id=3&native_version=10.15.0&h5_source=&page_type=2&gameId=1'
+    // 完成任务
+    let url4 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode='
+    let taskCode = []
+    // 领取任务奖励
+    let userTaskLogId = []
+    let url5 = 'https://farm.api.ddxq.mobi/api/v2/task/reward?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.1&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.345486&lat=40.1233&lng=116.3454&device_token=&userTaskLogId='
+    
+
     // console.log(url2)
     headers = {
       'Host': 'farm.api.ddxq.mobi',
@@ -321,7 +331,6 @@ function execHandle(cookie, pos) {
       'Referer': 'https://game.m.ddxq.mobi/',
     };
 
-    // // console.log(url1)
     // 签到领饲料
     let resp = HTTP.fetch(url1, {
       method: "get",
@@ -348,36 +357,109 @@ function execHandle(cookie, pos) {
       console.log("帐号：" + messageName + "签到失败 ");
     }
 
-    // // 喂一次饲料
-    // resp = HTTP.fetch(url2, {
+    // // 获取任务列表
+    // resp = HTTP.fetch(url3, {
     //   method: "get",
     //   headers: headers,
     // });
 
     // if (resp.status == 200) {
     //   resp = resp.json();
-    //   console.log(resp);
+    //   // console.log(resp);
     //   code = resp["code"];
-    //   msg = resp["msg"];
     //   if(code == 0){
-    //     messageSuccess += "帐号：" + messageName + "鱼塘喂饲料成功 "
-    //     console.log("帐号：" + messageName + "鱼塘喂饲料成功 ");
+    //     console.log("正在获取taskCode ");
+    //     userTasks = resp["data"]["userTasks"];
+    //     for (let j = 0; j < userTasks.length; j++) {
+    //       taskCode[j] = userTasks[j]["taskCode"]
+    //     }
+    //     console.log(taskCode)
     //   }else{
-    //     // {"msg":"今日已完成任务，明日再来吧！","code":601,"timestamp":"2023-08-10 21:23:49","success":false,"exec_time":{}}
-    //     // {"msg":"出了点问题哦，请稍后再试吧","code":119000001,"timestamp":"2023-08-10 21:06:53","success":false,"exec_time":{}}
-    //     messageFail += "帐号：" + messageName + msg + " ";
-    //     console.log("帐号：" + messageName + msg + " ");
+    //     console.log("获取taskCode失败 ");
     //   }
     // } else {
     //   console.log(resp.text());
-    //   messageFail += "帐号：" + messageName + "签到失败 ";
-    //   console.log("帐号：" + messageName + "签到失败 ");
+    //   console.log("获取taskCode失败 ");
     // }
 
+    // // taskCode = ["ANY_ORDER","BROWSE_GOODS","BUY_GOODS","CONTINUOUS_SIGN","DAILY_SIGN","FIRST_ORDER","HARD_BOX","INVITATION","LOTTERY","LUCK_DRAW","MULTI_ORDER","STEAL_FEED"]
+    // // 完成任务
+    // if(taskCode.length > 0){
+    //   console.log("尝试完成任务...")
+    //   for (let j = 0; j < taskCode.length; j++) {
+    //       urlTask = url4 + taskCode[j]
+    //       // console.log(urlTask)
+    //       try{
+    //         resp = HTTP.fetch(urlTask, {
+    //           method: "get",
+    //           headers: headers,
+    //         });
+    //         // console.log(resp.text())
+    //         sleep(2000)
+    //       }catch{
+    //         console.log("忽略任务：" + taskCode[j])
+    //       }
+    //   }
+    // }
+
+    // 获取奖励id
+    resp = HTTP.fetch(url3, {
+      method: "get",
+      headers: headers,
+    });
+
+    if (resp.status == 200) {
+      resp = resp.json();
+      // console.log(resp);
+      code = resp["code"];
+      if(code == 0){
+        console.log("正在获取userTaskLogId ");
+        userTasks = resp["data"]["userTasks"];
+        let temp
+        let num = 0
+        for (let j = 0; j < userTasks.length; j++) {
+          temp = userTasks[j]["userTaskLogId"]
+          // console.log(typeof(temp))
+          // console.log(temp.length) // 长度为18才是id
+          if(typeof(temp) != "object"){  // || temp != "{}" || temp != "null" || temp != "" || temp != null
+            userTaskLogId[num] = temp
+            num += 1
+          }
+        }
+        console.log(userTaskLogId)
+      }else{
+        console.log("获取userTaskLogId失败 ");
+      }
+    } else {
+      console.log(resp.text());
+      console.log("获取userTaskLogId失败 ");
+    }
+
+    // 领取任务奖励
+    if(userTaskLogId.length > 0){
+      console.log("尝试领取任务奖励...")
+      for (let j = 0; j < userTaskLogId.length; j++) {
+          urlTask = url5 + userTaskLogId[j]
+          // console.log(urlTask)
+          try{
+            resp = HTTP.fetch(urlTask, {
+              method: "get",
+              headers: headers,
+            });
+            // console.log(resp.text())
+            sleep(2000)
+          }catch{
+            console.log("忽略任务：" + userTaskLogId[j])
+          }
+      }
+    }else{
+      console.log("没有可领取的奖励")
+    }
+
     // 喂饲料
-    let amount = 10; // 记录剩余水量
-    let amoutCount = 0; // 浇水次数
-    let flagAmount = 0;  // 浇水标志，1为饲料
+    let amount = 10; // 记录剩余数目
+    let amoutCount = 0; // 已喂饲料次数
+    let flagAmount = 0;  // 标志，1为饲料
     while(amount >= 10){
       resp = HTTP.fetch(url2, {
         method: "get",
@@ -397,12 +479,12 @@ function execHandle(cookie, pos) {
         }else{
           console.log(resp);
           console.log("提前退出喂饲料，错误消息为：" + msg)
-          amount = 0; // 直接置水为0 退出浇水
+          amount = 0; // 直接置水为0 退出投喂
         }
       } else {
         console.log(resp.text());
         console.log("提前退出喂饲料")
-        amount = 0; // 直接置水为0 退出浇水
+        amount = 0; // 直接置水为0 退出投喂
       }
 
       sleep(3000)

@@ -302,11 +302,26 @@ function execHandle(cookie, pos) {
     
     // let url0 = 'https://sunquan.api.ddxq.mobi/api/v2/user/signin/'
     // let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.0.1&OSVersion=15&CityId=0201&latitude=40.1233&longitude=116.345&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=DAILY_SIGN';
+    // 领积分
+    let urlsign = "https://sunquan.api.ddxq.mobi/api/v2/user/signin/"
     // 签到
-    let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.1233&longitude=114.3454&lat=40.1233&lng=114.3454&device_token=&taskCode=CONTINUOUS_SIGN'
+    let url0 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.123389&longitude=114.345477&lat=40.123389&lng=114.345477&device_token=&taskCode=CONTINUOUS_SIGN'
+    let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.123389&longitude=114.345477&lat=40.123389&lng=114.345477&device_token=&taskCode=DAILY_SIGN '
     // 浇水
-    let url2 = 'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.1233&longitude=114.3454&lat=40.1233&lng=114.3454&device_token=&propsCode=FEED&seedId=' + seedId + '&propsId=' + propsId
+    let url2 = 'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.123389&longitude=114.345477&lat=40.1233&lng=114.345477&device_token=&propsCode=FEED&seedId=' + seedId + '&propsId=' + propsId
     
+    // 获取任务taskCode
+    let url3 = 'https://farm.api.ddxq.mobi/api/v2/task/list?latitude=40.1233&longitude=116.3454&env=PE&station_id=&city_number=0201&api_version=9.44.0&app_client_id=3&native_version=10.15.0&h5_source=&page_type=2&gameId=1'
+    // 完成任务
+    // let url4 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode='
+    let url4 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&taskCode='
+    let taskCode = []
+    // 领取任务奖励
+    let userTaskLogId = []
+    let url5 = 'https://farm.api.ddxq.mobi/api/v2/task/reward?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.1&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&userTaskLogId='
+    
+    //开福袋
+    // let url6 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&CityId=0201&OSVersion=15&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&taskCode=LOTTERY'
     // headers0 = {
     //   'Host': 'sunquan.api.ddxq.mobi',
     //   'Cookie': cookie,
@@ -326,17 +341,29 @@ function execHandle(cookie, pos) {
     //   'ddmc-ip': '',
     // };
 
-    headers = {
-      'Host': 'farm.api.ddxq.mobi',
-      'Origin': 'https://game.m.ddxq.mobi',
-      'Cookie': cookie,
-      'Accept': '*/*',
-      // 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 xzone/10.0.1 station_id/' + station_id + ' device_id/' + device_id,
-      'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
-      'Referer': 'https://game.m.ddxq.mobi/',
-    };
+    // headers_sign = { // /api/v2/task/achieve
+    //   'Host': 'farm.api.ddxq.mobi',
+    //   'Origin': 'https://orchard-m.ddxq.mobi',
+    //   'Access-Control-Request-Method': 'GET',
+    //   'Access-Control-Request-Headers': 'ddmc-game-tid',
+    //   'Cookie': cookie,
+    //   'Accept': '*/*',
+    //   // 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 xzone/10.0.1 station_id/' + station_id + ' device_id/' + device_id,
+    //   'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+    //   'Referer': 'https://orchard-m.ddxq.mobi/',
+    // };
 
-    headers2 = {
+    // headers = { //  /api/v2/task/list  
+    //   'Host': 'farm.api.ddxq.mobi',
+    //   'Origin': 'https://game.m.ddxq.mobi',
+    //   'Cookie': cookie,
+    //   'Accept': '*/*',
+    //   // 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 xzone/10.0.1 station_id/' + station_id + ' device_id/' + device_id,
+    //   'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+    //   'Referer': 'https://game.m.ddxq.mobi/',
+    // };
+
+    headers2 = {  // /api/v2/props/feed
       'Host': 'farm.api.ddxq.mobi',
       'Origin': 'https://orchard-m.ddxq.mobi',
       'Cookie': cookie,
@@ -347,11 +374,80 @@ function execHandle(cookie, pos) {
       'DDMC-GAME-TID': 2,
     };
 
-    // console.log(url1)
+    headerurlsign = {
+      'Host': 'sunquan.api.ddxq.mobi',
+      'Cookie': cookie,
+      'Referer': 'https://activity.m.ddxq.mobi/',
+      'ddmc-city-number': 0201,
+      'ddmc-api-version': '9.7.3',
+      'Origin': 'https://activity.m.ddxq.mobi',
+      'ddmc-build-version': '10.15.0',
+      'ddmc-longitude': 114.345477,
+      'ddmc-latitude': 40.1233,
+      'ddmc-app-client-id': 3,
+      'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+      'ddmc-channel': ' ',
+      'Accept': '*/*',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'ddmc-station-id': '',
+      'ddmc-ip': '',
+    }
 
-    let resp = HTTP.fetch(url1, {
+    data = {
+      'api_version':'9.7.3',
+      'app_client_id':3,
+      'app_version':'2.14.5',
+      'app_client_name':'activity',
+      'station_id':'',
+      'native_version':'10.15.0',
+      'city_number':'0201',
+      'device_token':'',
+      'device_id':'',
+      'latitude':'40.123389',
+      'longitude':'116.345477',
+    }
+
+    headerTask = {
+      'Host': 'farm.api.ddxq.mobi',
+      'Origin': 'https://orchard-m.ddxq.mobi',
+      'Cookie': cookie,
+      'Accept': '*/*',
+      'Referer': 'https://orchard-m.ddxq.mobi/',
+      'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+      'DDMC-GAME-TID': 2,
+    }
+
+    // 积分签到
+    let resp = HTTP.fetch(urlsign, {
+      method: "post",
+      headers: headerurlsign,
+      data : data
+    });
+
+    if (resp.status == 200) {
+      resp = resp.json();
+      console.log(resp);
+      code = resp["code"];
+      msg = resp["msg"];
+      if(code == 0){
+        messageSuccess += "帐号：" + messageName + "积分签到成功 "
+        console.log("帐号：" + messageName + "积分签到成功 ");
+      }else{
+        // {"msg":"出了点问题哦，请稍后再试吧","code":119000001,"timestamp":"2023-08-10 21:06:53","success":false,"exec_time":{}}
+        messageFail += "帐号：" + messageName + msg + " ";
+        console.log("帐号：" + messageName + msg + " ");
+      }
+    } else {
+      console.log(resp.text());
+      messageFail += "帐号：" + messageName + "积分签到失败 ";
+      console.log("帐号：" + messageName + "积分签到失败 ");
+    }
+
+    // console.log(url1)
+    // 每日签到
+    resp = HTTP.fetch(url1, {
       method: "get",
-      headers: headers,
+      headers: headers2,
     });
 
     if (resp.status == 200) {
@@ -371,6 +467,125 @@ function execHandle(cookie, pos) {
       console.log(resp.text());
       messageFail += "帐号：" + messageName + "签到失败 ";
       console.log("帐号：" + messageName + "签到失败 ");
+    }
+
+    // 每日签到2
+    resp = HTTP.fetch(url0, {
+      method: "get",
+      headers: headers2,
+    });
+
+    if (resp.status == 200) {
+      resp = resp.json();
+      console.log(resp);
+      code = resp["code"];
+      msg = resp["msg"];
+      if(code == 0){
+        console.log("帐号：" + messageName + "果园签到2成功 ");
+      }else{
+        console.log("帐号：" + messageName + msg + " ");
+      }
+    } else {
+      console.log(resp.text());
+      console.log("帐号：" + messageName + "签到2失败 ");
+    }
+
+    // 获取任务列表
+    resp = HTTP.fetch(url3, {
+      method: "get",
+      headers: headers2,
+    });
+
+    if (resp.status == 200) {
+      resp = resp.json();
+      // console.log(resp);
+      code = resp["code"];
+      if(code == 0){
+        console.log("正在获取taskCode ");
+        userTasks = resp["data"]["userTasks"];
+        for (let j = 0; j < userTasks.length; j++) {
+          taskCode[j] = userTasks[j]["taskCode"]
+        }
+        console.log(taskCode)
+      }else{
+        console.log("获取taskCode失败 ");
+      }
+    } else {
+      console.log(resp.text());
+      console.log("获取taskCode失败 ");
+    }
+
+    // 完成任务
+    if(taskCode.length > 0){
+      console.log("尝试完成任务...")
+      for (let j = 0; j < taskCode.length; j++) {
+          urlTask = url4 + taskCode[j]
+          // console.log(urlTask)
+          try{
+            resp = HTTP.fetch(urlTask, {
+              method: "get",
+              headers: headerTask,
+            });
+            // console.log(resp.text())
+            sleep(2000)
+          }catch{
+            console.log("忽略任务：" + taskCode[j])
+          }
+      }
+    }
+
+    // 获取奖励id
+    resp = HTTP.fetch(url3, {
+      method: "get",
+      headers: headers2,
+    });
+
+    if (resp.status == 200) {
+      resp = resp.json();
+      // console.log(resp);
+      code = resp["code"];
+      if(code == 0){
+        console.log("正在获取userTaskLogId ");
+        userTasks = resp["data"]["userTasks"];
+        let temp
+        let num = 0
+        for (let j = 0; j < userTasks.length; j++) {
+          temp = userTasks[j]["userTaskLogId"]
+          // console.log(typeof(temp))
+          // console.log(temp.length) // 长度为18才是id
+          if(typeof(temp) != "object"){  // || temp != "{}" || temp != "null" || temp != "" || temp != null
+            userTaskLogId[num] = temp
+            num += 1
+          }
+        }
+        console.log(userTaskLogId)
+      }else{
+        console.log("获取userTaskLogId失败 ");
+      }
+    } else {
+      console.log(resp.text());
+      console.log("获取userTaskLogId失败 ");
+    }
+
+    // 领取任务奖励
+    if(userTaskLogId.length > 0){
+      console.log("尝试领取任务奖励...")
+      for (let j = 0; j < userTaskLogId.length; j++) {
+          urlTask = url5 + userTaskLogId[j]
+          // console.log(urlTask)
+          try{
+            resp = HTTP.fetch(urlTask, {
+              method: "get",
+              headers: headers2,
+            });
+            // console.log(resp.text())
+            sleep(2000)
+          }catch{
+            console.log("忽略任务：" + userTaskLogId[j])
+          }
+      }
+    }else{
+      console.log("没有可领取的奖励")
     }
 
     // 浇水
