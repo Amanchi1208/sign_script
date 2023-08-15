@@ -357,50 +357,50 @@ function execHandle(cookie, pos) {
       console.log("帐号：" + messageName + "签到失败 ");
     }
 
-    // // 获取任务列表
-    // resp = HTTP.fetch(url3, {
-    //   method: "get",
-    //   headers: headers,
-    // });
+    // 获取任务列表
+    resp = HTTP.fetch(url3, {
+      method: "get",
+      headers: headers,
+    });
 
-    // if (resp.status == 200) {
-    //   resp = resp.json();
-    //   // console.log(resp);
-    //   code = resp["code"];
-    //   if(code == 0){
-    //     console.log("正在获取taskCode ");
-    //     userTasks = resp["data"]["userTasks"];
-    //     for (let j = 0; j < userTasks.length; j++) {
-    //       taskCode[j] = userTasks[j]["taskCode"]
-    //     }
-    //     console.log(taskCode)
-    //   }else{
-    //     console.log("获取taskCode失败 ");
-    //   }
-    // } else {
-    //   console.log(resp.text());
-    //   console.log("获取taskCode失败 ");
-    // }
+    if (resp.status == 200) {
+      resp = resp.json();
+      // console.log(resp);
+      code = resp["code"];
+      if(code == 0){
+        console.log("正在获取taskCode ");
+        userTasks = resp["data"]["userTasks"];
+        for (let j = 0; j < userTasks.length; j++) {
+          taskCode[j] = userTasks[j]["taskCode"]
+        }
+        console.log(taskCode)
+      }else{
+        console.log("获取taskCode失败 ");
+      }
+    } else {
+      console.log(resp.text());
+      console.log("获取taskCode失败 ");
+    }
 
-    // // taskCode = ["ANY_ORDER","BROWSE_GOODS","BUY_GOODS","CONTINUOUS_SIGN","DAILY_SIGN","FIRST_ORDER","HARD_BOX","INVITATION","LOTTERY","LUCK_DRAW","MULTI_ORDER","STEAL_FEED"]
-    // // 完成任务
-    // if(taskCode.length > 0){
-    //   console.log("尝试完成任务...")
-    //   for (let j = 0; j < taskCode.length; j++) {
-    //       urlTask = url4 + taskCode[j]
-    //       // console.log(urlTask)
-    //       try{
-    //         resp = HTTP.fetch(urlTask, {
-    //           method: "get",
-    //           headers: headers,
-    //         });
-    //         // console.log(resp.text())
-    //         sleep(2000)
-    //       }catch{
-    //         console.log("忽略任务：" + taskCode[j])
-    //       }
-    //   }
-    // }
+    // taskCode = ["ANY_ORDER","BROWSE_GOODS","BUY_GOODS","CONTINUOUS_SIGN","DAILY_SIGN","FIRST_ORDER","HARD_BOX","INVITATION","LOTTERY","LUCK_DRAW","MULTI_ORDER","STEAL_FEED"]
+    // 完成任务
+    if(taskCode.length > 0){
+      console.log("尝试完成任务...")
+      for (let j = 0; j < taskCode.length; j++) {
+          urlTask = url4 + taskCode[j]
+          // console.log(urlTask)
+          try{
+            resp = HTTP.fetch(urlTask, {
+              method: "get",
+              headers: headers,
+            });
+            // console.log(resp.text())
+            sleep(2000)
+          }catch{
+            console.log("忽略任务：" + taskCode[j])
+          }
+      }
+    }
 
     // 获取奖励id
     resp = HTTP.fetch(url3, {
