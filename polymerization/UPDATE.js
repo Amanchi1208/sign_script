@@ -6,10 +6,10 @@
 // 网易云游戏、什么值得买、在线工具
 // 像素蛋糕、甜润世界、囍福社
 // 叮咚买菜-叮咚果园、叮咚买菜-叮咚鱼塘
-// 时光相册
+// 时光相册、北京时间
 
 // 定制化分配置表:
-// 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册
+// 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -17,7 +17,7 @@ var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
 var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba',
 'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
-'xifushe', 'ddmc', 'everphoto'];
+'xifushe', 'ddmc', 'everphoto', 'btime'];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -46,6 +46,7 @@ var configContent=[
   ['ddmc_ddgy','叮咚买菜-叮咚果园','否','否'],
   ['ddmc_ddyt','叮咚买菜-叮咚鱼塘','否','否'],
   ['everphoto','时光相册','否','否'],
+  ['btime','北京时间','否','否'],
 ]
 
 // PUSH表内容 		
@@ -100,6 +101,13 @@ var subConfigEverphoto = [
   ['xxxxxxxx2', '否', '昵称2', 'xxxxxxxx']
 ]
 
+// 定制化分配置表内容，北京时间
+var subConfigBtime = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','safeparams','safetoken'],
+  ['xxxxxxxx1', '是', '昵称1', 'xxxxxxxx', 'xxxxxxxx'],
+  ['xxxxxxxx2', '否', '昵称2', 'xxxxxxxx', 'xxxxxxxx']
+]
+
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
@@ -142,6 +150,9 @@ editConfigSheet(subConfigDdmc)
 
 ActivateSheet(subConfigWorkbook[12]) // 激活时光相册分配置表
 editConfigSheet(subConfigEverphoto)  
+
+ActivateSheet(subConfigWorkbook[13]) // 激活北京时间分配置表
+editConfigSheet(subConfigBtime)  
 
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
