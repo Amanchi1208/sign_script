@@ -69,6 +69,167 @@
 * 定时任务时间尽量上午九点半之后  
 * 定时任务尽量不设在同一时间  
 
+
+## 贡献者  
+<a href="https://github.com/jarryyen">@jarryyen</a>、
+<a href="https://github.com/darkbfly">@darkbfly</a>、
+<a href="https://github.com/SunWuyuan">@孙悟元</a>
+
+## 致希望加入的开发者
+代码进行了模块化的开发，即使是**零开发经验、无代码基础**也能根据以下教程快速编写出所需脚本。  
+文件简要解释：UPDATE.js脚本（更新脚本）能够自动创建表格、自动填充缺失内容，不会覆盖原有数据  
+除此脚本外，都是自动化脚本。  
+  
+### 新增脚本步骤：  
+1. 向UPDATE.js脚本中写入新脚本的表格配置数据  
+如原来表格信息是这样  
+```js
+// 分配置表名称
+var subConfigWorkbook=['aliyundrive_multiuser','52pojie'];
+// CONFIG表内容
+var configContent=[
+  ['工作表的名称','备注','只推送失败消息（是/否）','推送昵称（是/否）'],
+  ['aliyundrive_multiuser','阿里云盘（多用户版）','否','否'],
+  ['52pojie','吾爱破解','否','否'],
+]
+```
+假设需要添加有道云笔记的脚本（英文noteyoudao）,则修改为如下。
+```js
+// 分配置表名称
+var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao'];
+// CONFIG表内容
+var configContent=[
+  ['工作表的名称','备注','只推送失败消息（是/否）','推送昵称（是/否）'],
+  ['aliyundrive_multiuser','阿里云盘（多用户版）','否','否'],
+  ['52pojie','吾爱破解','否','否'],
+  ['noteyoudao','有道云笔记','否','否'],
+]
+```
+此时若运行UPDATE.js脚本，则会在CONFIG表（主配置表）中看到新增了一行有道云笔记的配置，并且新增了名称为noteyoudao的表  
+  
+2. 新建自动化脚本，名称需要和步骤1中新增的表名称一致。如上述的noteyoudao.js。可以直接复制已有的自动化脚本，在此基础上修改。  
+例如修改52pojie脚本为新增的noteyoudao脚本  
+在脚本开头的几行会有此脚本的基础信息，将其修改  
+原脚本为：
+```js
+let sheetNameSubConfig = "52pojie"; // 分配置表名称
+let pushHeader = "【52pojie】";
+```  
+修改后脚本为：
+```js
+let sheetNameSubConfig = "noteyoudao"; // 这里需要和步骤1中的表名称一致
+let pushHeader = "【有道云笔记】";  // 这里的内容可以随意填写，仅作为消息推送的备注
+```  
+  
+然后修改处于脚本最末尾的execHandle函数，根据抓包的内容（例如抓取签到的包，软件抓包也不需要代码基础，IOS端可用Stream工具、安卓端可用小黄鸟、PC端可用burp）填写如下标注的几处修改的地方即可。
+原脚本大致内容会为：
+```js
+// 具体的执行函数
+function execHandle(cookie, pos) {
+  let messageSuccess = "";
+  let messageFail = "";
+  let messageName = "";
+  if (messageNickname == 1) {
+    messageName = Application.Range("C" + pos).Text;
+  } else {
+    messageName = "单元格A" + pos + "";
+  }
+  try {
+    var url1 = "https://xxxxxx.com";    // 修改处①
+    data ={                             // 修改处②，若是get请求则忽略此处
+        "键":"值",
+    }
+    headers = {                         // 修改处③
+      cookie: cookie,
+      "键":"值",
+    };
+
+    let resp = HTTP.fetch(url1, {       // 可能修改处，若为post请求则用这块代码
+      method: "post",
+      headers: headers,
+      data: data,
+    });
+
+    // let resp = HTTP.fetch(url1, {    // 可能修改处，若为get请求则用这块代码
+    //   method: "get",
+    //   headers: headers,
+    // });
+
+    if (resp.status == 200) {           // 可能修改处，按需对json格式修改。若不会修改，则可以忽略此处
+      resp = resp.json();
+      console.log(resp);
+      messageSuccess += "帐号：" + messageName + "签到成功 " ;
+      console.log("帐号：" + messageName + "签到成功 ");
+    } else {
+      console.log(resp.text());
+      messageFail += "帐号：" + messageName + "签到失败 ";
+      console.log("帐号：" + messageName + "签到失败 ");
+    }
+  } catch {
+    messageFail += messageName + "失败";
+  }
+
+  sleep(2000);
+  if (messageOnlyError == 1) {
+    message += messageFail;
+  } else {
+    message += messageFail + " " + messageSuccess;
+  }
+  console.log(message);
+}
+```  
+例如修改为noteyoudao的脚本后的内容为
+```js
+// 具体的执行函数
+function execHandle(cookie, pos) {
+  let messageSuccess = "";
+  let messageFail = "";
+  let messageName = "";
+  if (messageNickname == 1) {
+    messageName = Application.Range("C" + pos).Text;
+  } else {
+    messageName = "单元格A" + pos + "";
+  }
+  try {
+    var url1 = "https://note.youdao.com/yws/mapi/user?method=checkin";   // 修改了这里
+    headers = { // 修改了这里
+      cookie: cookie,   
+      "User-Agent": "YNote",
+      Host: "note.youdao.com",
+    };
+
+    let resp = HTTP.fetch(url1, {   // 修改了这里
+      method: "post",
+      headers: headers,
+    });
+
+    if (resp.status == 200) {   // 修改了这里
+      resp = resp.json();
+      console.log(resp);
+      total = resp["total"] / 1048576;
+      space = resp["space"] / 1048576;
+      messageSuccess += "帐号：" + messageName + "签到成功，本次获取 " + space + " M, 总共获取 " + total + " M ";
+      console.log("帐号：" + messageName + "签到成功，本次获取 " + space + " M, 总共获取 " + total + " M ");
+    } else {
+      console.log(resp.text());
+      messageFail += "帐号：" + messageName + "签到失败 ";
+      console.log("帐号：" + messageName + "签到失败 ");
+    }
+  } catch {
+    messageFail += messageName + "失败";
+  }
+
+  sleep(2000);
+  if (messageOnlyError == 1) {
+    message += messageFail;
+  } else {
+    message += messageFail + " " + messageSuccess;
+  }
+  console.log(message);
+}
+```
+此时就成功创建新脚本了。  
+
 ## 特别声明
 
 - 本仓库发布的脚本仅用于测试和学习研究，禁止用于商业用途，不能保证其合法性，准确性，完整性和有效性，请根据情况自行判断。
@@ -127,16 +288,10 @@
 - 2023-07-26 
     * 推出聚合脚本
 
-
-## 贡献者  
-<a href="https://github.com/jarryyen">@jarryyen</a>、
-<a href="https://github.com/darkbfly">@darkbfly</a>、
-<a href="https://github.com/SunWuyuan">@孙悟元</a>
-
 ## 代码参考
-<a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a></br>
-<a href="https://github.com/kxs2018/daily_sign">daily_sign</a></br>
-<a href="https://www.52pojie.cn/thread-1811357-1-1.html">@qike2391</a></br>
+<a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a>、
+<a href="https://github.com/kxs2018/daily_sign">daily_sign</a>、
+<a href="https://www.52pojie.cn/thread-1811357-1-1.html">@qike2391</a>、
 <a href="https://github.com/wd210010/just_for_happy">wd210010</a></br>
 
 ## README模板来源于
