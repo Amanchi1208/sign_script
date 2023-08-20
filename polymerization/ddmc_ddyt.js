@@ -1,5 +1,5 @@
 // 叮咚买菜-叮咚鱼塘自动签到
-// 需配合“金山文档”中的表格内容
+// 20230820
 
 let sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddyt";
@@ -299,28 +299,21 @@ function execHandle(cookie, pos) {
     let seedId = Application.Range("F" + pos).Text;
     let propsId = Application.Range("G" + pos).Text;
 
-    // let station_id = Application.Range("D" + pos).Text;
-    // let device_token = Application.Range("E" + pos).Text;
-    // let device_id = Application.Range("F" + pos).Text;
-    // let uid = Application.Range("G" + pos).Text;
-    let url0 = 'https://sunquan.api.ddxq.mobi/api/v2/user/signin/'
-    // 签到领饲料
-    // let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=' + station_id + '&stationId=' + station_id + '&native_version=&app_version=10.1.2&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=CONTINUOUS_SIGN'
-    // let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.1.2&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=CONTINUOUS_SIGN'
-    let url1 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode=DAILY_SIGN'
-    // 喂饲料
-    let url2 = 'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version&app_version=10.0.1&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&propsId=' + propsId + '&seedId=' + seedId + '&cityCode=0201&feedPro=0&triggerMultiFeed=1'
     // 获取任务taskCode
-    let url3 = 'https://farm.api.ddxq.mobi/api/v2/task/list?latitude=40.1233&longitude=116.3454&env=PE&station_id=&city_number=0201&api_version=9.44.0&app_client_id=3&native_version=10.15.0&h5_source=&page_type=2&gameId=1'
-    // 完成任务
-    let url4 = 'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.3454&lat=40.1233&lng=116.3454&device_token=&gameId=1&taskCode='
     let taskCode = []
     // 领取任务奖励
     let userTaskLogId = []
-    let url5 = 'https://farm.api.ddxq.mobi/api/v2/task/reward?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.1&OSVersion=15&CityId=0201&uid=&latitude=40.1233&longitude=116.345486&lat=40.1233&lng=116.3454&device_token=&userTaskLogId='
-    
 
-    // console.log(url2)
+    let url = [
+      'https://sunquan.api.ddxq.mobi/api/v2/user/signin/',//  签到积分
+      'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode=DAILY_SIGN',  // 签到
+      'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.1.2&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode=CONTINUOUS_SIGN',  // 签到2
+      'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version&app_version=10.0.1&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&propsId=' + propsId + '&seedId=' + seedId + '&cityCode=0201&feedPro=0&triggerMultiFeed=1',// 喂饲料
+      'https://farm.api.ddxq.mobi/api/v2/task/list?latitude=40.123389&longitude=116.345477&env=PE&station_id=&city_number=0201&api_version=9.44.0&app_client_id=3&native_version=10.15.0&h5_source=&page_type=2&gameId=1',  // 获取任务taskCode
+      'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode=',  // 完成任务
+      'https://farm.api.ddxq.mobi/api/v2/task/reward?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.1&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&userTaskLogId=',// 领取任务奖励
+    ]
+
     headers = {
       'Host': 'farm.api.ddxq.mobi',
       'Origin': 'https://game.m.ddxq.mobi',
@@ -332,7 +325,9 @@ function execHandle(cookie, pos) {
     };
 
     // 签到领饲料
-    let resp = HTTP.fetch(url1, {
+    let flagSign = 0; // 标识是否签到领取饲料
+    let tempmessageFail = "";  // 记录临时失败的消息
+    let resp = HTTP.fetch(url[1], {
       method: "get",
       headers: headers,
     });
@@ -343,22 +338,52 @@ function execHandle(cookie, pos) {
       code = resp["code"];
       msg = resp["msg"];
       if(code == 0){
-        messageSuccess += "帐号：" + messageName + "鱼塘签到成功 "
+        // messageSuccess += "帐号：" + messageName + "鱼塘签到成功 "
+        flagSign = 1;
         console.log("帐号：" + messageName + "鱼塘签到成功 ");
       }else{
         // {"msg":"今日已完成任务，明日再来吧！","code":601,"timestamp":"2023-08-10 21:23:49","success":false,"exec_time":{}}
         // {"msg":"出了点问题哦，请稍后再试吧","code":119000001,"timestamp":"2023-08-10 21:06:53","success":false,"exec_time":{}}
-        messageFail += "帐号：" + messageName + msg + " ";
+        // messageFail += "帐号：" + messageName + msg + " ";
         console.log("帐号：" + messageName + msg + " ");
       }
     } else {
       console.log(resp.text());
-      messageFail += "帐号：" + messageName + "签到失败 ";
+      // messageFail += "帐号：" + messageName + "签到失败 ";
       console.log("帐号：" + messageName + "签到失败 ");
     }
 
+    resp = HTTP.fetch(url[2], {
+      method: "get",
+      headers: headers,
+    });
+
+    if (resp.status == 200) {
+      resp = resp.json();
+      console.log(resp);
+      code = resp["code"];
+      msg = resp["msg"];
+      if(code == 0){
+        flagSign = 1;
+        console.log("帐号：" + messageName + "鱼塘签到成功 ");
+      }else{
+        tempmessageFail = "帐号：" + messageName + msg + " ";
+        console.log("帐号：" + messageName + msg + " ");
+      }
+    } else {
+      console.log(resp.text());
+      tempmessageFail = "帐号：" + messageName + "签到失败 ";
+      console.log("帐号：" + messageName + "签到失败 ");
+    }
+
+    if(flagSign == 1){
+      messageSuccess += "帐号：" + messageName + "鱼塘签到成功 ";
+    }else{
+      messageFail += tempmessageFail;
+    }
+
     // 获取任务列表
-    resp = HTTP.fetch(url3, {
+    resp = HTTP.fetch(url[4], {
       method: "get",
       headers: headers,
     });
@@ -387,7 +412,7 @@ function execHandle(cookie, pos) {
     if(taskCode.length > 0){
       console.log("尝试完成任务...")
       for (let j = 0; j < taskCode.length; j++) {
-          urlTask = url4 + taskCode[j]
+          urlTask = url[5] + taskCode[j]
           // console.log(urlTask)
           try{
             resp = HTTP.fetch(urlTask, {
@@ -403,7 +428,7 @@ function execHandle(cookie, pos) {
     }
 
     // 获取奖励id
-    resp = HTTP.fetch(url3, {
+    resp = HTTP.fetch(url[4], {
       method: "get",
       headers: headers,
     });
@@ -439,7 +464,7 @@ function execHandle(cookie, pos) {
     if(userTaskLogId.length > 0){
       console.log("尝试领取任务奖励...")
       for (let j = 0; j < userTaskLogId.length; j++) {
-          urlTask = url5 + userTaskLogId[j]
+          urlTask = url[6] + userTaskLogId[j]
           // console.log(urlTask)
           try{
             resp = HTTP.fetch(urlTask, {
@@ -461,7 +486,7 @@ function execHandle(cookie, pos) {
     let amoutCount = 0; // 已喂饲料次数
     let flagAmount = 0;  // 标志，1为饲料
     while(amount >= 10){
-      resp = HTTP.fetch(url2, {
+      resp = HTTP.fetch(url[3], {
         method: "get",
         headers: headers,
       });

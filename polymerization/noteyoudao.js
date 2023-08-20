@@ -1,5 +1,5 @@
 // 有道云笔记自动签到
-// 需配合“金山文档”中的表格内容
+// 20230820
 
 let sheetNameSubConfig = "noteyoudao"; // 分配置表名称
 let pushHeader = "【有道云笔记】";
@@ -297,9 +297,9 @@ function execHandle(cookie, pos) {
   try {
     var url1 = "https://note.youdao.com/yws/mapi/user?method=checkin";
     headers = {
-      cookie: cookie,
+      "Cookie": cookie,
       "User-Agent": "YNote",
-      Host: "note.youdao.com",
+      "Host": "note.youdao.com",
     };
 
     let resp = HTTP.fetch(url1, {
@@ -312,23 +312,8 @@ function execHandle(cookie, pos) {
       console.log(resp);
       total = resp["total"] / 1048576;
       space = resp["space"] / 1048576;
-      messageSuccess +=
-        "帐号：" +
-        messageName +
-        "签到成功，本次获取 " +
-        space +
-        " M, 总共获取 " +
-        total +
-        " M ";
-      console.log(
-        "帐号：" +
-          messageName +
-          "签到成功，本次获取 " +
-          space +
-          " M, 总共获取 " +
-          total +
-          " M "
-      );
+      messageSuccess += "帐号：" + messageName + "签到成功，本次获取 " + space + " M, 总共获取 " + total + " M ";
+      console.log("帐号：" + messageName + "签到成功，本次获取 " + space + " M, 总共获取 " + total + " M ");
     } else {
       console.log(resp.text());
       messageFail += "帐号：" + messageName + "签到失败 ";
