@@ -1,4 +1,5 @@
 // UPDATE.js 更新脚本
+// 20231113
 
 // 当前分配置表：
 // 阿里云盘（多用户版）、吾爱破解、有道云笔记、百度贴吧、
@@ -6,7 +7,7 @@
 // 网易云游戏、什么值得买、在线工具
 // 像素蛋糕、甜润世界、囍福社
 // 叮咚买菜-叮咚果园、叮咚买菜-叮咚鱼塘
-// 时光相册、北京时间
+// 时光相册、北京时间、AcFun
 
 // 定制化分配置表:
 // 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间
@@ -17,7 +18,7 @@ var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
 var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba',
 'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
-'xifushe', 'ddmc', 'everphoto', 'btime'];
+'xifushe', 'ddmc', 'everphoto', 'btime','acfun'];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -47,6 +48,7 @@ var configContent=[
   ['ddmc_ddyt','叮咚买菜-叮咚鱼塘','否','否'],
   ['everphoto','时光相册','否','否'],
   ['btime','北京时间','否','否'],
+  ['acfun','AcFun','否','否'],
 ]
 
 // PUSH表内容 		
