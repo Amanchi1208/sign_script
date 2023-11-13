@@ -303,7 +303,7 @@ function execHandle(cookie, pos) {
 <a href="https://github.com/kxs2018/daily_sign">daily_sign</a>、
 <a href="https://www.52pojie.cn/thread-1811357-1-1.html">@qike2391</a>、
 <a href="https://github.com/wd210010/just_for_happy">wd210010</a>、
-<a href="https://github.com/KD-happy/KDCheck">wd210010</a></br>
+<a href="https://github.com/KD-happy/KDCheckin">KD-happ</a></br>
 
 ## README模板来源于
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin仓库</a>
