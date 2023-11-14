@@ -311,6 +311,7 @@ function execHandle(cookie, pos) {
       resp = resp.json();
       console.log(resp);
       msg = resp["msg"]
+      messageSuccess += "帐号：" + messageName  + "" + msg + " ";
       console.log("帐号：" + messageName + "" + msg + " ");
     } else {
       // {"result":-401,"error_msg":"user not login"}
