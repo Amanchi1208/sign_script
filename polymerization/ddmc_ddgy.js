@@ -1,6 +1,6 @@
 // 叮咚买菜-叮咚果园自动签到
 // 功能：每日签到、完成部分任务、浇水、施肥
-// 20230826
+// 20231121
 
 let sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddgy";
@@ -544,6 +544,10 @@ function execHandle(cookie, pos) {
     let amount = 10; // 记录剩余水量
     let amoutCount = 0; // 浇水次数
     let flagAmount = 0;  // 浇水标志，1为浇水
+
+    let countSeedId = 0; // 计算是不是每次浇花的剩余水量都一样，如果三次都一样，则认为seedid过期
+    let lastamount = 0; // 记录上一次剩余水量
+
     while(amount >= 10){
       resp = HTTP.fetch(url[3], {
         method: "get",
@@ -557,6 +561,22 @@ function execHandle(cookie, pos) {
         msg = resp["msg"];
         if(code == 0){
           amount = resp["data"]["props"]["amount"];
+
+          // 用于判断seedId是否过期，也即浇水是否失败
+          if(lastamount == amount){ // 和上次剩余水量一样，可能没浇水成功
+            countSeedId += 1; // 记录相同次数
+          }else{
+            countSeedId = 0;  // 水量不同，浇水成功，置零
+          }
+          lastamount = amount; // 记录水量，以便下一次循环使用
+          if(countSeedId >=3){  // 浇了三次剩余水量都相同，则认为浇水失败，不再浇水，并提醒用户更换新的seedId值
+            msg = "[❗❗❗提醒]seedId值可能过期，请抓包获取最新的值"
+            messageFail += "[❗❗❗提醒]seedId值可能过期，请抓包获取最新的值"
+            console.log("提前退出浇水，错误消息为：" + msg)
+            amoutCount -= 3;  // 减去浇水失败的次数
+            break;  
+          }
+
           flagAmount = 1;
           amoutCount += 1;
           console.log("浇水中... ,剩余水量：" + amount)
