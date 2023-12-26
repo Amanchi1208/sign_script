@@ -13,7 +13,7 @@
 
 ## 视频教程
 可参考<a href="https://github.com/SunWuyuan">孙悟元</a>开发者录制的视频
-<a href="https://www.bilibili.com/video/BV18j411r79G">https://www.bilibili.com/video/BV18j411r79</a>  
+<a href="https://www.bilibili.com/video/BV18j411r79G">https://www.bilibili.com/video/BV18j411r79G</a>  
 
 ## 聚合脚本（polymerization）
 文件夹“polymerization”为聚合脚本，运行UPDATE.js即可自动生成表格及配置内容。
@@ -50,18 +50,18 @@
 | 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-08-08 | 是 | 是 | 签到、领取空间 |
 | 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-31 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
 | 🔴 | 签到 | 客户端 | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-31 | 是 | 是 | 适用于PC端签到，需要手动兑换奖励 |
-| 🟢️ | 签到 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2023-11-21 | 是 | 是 | 适用于稻壳签到，自动领取每日PPT |
+| 🟢️ | 签到 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2023-12-26 | 是 | 是 | 适用于稻壳签到，自动领取每日PPT |
 | 🟢️ | 签到 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-08-26 | 是 | 是 | 签到 |
-| 🟢️ | 抽奖 | WEB | 什么值得买 | https://www.smzdm.com/ | smzdm.js | 2023-11-21 | 是 | 是 | 抽奖 |
-| 🟢️ | 签到 | WEB | 在线工具 | https://tool.lu/ | toolu.js | 2023-11-21 | 是 | 是 | 签到获取积分 |
+| 🟢️ | 抽奖 | WEB | 什么值得买 | https://www.smzdm.com/ | smzdm.js | 2023-12-26 | 是 | 是 | 抽奖 |
+| 🟢️ | 签到 | WEB | 在线工具 | https://tool.lu/ | toolu.js | 2023-12-26 | 是 | 是 | 签到获取积分 |
 | 🟡 | 签到 | 小程序 | 像素蛋糕 | 像素蛋糕AI修图呀 | cake.js | 2023-08-08 | 是 | 是 | 签到 |
 | 🟡 | 签到 | 小程序 | 甜润世界 | 甜润世界 | tianrun.js | 2023-08-08 | 是 | 是 | 签到 |
 | 🟢️ | 多功能 | APP | 叮咚买菜-叮咚果园 | 叮咚买菜 | ddmy_ddgy.js | 2023-11-21 | 是 | 是 | 领积分、签到、浇水 |
 | 🟢️ | 多功能 | APP | 叮咚买菜-叮咚鱼塘 | 叮咚买菜 | ddmy_ddyt.js | 2023-11-21 | 是 | 是 | 签到、喂饲料 |
 | 🟢️ | 签到 | APP | 时光相册 | 时光相册 | everphoto.js | 2023-08-15 | 是 | 是 | 签到、领空间 |
 | 🟢️ | 签到 | APP | 北京时间 | 北京时间 | btime.js | 2023-08-26 | 是 | 是 | 签到、领时间币 |
-| 🟢️ | 签到 | APP | AcFun | AcFun | acfun.js | 2023-11-21 | 是 | 是 | 签到 |
-| 🟢️ | 签到 | APP | 喜马拉雅 | 喜马拉雅 | xmly.js | 2023-11-21 | 是 | 是 | 签到 |
+| 🟢️ | 签到 | APP | AcFun | AcFun | acfun.js | 2023-12-26 | 是 | 是 | 签到 |
+| 🟢️ | 签到 | APP | 喜马拉雅 | 喜马拉雅 | xmly.js | 2023-12-26 | 是 | 是 | 签到 |
 
 ## 支持的通知列表
 
