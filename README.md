@@ -1,8 +1,8 @@
 <p align="center">
     <img src="https://socialify.git.ci/imoki/sign_script/image?description=1&font=Rokkitt&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark"/>
-    <br><strong><font size=50>签到脚本集合</font></strong>
-    <br>基于【金山文档】的签到脚本
-    <br>支持多账号使用、支持消息推送
+    <br><strong><font size=50>签到脚本框架</font></strong>
+    <br>基于【金山文档】的签到脚本框架
+    <br>支持多账号使用、支持消息推送、易于编写新脚本
 </p>
 
 <p align="center">
