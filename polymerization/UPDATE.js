@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240208
+// 20240411
 
 // 当前分配置表：
 // 可用脚本：
@@ -15,7 +15,7 @@
 
 
 // 定制化分配置表:
-// 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间
+// 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间、WPS
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -117,6 +117,13 @@ var subConfigBtime = [
   ['xxxxxxxx2', '否', '昵称2', 'xxxxxxxx', 'xxxxxxxx']
 ]
 
+// 定制化分配置表内容，WPS
+var subConfigWps = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','转存PPT(是/否)'],
+  ['xxxxxxxx1', '是', '昵称1', '否'],
+  ['xxxxxxxx2', '否', '昵称2', '否']
+]
+
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
@@ -162,6 +169,9 @@ editConfigSheet(subConfigEverphoto)
 
 ActivateSheet(subConfigWorkbook[13]) // 激活北京时间分配置表
 editConfigSheet(subConfigBtime)  
+
+ActivateSheet(subConfigWorkbook[3]) // 激活WPS分配置表
+editConfigSheet(subConfigWps)  
 
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
