@@ -1,5 +1,6 @@
 // WPS自动签到(稻壳版)
 // 需配合“金山文档”中的表格内容
+// 20240411
 
 let sheetNameSubConfig = "wps"; // 分配置表名称
 let sheetNameSubConfig2 = "wps_docer";
@@ -295,12 +296,15 @@ function execHandle(cookie, pos) {
   } else {
     messageName = "单元格A" + pos + "";
   }
-  try {
+  // try {
     let flagSign = 0; // 签到标志
     url = "https://welfare.docer.wps.cn/sign_in/v1/user_sign_in"; // 签到
     url2 = "https://welfare.docer.wps.cn/common/v1/sign_base_info"; // 获取pptid
     url3 =
       "https://welfare.docer.wps.cn/sign_in/v1/sign_in_mb/receive_mb_today"; // 领取ppt
+
+    url4 = "https://welfare.docer.wps.cn/common/v1/mb_download" // 保存ppt到金山文档中
+
     headers = {
       Cookie: "wps_sid=" + cookie,
       "User-Agent":
@@ -313,24 +317,27 @@ function execHandle(cookie, pos) {
       headers: headers,
       data: data,
     });
-
+    
     try {
-      resp = resp.json();
-      let result = resp["result"];
-      let msg = resp["msg"];
-      if (result == "ok") {
-        messageSuccess += messageName + "签到成功 ";
-        flagSign = 1;
-      } else {
-        if (msg == "had sign in") {
-          messageSuccess += messageName + "已经签到过了 ";
-          flagSign = 1;
-        } else {
-          messageFail += messageName + "签到失败 ";
-        }
-      }
+      
+      // resp = resp.json();
+      // let result = resp["result"];
+      // let msg = resp["msg"];
+      // if (result == "ok") {
+      //   messageSuccess += messageName + "签到成功 ";
+      //   flagSign = 1;
+      // } else {
+      //   if (msg == "had sign in") {
+      //     messageSuccess += messageName + "已经签到过了 ";
+      //     flagSign = 1;
+      //   } else {
+      //     messageFail += messageName + "签到失败 ";
+      //   }
+      // }
+      
+      flagSign = 1; // 无论是否签到都尝试领取ppt,修复签到不成功就不录取ppt的情况
 
-      console.log(resp);
+      // console.log(resp);
 
       // 领取每日ppt
       if (flagSign == 1) {
@@ -365,6 +372,37 @@ function execHandle(cookie, pos) {
               messageSuccess += msg;
             }
             console.log(resp);
+
+            flagSave = Application.Range("D" + pos).Text; // 是否自动保存ppt
+            if (flagSave== "是") {
+              // 将ppt保存到金山文档中
+              resp = HTTP.fetch(url4 + "?ppt_id=" + ppt_id, {
+                method: "post",
+                headers: headers,
+                data: data,
+              });
+              try {
+                resp = resp.json();
+                let result = resp["result"];
+                let msg = resp["msg"];
+                if (result == "ok") {
+                  console.log("成功保存每日ppt");
+                  messageSuccess += "成功保存 " + ppt_title;
+                } else {
+                  console.log(msg);
+                  messageSuccess += msg;
+                }
+                console.log(resp);
+              } catch {
+                console.log(resp.text());
+                console.log("保存ppt失败");
+                messageFail += "保存ppt失败 ";
+              }
+            } else {
+              console.log("默认不自动保存ppt到金山文档中")
+            }
+            
+
           } catch {
             console.log(resp.text());
             console.log("领取ppt失败");
@@ -375,13 +413,16 @@ function execHandle(cookie, pos) {
           console.log("获取ppt_id失败");
           messageFail += "无法获取ppt_id,领取ppt失败 ";
         }
+
+
+
       }
     } catch {
       messageFail += messageName + "签到失败 ";
     }
-  } catch {
-    messageFail += messageName + "失败";
-  }
+  // } catch {
+  //   messageFail += messageName + "失败";
+  // }
 
   sleep(2000);
   if (messageOnlyError == 1) {
