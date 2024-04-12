@@ -296,6 +296,7 @@ function execHandle(cookie, pos) {
   }
   // try {
     var url1 = "https://easinote.seewo.com/extend/apis?actionName=SIGN_LOTTERY";
+    // var url1 = "https://easinote.seewo.com/extend/apis?actionName=TODAY_RECORD";
     headers = {
       "Cookie": cookie,
       "Origin": "https://easinote.seewo.com",
@@ -322,8 +323,9 @@ function execHandle(cookie, pos) {
       {
         lotteryRecord = resp["data"]["lotteryRecord"]["awardName"]
         signRecord = resp["data"]["signRecord"]["prizeDescription"]
-        messageSuccess += "帐号：" + messageName + "获得" + lotteryRecord + " " +  signRecord;
-        console.log("帐号：" + messageName + "获得" + lotteryRecord + " " +  signRecord);
+        currentDay = resp["data"]["signRecord"]["currentDay"]
+        messageSuccess += "帐号：" + messageName + "已签到" + currentDay  + "天 获得" + lotteryRecord + " " +  signRecord;
+        console.log("帐号：" + messageName + "已签到" + currentDay  + "天 获得" + lotteryRecord + " " +  signRecord);
       }else{
         messageSuccess += "帐号：" + messageName + "" +  msg + " 可能已经签到过了";
         console.log("帐号：" + messageName + msg + "" + "可能已经签到过了");
