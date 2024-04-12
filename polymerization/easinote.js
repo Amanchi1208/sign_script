@@ -284,6 +284,8 @@ function jsonPushHandle(pushName, pushFlag, pushKey) {
   }
 }
 
+
+
 // 具体的执行函数
 function execHandle(cookie, pos) {
   let messageSuccess = "";
@@ -294,7 +296,7 @@ function execHandle(cookie, pos) {
   } else {
     messageName = "单元格A" + pos + "";
   }
-  // try {
+  try {
     var url1 = "https://easinote.seewo.com/extend/apis?actionName=SIGN_LOTTERY";
     // var url1 = "https://easinote.seewo.com/extend/apis?actionName=TODAY_RECORD";
     headers = {
@@ -336,9 +338,9 @@ function execHandle(cookie, pos) {
       messageFail += "帐号：" + messageName + "签到失败 ";
       console.log("帐号：" + messageName + "签到失败 ");
     }
-  // } catch {
-  //   messageFail += messageName + "失败";
-  // }
+  } catch {
+    messageFail += messageName + "失败";
+  }
 
   sleep(2000);
   if (messageOnlyError == 1) {
