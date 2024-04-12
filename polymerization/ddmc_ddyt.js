@@ -1,5 +1,5 @@
 // 叮咚买菜-叮咚鱼塘自动签到
-// 20231121
+// 20240412
 
 let sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddyt";
@@ -324,10 +324,69 @@ function execHandle(cookie, pos) {
       'Referer': 'https://game.m.ddxq.mobi/',
     };
 
+    headerintegral =
+    { // 积分
+        'Host': 'sunquan.api.ddxq.mobi',
+        'Cookie': cookie,
+        'Referer': 'https://activity.m.ddxq.mobi/',
+        'ddmc-city-number': '0201',
+        'ddmc-api-version': '9.7.3',
+        'Origin': 'https://activity.m.ddxq.mobi',
+        'ddmc-build-version': '10.15.0',
+        'ddmc-longitude': 114.345477,
+        'ddmc-latitude': 40.123389,
+        'ddmc-app-client-id': 3,
+        'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+        'ddmc-channel': ' ',
+        'Accept': '*/*',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'ddmc-station-id': '',
+        'ddmc-ip': '',
+    },
+
+    dataintegral = {
+      'api_version':'9.7.3',
+      'app_client_id':3,
+      'app_version':'2.14.5',
+      'app_client_name':'activity',
+      'station_id':'',
+      'native_version':'10.15.0',
+      'city_number':'0201',
+      'device_token':'',
+      'device_id':'',
+      'latitude':'40.123389',
+      'longitude':'116.345477',
+    }
+    // 积分签到
+    resp = HTTP.fetch(url[0], {
+      method: "post",
+      headers: headerintegral,
+      data : dataintegral
+    });
+
+    if (resp.status == 200) {
+      resp = resp.json();
+      console.log(resp);
+      code = resp["code"];
+      msg = resp["msg"];
+      if(code == 0){
+        messageSuccess += "帐号：" + messageName + "积分签到成功 "
+        console.log("帐号：" + messageName + "积分签到成功 ");
+      }else{
+        // {"msg":"出了点问题哦，请稍后再试吧","code":119000001,"timestamp":"2023-08-10 21:06:53","success":false,"exec_time":{}}
+        messageFail += "帐号：" + messageName + msg + " ";
+        console.log("帐号：" + messageName + msg + " ");
+      }
+    } else {
+      console.log(resp.text());
+      messageFail += "帐号：" + messageName + "积分签到失败 ";
+      console.log("帐号：" + messageName + "积分签到失败 ");
+    }
+
     // 签到领饲料
     let flagSign = 0; // 标识是否签到领取饲料
     let tempmessageFail = "";  // 记录临时失败的消息
-    let resp = HTTP.fetch(url[1], {
+    resp = HTTP.fetch(url[1], {
       method: "get",
       headers: headers,
     });
