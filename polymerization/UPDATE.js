@@ -1,17 +1,18 @@
 // UPDATE.js 更新脚本
-// 20240411
+// 20240412
 
 // 当前分配置表：
 // 可用脚本：
 // 阿里云盘（多用户版）、有道云笔记、百度贴吧、
 // wps(稻壳版）、网易云游戏、什么值得买、在线工具
-// 叮咚买菜-叮咚果园、叮咚买菜-叮咚鱼塘
+// 叮咚买菜-叮咚鱼塘
 // 北京时间、AcFun、喜马拉雅
-// ios游戏迷
+// ios游戏迷、希沃白板
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版)、wps(客户端版)
 // 时光相册、像素蛋糕、甜润世界、囍福社
+// 叮咚买菜-叮咚果园
 
 
 // 定制化分配置表:
@@ -23,7 +24,7 @@ var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
 var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba',
 'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
-'xifushe', 'ddmc', 'everphoto', 'btime','acfun','xmly', 'tonghua'];
+'xifushe', 'ddmc', 'everphoto', 'btime','acfun','xmly', 'tonghua', 'en'];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
