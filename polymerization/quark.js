@@ -1,5 +1,5 @@
 // 夸克网盘自动签到
-// 20240423
+// 20240424
 
 let sheetNameSubConfig = "quark"; // 分配置表名称
 let pushHeader = "【夸克网盘】";
@@ -347,11 +347,12 @@ function execHandle(cookie, pos) {
           { headers: headers }
         );
 
-        // {"status":200,"code":0,"message":"","timestamp":1713865845,"data":{"sign_daily_reward":20971520},"metadata":{}}
+        // {"status":200,"code":0,"message":"","timestamp":1713000000,"data":{"sign_daily_reward":20971520},"metadata":{}}
         if (resp.status == 200) {
           resp = resp.json();
           console.log(resp)
-          reward = resp["data"]["sign_daily_reward"] / 2048
+          // 41943040 -> 40MB
+          reward = resp["data"]["sign_daily_reward"] / (1024 * 1024)
           messageSuccess += "帐号：" + messageName + "签到成功，奖励"  + String(reward) + "MB";
 
         } else {
