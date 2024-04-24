@@ -334,6 +334,7 @@ function execHandle(cookie, pos) {
 <a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a>、
 <a href="https://github.com/kxs2018/daily_sign">daily_sign</a>、
 <a href="https://www.52pojie.cn/thread-1811357-1-1.html">@qike2391</a>、
+<a href="https://www.52pojie.cn/thread-1784167-1-1.html">@佚名RJ</a>、
 <!-- <a href="https://github.com/wd210010/just_for_happy">wd210010</a>、 -->
 <a href="https://github.com/KD-happy/KDCheckin">KD-happy</a>、
 <a href="https://github.com/wd210010/only_for_happly">wd210010</a></br>
