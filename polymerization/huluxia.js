@@ -371,13 +371,13 @@ function execHandle(cookie, pos) {
         continueDays = resp['continueDays']  // 连续签到天数
         experienceVal = resp['experienceVal']  // 本次签到经验
         // messageSuccess += '版块' + cat_id + '签到成功，获' + experienceVal + '经验，已签' + continueDays + '天'
-        messageSuccess += '版块' + cat_id + '签到成功'
+        messageSuccess += ' 版块' + cat_id + '签到成功'
         console.log("帐号：" + messageName + '版块' + cat_id + '签到成功，获' + experienceVal + '经验，已签' + continueDays + '天')
       }else
       {
         // {"msg":"当前板块不存在","code":104,"title":{},"status":0}
         msg = resp['msg']
-        messageFail += "板块" + cat_id + "签到失败," + msg + " ";
+        messageFail += " 板块" + cat_id + "签到失败," + msg + " ";
         console.log("帐号：" + messageName + "板块" + cat_id + "签到失败," + msg + " ");
       }
 
