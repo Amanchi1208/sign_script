@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240423
+// 20240424
 
 // 当前分配置表：
 // 可用脚本：
@@ -8,6 +8,7 @@
 // 叮咚买菜-叮咚鱼塘
 // 北京时间、AcFun、喜马拉雅
 // ios游戏迷、希沃白板、小木虫、夸克网盘
+// 葫芦侠3楼
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版)、wps(客户端版)
@@ -24,7 +25,8 @@ var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
 var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba',
 'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
-'xifushe', 'ddmc', 'everphoto', 'btime','acfun','xmly', 'tonghua', 'en', 'xmc','quark'];
+'xifushe', 'ddmc', 'everphoto', 'btime','acfun','xmly', 'tonghua', 'en', 'xmc','quark',
+'huluxia'];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -60,6 +62,7 @@ var configContent=[
   ['en','希沃白板','否','否'],
   ['xmc','小木虫','否','否'],
   ['quark','夸克网盘','否','否'],
+  ['huluxia','葫芦侠3楼','否','否'],
 ]
 
 // PUSH表内容 		
