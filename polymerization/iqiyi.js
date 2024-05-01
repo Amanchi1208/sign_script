@@ -1,5 +1,5 @@
 // 爱奇艺自动签到
-// 20240430
+// 2024030
 
 let sheetNameSubConfig = "iqiyi"; // 分配置表名称
 let pushHeader = "【爱奇艺】";
@@ -461,18 +461,25 @@ function execHandle(cookie, pos) {
       if(code == "A00000")
       {
         msg = resp["data"]["msg"]
-        console.log(msg)
+        // msg = {}
+        // console.log(msg)
+        if(msg == "[object Object]")
+        {
+          msg = ""
+        }
+        // console.log(msg)
         signDays = ""
         try{
             signDays = resp["data"]["data"]["signDays"] // 签到天数
         }catch{
             console.log("无法获取到签到天数")
         }
+
         if(signDays == undefined)
         {
           signDays = ""
         }
-        content = "签到" + signDays + " " + msg
+        content = "已签到" + signDays + " " + msg
         messageSuccess += content;
         console.log(content)
       }else
