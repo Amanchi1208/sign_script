@@ -1,5 +1,5 @@
 // 爱奇艺自动签到
-// 2024030
+// 20240430
 
 let sheetNameSubConfig = "iqiyi"; // 分配置表名称
 let pushHeader = "【爱奇艺】";
