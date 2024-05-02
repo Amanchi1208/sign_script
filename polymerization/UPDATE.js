@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240430
+// 20240502
 
 // 当前分配置表：
 // 可用脚本：
@@ -8,7 +8,7 @@
 // 叮咚买菜-叮咚鱼塘
 // 北京时间、AcFun、喜马拉雅
 // ios游戏迷、希沃白板、小木虫、夸克网盘
-// 葫芦侠3楼、爱奇艺
+// 葫芦侠3楼、爱奇艺、花小猪
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版)、wps(客户端版)
@@ -23,10 +23,13 @@ var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
 var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
-var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba',
-'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
-'xifushe', 'ddmc', 'everphoto', 'btime','acfun','xmly', 'tonghua', 'en', 'xmc','quark',
-'huluxia','iqiyi'];
+var subConfigWorkbook=[
+  'aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba',
+  'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
+  'xifushe', 'ddmc', 'everphoto', 'btime','acfun',
+  'xmly', 'tonghua', 'en', 'xmc','quark',
+  'huluxia','iqiyi', 'huaxiaozhu',
+];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -64,6 +67,7 @@ var configContent=[
   ['quark','夸克网盘','否','否'],
   ['huluxia','葫芦侠3楼','否','否'],
   ['iqiyi','爱奇艺','否','否'],
+  ['huaxiaozhu','花小猪','否','否'],
 ]
 
 // PUSH表内容 		
@@ -132,6 +136,13 @@ var subConfigWps = [
   ['xxxxxxxx2', '否', '昵称2', '否']
 ]
 
+// 定制化分配置表内容，花小猪
+var subConfigHuaxiaozhu = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','Cityid'],
+  ['xxxxxxxx1', '是', '昵称1', '100'],
+  ['xxxxxxxx2', '否', '昵称2', '100']
+]
+
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
@@ -180,6 +191,9 @@ editConfigSheet(subConfigBtime)
 
 ActivateSheet(subConfigWorkbook[3]) // 激活WPS分配置表
 editConfigSheet(subConfigWps)  
+
+ActivateSheet(subConfigWorkbook[22]) // 激活花小猪分配置表
+editConfigSheet(subConfigHuaxiaozhu)  
 
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
