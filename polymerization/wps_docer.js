@@ -1,6 +1,5 @@
 // WPS自动签到(稻壳版)
-// 需配合“金山文档”中的表格内容
-// 20240411
+// 20240503
 
 let sheetNameSubConfig = "wps"; // 分配置表名称
 let sheetNameSubConfig2 = "wps_docer";
@@ -151,7 +150,8 @@ function bark(message, key) {
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
-    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
       method: "get",
     });
