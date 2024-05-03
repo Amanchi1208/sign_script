@@ -1,5 +1,5 @@
-// 百度贴吧自动签到（多用户版，支持bark推送）
-// 需配合“金山文档”中的表格内容
+// 百度贴吧自动签到
+// 20240503
 
 let sheetNameSubConfig = "tieba"; // 分配置表名称
 let pushHeader = "【百度贴吧】";
@@ -149,7 +149,8 @@ function bark(message, key) {
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
-    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
       method: "get",
     });
