@@ -1,5 +1,5 @@
 // 夸克网盘自动签到
-// 20240424
+// 20240503
 
 let sheetNameSubConfig = "quark"; // 分配置表名称
 let pushHeader = "【夸克网盘】";
@@ -149,7 +149,8 @@ function bark(message, key) {
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
-    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
       method: "get",
     });
@@ -320,10 +321,16 @@ function execHandle(cookie, pos) {
       // console.log(isSign)
       if(isSign == true)
       {
-		    number = resp["data"]["cap_sign"]["sign_daily_reward"] / (1024 * 1024)
-        // console.log(number)
-        messageSuccess += "帐号：" + messageName + "已经签到过了,奖励容量"  + String(number) + "MB";
-        console.log("帐号：" + messageName + "已经签到过了,奖励容量"  + String(number) + "MB")
+		    reward = resp["data"]["cap_sign"]["sign_daily_reward"] / (1024 * 1024)
+        cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
+        sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
+          
+        // console.log(reward)
+        // content = "帐号：" + messageName + "已经签到过了,奖励"  + String(number) + "MB" + ",总签到" + cur_total_sign_day + "天 " + ",当周已签" + sign_progress + "天 ";
+        content = messageName + "总签" + cur_total_sign_day + "天 " + ",周签" + sign_progress + "天,获"  + String(reward) + "MB";
+        messageSuccess += content
+        // messageSuccess += "帐号：" + messageName + "已经签到过了,奖励容量"  + String(number) + "MB";
+        console.log(content)
       }else
       {
 
@@ -347,16 +354,24 @@ function execHandle(cookie, pos) {
           { headers: headers }
         );
 
-        // {"status":200,"code":0,"message":"","timestamp":1713000000,"data":{"sign_daily_reward":20971520},"metadata":{}}
+        // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20000000},"metadata":{}}
+        
+        // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"member_type":"NORMAL","use_capacity":120000000,"cap_growth":{"lost_total_cap":0,"cur_total_cap":11000000,"cur_total_sign_day":46},"88VIP":false,"member_status":{"Z_VIP":"UNPAID","VIP":"UNPAID","SUPER_VIP":"UNPAID","MINI_VIP":"UNPAID"},"cap_sign":{"sign_daily":true,"sign_target":7,"sign_daily_reward":2000000,"sign_progress":4,"sign_rewards":[{"name":"+20MB","reward_cap":2000000},{"name":"+40MB","highlight":"翻倍","reward_cap":4000000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":200000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":2000000},{"name":"+100MB","highlight":"翻五倍","reward_cap":10000000}]},"cap_composition":{"other":21000000,"member_own":100000000,"sign_reward":10000000},"total_capacity":1400000000},"metadata":{}}
         if (resp.status == 200) {
           resp = resp.json();
           console.log(resp)
           // 41943040 -> 40MB
           reward = resp["data"]["sign_daily_reward"] / (1024 * 1024)
-          messageSuccess += "帐号：" + messageName + "签到成功，奖励"  + String(reward) + "MB";
-
+          cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
+          sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
+          // messageSuccess += "帐号：" + messageName + "签到成功，奖励"  + String(reward) + "MB";
+          // content = "帐号：" + messageName + "签到成功,奖励"  + String(reward) + "MB" + ",总签到" + cur_total_sign_day + "天 " + ",当周已签" + sign_progress + "天 ";
+          content = messageName + "总签" + cur_total_sign_day + "天 " + ",周签" + sign_progress + "天,获"  + String(reward) + "MB";
+      
+          messageSuccess += content
+          console.log(content)
         } else {
-          console.log(resp.text());
+          // console.log(resp.text());
           messageFail += "帐号：" + messageName + "签到失败 ";
           console.log("帐号：" + messageName + "签到失败 ");
         }
