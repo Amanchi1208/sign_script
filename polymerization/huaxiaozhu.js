@@ -1,5 +1,5 @@
 // 花小猪自动做任务和抽奖
-// 20240502
+// 20240503
 
 let sheetNameSubConfig = "huaxiaozhu"; // 分配置表名称
 let pushHeader = "【花小猪】";
@@ -149,7 +149,8 @@ function bark(message, key) {
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
-    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
       method: "get",
     });
