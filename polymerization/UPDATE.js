@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240502
+// 20240503
 
 // 当前分配置表：
 // 可用脚本：
@@ -8,7 +8,7 @@
 // 叮咚买菜-叮咚鱼塘
 // 北京时间、AcFun、喜马拉雅
 // ios游戏迷、希沃白板、小木虫、夸克网盘
-// 葫芦侠3楼、爱奇艺、花小猪
+// 葫芦侠3楼、爱奇艺、花小猪、中兴社区
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版)、wps(客户端版)
@@ -28,7 +28,7 @@ var subConfigWorkbook=[
   'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
   'xifushe', 'ddmc', 'everphoto', 'btime','acfun',
   'xmly', 'tonghua', 'en', 'xmc','quark',
-  'huluxia','iqiyi', 'huaxiaozhu',
+  'huluxia','iqiyi', 'huaxiaozhu','ztebbs',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -68,6 +68,7 @@ var configContent=[
   ['huluxia','葫芦侠3楼','否','否'],
   ['iqiyi','爱奇艺','否','否'],
   ['huaxiaozhu','花小猪','否','否'],
+  ['ztebbs','中兴社区','否','否'],
 ]
 
 // PUSH表内容 		
