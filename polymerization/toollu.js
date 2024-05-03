@@ -1,5 +1,5 @@
 // 在线工具自动签到
-// 需配合“金山文档”中的表格内容
+// 20240503
 
 let sheetNameSubConfig = "toollu"; // 分配置表名称
 let pushHeader = "【在线工具】";
@@ -149,7 +149,8 @@ function bark(message, key) {
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
-    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
       method: "get",
     });
@@ -294,7 +295,7 @@ function execHandle(cookie, pos) {
   } else {
     messageName = "单元格A" + pos + "";
   }
-  try {
+  // try {
     let url = "https://id.tool.lu/sign";
     headers = {
       Cookie: cookie,
@@ -307,7 +308,7 @@ function execHandle(cookie, pos) {
       headers: headers,
     });
 
-    try {
+    // try {
       const Reg = /你已经连续签到(.*?)天，再接再厉！/i;
       let html = resp.text();
       let flagTrue = Reg.test(html); // 判断是否存在字符串
@@ -318,12 +319,12 @@ function execHandle(cookie, pos) {
       } else {
         messageFail += "帐号：" + messageName + "签到失败 ";
       }
-    } catch {
-      messageFail += "帐号：" + messageName + "签到失败 ";
-    }
-  } catch {
-    messageFail += messageName + "失败";
-  }
+  //   } catch {
+  //     messageFail += "帐号：" + messageName + "签到失败 ";
+  //   }
+  // } catch {
+  //   messageFail += messageName + "失败";
+  // }
 
   sleep(2000);
   if (messageOnlyError == 1) {
