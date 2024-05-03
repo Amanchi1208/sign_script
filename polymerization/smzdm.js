@@ -1,5 +1,5 @@
 // 什么值得买抽奖
-// 需配合“金山文档”中的表格内容
+// 20240503
 
 let sheetNameSubConfig = "smzdm"; // 分配置表名称
 let pushHeader = "【什么值得买】";
@@ -149,7 +149,8 @@ function bark(message, key) {
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
-    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
       method: "get",
     });
@@ -335,6 +336,7 @@ function execHandle(cookie, pos) {
       messageFail += "帐号：" + messageName + " 第一次抽奖失败 ";
       console.log("帐号：" + messageName + " 第一次抽奖失败 ");
     }
+
 
     // // 第二次抽奖
     // resp = HTTP.fetch(url2,{
