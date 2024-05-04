@@ -1,5 +1,5 @@
 // 夸克网盘自动签到
-// 20240503
+// 20240504
 
 let sheetNameSubConfig = "quark"; // 分配置表名称
 let pushHeader = "【夸克网盘】";
@@ -333,21 +333,6 @@ function execHandle(cookie, pos) {
         console.log(content)
       }else
       {
-
-        // headers = {
-        //   "Cookie": cookie,
-        //   "Content-Type": "application/json",
-        //   // "Content-Type": "application/x-www-form-urlencoded",
-        //   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586"
-        // };
-
-        
-        // resp = HTTP.fetch(url2, {
-        //   method: "post",
-        //   headers: headers,
-        //   data: data
-        // });
-
         resp = HTTP.post(
           url2,
           JSON.stringify(data),
@@ -362,14 +347,30 @@ function execHandle(cookie, pos) {
           console.log(resp)
           // 41943040 -> 40MB
           reward = resp["data"]["sign_daily_reward"] / (1024 * 1024)
-          cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
-          sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
+
           // messageSuccess += "帐号：" + messageName + "签到成功，奖励"  + String(reward) + "MB";
           // content = "帐号：" + messageName + "签到成功,奖励"  + String(reward) + "MB" + ",总签到" + cur_total_sign_day + "天 " + ",当周已签" + sign_progress + "天 ";
+          
+          // content = "签到成功,奖励"  + String(reward) + "MB"
+          // content = messageName + "总签" + cur_total_sign_day + "天 " + ",周签" + sign_progress + "天,获"  + String(reward) + "MB";
+          // messageSuccess += content
+          // console.log(content)
+
+          sleep(2000)
+          // 查询签到天数
+          resp = HTTP.fetch(url1, {
+            method: "get",
+            headers: headers,
+            // data: data
+          });
+          resp = resp.json();
+          console.log(resp)
+          cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
+          sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
           content = messageName + "总签" + cur_total_sign_day + "天 " + ",周签" + sign_progress + "天,获"  + String(reward) + "MB";
-      
           messageSuccess += content
           console.log(content)
+
         } else {
           // console.log(resp.text());
           messageFail += "帐号：" + messageName + "签到失败 ";
