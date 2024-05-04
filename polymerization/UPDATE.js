@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240503
+// 20240504
 
 // 当前分配置表：
 // 可用脚本：
@@ -28,7 +28,7 @@ var subConfigWorkbook=[
   'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
   'xifushe', 'ddmc', 'everphoto', 'btime','acfun',
   'xmly', 'tonghua', 'en', 'xmc','quark',
-  'huluxia','iqiyi', 'huaxiaozhu','ztebbs',
+  'huluxia','iqiyi', 'huaxiaozhu','ztebbs','mi',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -69,6 +69,7 @@ var configContent=[
   ['iqiyi','爱奇艺','否','否'],
   ['huaxiaozhu','花小猪','否','否'],
   ['ztebbs','中兴社区','否','否'],
+  ['mi','小米商城','否','否'],
 ]
 
 // PUSH表内容 		
@@ -144,6 +145,13 @@ var subConfigHuaxiaozhu = [
   ['xxxxxxxx2', '否', '昵称2', '100']
 ]
 
+// 定制化分配置表内容，小米商城
+var subConfigMi = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','mishop-client-id'],
+  ['xxxxxxxx1', '是', '昵称1', '100'],
+  ['xxxxxxxx2', '否', '昵称2', '100']
+]
+
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
@@ -195,6 +203,9 @@ editConfigSheet(subConfigWps)
 
 ActivateSheet(subConfigWorkbook[22]) // 激活花小猪分配置表
 editConfigSheet(subConfigHuaxiaozhu)  
+
+// ActivateSheet(subConfigWorkbook[24]) // 激活小米商城分配置表
+// editConfigSheet(subConfigMi)  
 
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
