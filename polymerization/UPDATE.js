@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240504
+// 20240505
 
 // 当前分配置表：
 // 可用脚本：
@@ -8,7 +8,8 @@
 // 叮咚买菜-叮咚鱼塘
 // 北京时间、AcFun、喜马拉雅
 // ios游戏迷、希沃白板、小木虫、夸克网盘
-// 葫芦侠3楼、爱奇艺、花小猪、中兴社区
+// 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
+// 看雪论坛
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版)、wps(客户端版)
@@ -29,6 +30,7 @@ var subConfigWorkbook=[
   'xifushe', 'ddmc', 'everphoto', 'btime','acfun',
   'xmly', 'tonghua', 'en', 'xmc','quark',
   'huluxia','iqiyi', 'huaxiaozhu','ztebbs','mi',
+  'kanxue',
 ];
 var workbook = [] // 存储已存在表数组
 
