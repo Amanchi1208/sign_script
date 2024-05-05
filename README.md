@@ -70,7 +70,7 @@
 | 🟢️ | 签到 | APP | 小木虫 | 小木虫 | xmc.js | 2024-05-03 | 是 | 是 | 签到得金币 |
 | 🟢️ | 签到 | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-04-30 | 是 | 是 | 签到得空间 |
 | 🟢️ | 签到 | APP | 葫芦侠3楼 | 葫芦侠3楼 | huluxia.js | 2024-05-05 | 是 | 是 | 板块签到 |
-| 🟢️ | 签到 | WEB | 爱奇艺 | https://www.iqiyi.com | iqiyi.js | 2024-05-05 | 是 | 是 | 签到 |
+| 🟢️ | 签到 | WEB | 爱奇艺 | https://www.iqiyi.com | iqiyi.js | 2024-05-05 | 是 | 是 | 签到，白金抽奖 |
 | 🟡 | 签到 | APP | 花小猪打车 | 花小猪 | huaxiaozhu.js | 2024-05-03 | 是 | 是 | 做任务，抽奖得花花币或优惠券 |
 | 🟢️ | 签到 | WEB | 中兴社区 | https://bbs.ztedevices.com/ | ztebbs.js | 2024-05-05 | 是 | 是 | 签到,得经验和流星 |
 | 🟢️ | 签到 | APP | 小米商城 | 小米商城 | mi.js | 2024-05-05 | 是 | 是 | 签到,得米金 |
@@ -354,7 +354,8 @@ function execHandle(cookie, pos) {
 <a href="https://www.52pojie.cn/thread-1784167-1-1.html">@佚名RJ</a>、
 <!-- <a href="https://github.com/wd210010/just_for_happy">wd210010</a>、 -->
 <a href="https://github.com/KD-happy/KDCheckin">KD-happy</a>、
-<a href="https://github.com/wd210010/only_for_happly">wd210010</a></br>
+<a href="https://github.com/wd210010/only_for_happly">wd210010</a>、
+<a href="https://github.com/Sitoi/dailycheckin">dailycheckin</a></br>
 
 ## README模板来源于
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin仓库</a>
