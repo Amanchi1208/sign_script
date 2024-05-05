@@ -9,7 +9,7 @@
 // 北京时间、AcFun、喜马拉雅
 // ios游戏迷、希沃白板、小木虫、夸克网盘
 // 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
-// 看雪论坛
+// 看雪论坛、哔哩哔哩
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版)、wps(客户端版)
@@ -29,8 +29,8 @@ var subConfigWorkbook=[
   'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun', 
   'xifushe', 'ddmc', 'everphoto', 'btime','acfun',
   'xmly', 'tonghua', 'en', 'xmc','quark',
-  'huluxia','iqiyi', 'huaxiaozhu','ztebbs','mi',
-  'kanxue',
+  'huluxia', 'iqiyi', 'huaxiaozhu','ztebbs','mi',
+  'kanxue', 'bilibili',
 ];
 var workbook = [] // 存储已存在表数组
 
