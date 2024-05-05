@@ -1,5 +1,5 @@
 // 爱奇艺自动签到
-// 20240430
+// 20240505
 
 let sheetNameSubConfig = "iqiyi"; // 分配置表名称
 let pushHeader = "【爱奇艺】";
@@ -149,7 +149,8 @@ function bark(message, key) {
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
-    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
       method: "get",
     });
@@ -337,14 +338,12 @@ function getsign(data) {
 }
 
 function give_times(P00001){
+    // {"code":"A00000","msg":"成功","data":{}}
     url = "https://pcell.iqiyi.com/lotto/giveTimes"
     times_code_list = ["browseWeb", "browseWeb", "bookingMovie"]
     for(times_code in times_code_list){
-      params = {
-          "actCode": "bcf9d354bc9f677c",
-          "timesCode": times_code,
-          "P00001": P00001,
-      }
+      times_code = times_code_list[times_code]
+      // console.log(times_code)
       params = "?actCode=bcf9d354bc9f677c&timesCode=" + times_code + "&P00001=" + P00001 
       resp = HTTP.fetch(url + params , {
         method: "get",
@@ -354,7 +353,14 @@ function give_times(P00001){
 }
 
 
+// 抽奖
 function lotto_lottery(P00001){
+  // {"code":"Q00397","msg":"次数类型不存在","data":{}}
+  // {"code":"A00000","msg":"成功","data":{"giftName":"未中奖","orderCode":"20240505000000000","giftType":29,"giftId":17000,"times":3,"giftLevel":5,"giftCode":"G_9aaaaaaaaaa","ticket":{},"sendType":1,"fillPhone":0,"imageUrl":{},"giftExtendConfig":{},"giftInfos":{}}}
+  // {"code":"Q00702","msg":"抽奖次数用完","data":{"giftName":{},"orderCode":{},"giftType":{},"giftId":{},"times":0,"giftLevel":{},"giftCode":{},"ticket":{},"sendType":{},"fillPhone":{},"imageUrl":{},"giftExtendConfig":{},"giftInfos":{}}}
+  messageSuccess = "抽奖:"
+  messageFail = ""
+
   give_times(P00001)
   gift_list = []
   for(i=0; i<5; i++)
@@ -364,10 +370,57 @@ function lotto_lottery(P00001){
     resp = HTTP.fetch(url + params , {
       method: "get",
     });
-    gift_name = response.json()["data"]["giftName"]
-    console.log(gift_name)
+    resp = resp.json()
+    console.log(resp)
+    msg = resp["msg"]
+    gift_name = resp["data"]["giftName"]
+    content = ""
+    if(gift_name == "[object Object]")
+    {
+      content = "第" + i + "次" +msg + " "
+    }else
+    {
+      content = "第" + i + "次" +gift_namemsg + " "
+    }
+    // console.log(gift_name)
+    messageSuccess += content
+    sleep(2000)
+  
   }  
+
+  msg = [messageSuccess, messageFail]
+  return msg
 }
+
+// 未完成
+function query_user_task(P00001){
+    // 获取 VIP 日常任务 和 taskCode(任务状态)
+    url = "https://tc.vip.iqiyi.com/taskCenter/task/queryUserTask"
+    // params = {"P00001": P00001}
+    params = "?P00001=" + P00001
+    task_list = []
+    // res = requests.get(url=url, params=params).json()
+    res = HTTP.fetch(url + params , {
+      method: "post",
+    });
+    res = res.json()
+    console.log(res)
+    if(res["code"] == "A00000"){
+        for(item in res["data"].get("tasks", {}).get("daily", [])){
+            task_list.append(
+                {
+                    "taskTitle": item["taskTitle"],
+                    "taskCode": item["taskCode"],
+                    "status": item["status"],
+                    "taskReward": item["taskReward"]["task_reward_growth"],
+                }
+            )
+        }
+    }
+    return task_list
+}
+
+
 // 具体的执行函数
 function execHandle(cookie, pos) {
   let messageSuccess = "";
@@ -447,6 +500,8 @@ function execHandle(cookie, pos) {
     //   data: data
     // });
 
+
+
     resp = HTTP.post(
       url2 + params,
       JSON.stringify(data),
@@ -494,7 +549,12 @@ function execHandle(cookie, pos) {
       console.log(content);
     }
 
-    // lotto_lottery(P00001)
+    // 抽奖
+    msg = lotto_lottery(P00001)
+    messageSuccess += msg[0]
+    messageFail += msg[1]
+
+    
   // } catch {
   //   messageFail += messageName + "失败";
   // }
