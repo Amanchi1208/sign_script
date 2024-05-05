@@ -1,5 +1,5 @@
 // 夸克网盘自动签到
-// 20240504
+// 20240505
 
 let sheetNameSubConfig = "quark"; // 分配置表名称
 let pushHeader = "【夸克网盘】";
@@ -295,7 +295,7 @@ function execHandle(cookie, pos) {
   } else {
     messageName = "单元格A" + pos + "";
   }
-  try {
+  // try {
     var url1 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str="; // 查询是否签到
     var url2 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/sign?pr=ucpro&fr=pc&uc_param_str="; // 进行签到
     headers = {
@@ -318,6 +318,7 @@ function execHandle(cookie, pos) {
       resp = resp.json();
       console.log(resp)
       isSign = resp["data"]["cap_sign"]["sign_daily"]
+      // isSign = true
       // console.log(isSign)
       if(isSign == true)
       {
@@ -333,20 +334,24 @@ function execHandle(cookie, pos) {
         console.log(content)
       }else
       {
+        // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20000000},"metadata":{}}
+        // {"status":400,"code":44210,"message":"cap_growth_sign_repeat","req_id":"xxxzzz-xxxxxxx","timestamp":17000000}
         resp = HTTP.post(
           url2,
           JSON.stringify(data),
           { headers: headers }
         );
+        // console.log(resp.json())
 
-        // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20000000},"metadata":{}}
-        
+
         // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"member_type":"NORMAL","use_capacity":120000000,"cap_growth":{"lost_total_cap":0,"cur_total_cap":11000000,"cur_total_sign_day":46},"88VIP":false,"member_status":{"Z_VIP":"UNPAID","VIP":"UNPAID","SUPER_VIP":"UNPAID","MINI_VIP":"UNPAID"},"cap_sign":{"sign_daily":true,"sign_target":7,"sign_daily_reward":2000000,"sign_progress":4,"sign_rewards":[{"name":"+20MB","reward_cap":2000000},{"name":"+40MB","highlight":"翻倍","reward_cap":4000000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":200000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":2000000},{"name":"+100MB","highlight":"翻五倍","reward_cap":10000000}]},"cap_composition":{"other":21000000,"member_own":100000000,"sign_reward":10000000},"total_capacity":1400000000},"metadata":{}}
         if (resp.status == 200) {
           resp = resp.json();
           console.log(resp)
+          // resp = {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20971520},"metadata":{}}
           // 41943040 -> 40MB
           reward = resp["data"]["sign_daily_reward"] / (1024 * 1024)
+          console.log(reward)
 
           // messageSuccess += "帐号：" + messageName + "签到成功，奖励"  + String(reward) + "MB";
           // content = "帐号：" + messageName + "签到成功,奖励"  + String(reward) + "MB" + ",总签到" + cur_total_sign_day + "天 " + ",当周已签" + sign_progress + "天 ";
@@ -385,9 +390,9 @@ function execHandle(cookie, pos) {
       messageFail += "帐号：" + messageName + "签到失败 ";
       console.log("帐号：" + messageName + "签到失败 ");
     }
-  } catch {
-    messageFail += messageName + "失败";
-  }
+  // } catch {
+  //   messageFail += messageName + "失败";
+  // }
 
   sleep(2000);
   if (messageOnlyError == 1) {
@@ -395,5 +400,15 @@ function execHandle(cookie, pos) {
   } else {
     message += messageFail + " " + messageSuccess;
   }
+
+  // messageTemp = ""
+  // if (messageOnlyError == 1) {
+  //   messageTemp += messageFail;
+  // } else {
+  //   messageTemp += messageFail + " " + messageSuccess;
+  // }
+
+  // message = "帐号：" + messageName + messageTemp + message  // 附加账号信息
+
   console.log(message);
 }
