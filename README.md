@@ -357,7 +357,9 @@ function execHandle(cookie, pos) {
 <!-- <a href="https://github.com/wd210010/just_for_happy">wd210010</a>、 -->
 <a href="https://github.com/KD-happy/KDCheckin">KD-happy</a>、
 <a href="https://github.com/wd210010/only_for_happly">wd210010</a>、
-<a href="https://github.com/Sitoi/dailycheckin">dailycheckin</a></br>
+<a href="https://github.com/Sitoi/dailycheckin">dailycheckin</a>、
+<a href="https://github.com/BeaCox/pediy-CheckIn">BeaCox</a>
+</br>
 
 ## README模板来源于
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin仓库</a>
