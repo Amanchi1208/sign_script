@@ -377,7 +377,7 @@ function lotto_lottery(P00001){
     content = ""
     if(gift_name == "[object Object]")
     {
-      content = "第" + i + "次" +msg + " "
+      content = "第" + (i+1) + "次" +msg + " "
     }else
     {
       content = "第" + i + "次" +gift_namemsg + " "
