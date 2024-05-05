@@ -380,7 +380,7 @@ function lotto_lottery(P00001){
       content = "第" + (i+1) + "次" +msg + " "
     }else
     {
-      content = "第" + i + "次" +gift_namemsg + " "
+      content = "第" + i + "次" +gift_name + " "
     }
     // console.log(gift_name)
     messageSuccess += content
