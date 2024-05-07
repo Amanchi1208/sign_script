@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240505
+// 20240507
 
 // 当前分配置表：
 // 可用脚本：
@@ -9,7 +9,7 @@
 // 北京时间、AcFun、喜马拉雅
 // ios游戏迷、希沃白板、小木虫、夸克网盘
 // 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
-// 看雪论坛、哔哩哔哩
+// 看雪论坛、哔哩哔哩、vivo社区
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版)、wps(客户端版)
@@ -30,7 +30,7 @@ var subConfigWorkbook=[
   'xifushe', 'ddmc', 'everphoto', 'btime','acfun',
   'xmly', 'tonghua', 'en', 'xmc','quark',
   'huluxia', 'iqiyi', 'huaxiaozhu','ztebbs','mi',
-  'kanxue', 'bilibili',
+  'kanxue', 'bilibili', 'vivo',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -72,6 +72,9 @@ var configContent=[
   ['huaxiaozhu','花小猪','否','否'],
   ['ztebbs','中兴社区','否','否'],
   ['mi','小米商城','否','否'],
+  ['kanxue','看雪论坛','否','否'],
+  ['bilibili','哔哩哔哩','否','否'],
+  ['vivo','vivo社区','否','否'],
 ]
 
 // PUSH表内容 		
