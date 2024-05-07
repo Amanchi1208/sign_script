@@ -1,5 +1,6 @@
 // 中国移动云盘签到
 // 20240507
+// 文中引用代码改编自公众号"Jerry不是猫"
 
 let sheetNameSubConfig = "caiyun"; // 分配置表名称
 let pushHeader = "【中国移动云盘】";
@@ -338,7 +339,6 @@ function getsign(data) {
   return sign;
 }
 
-// 此处引用代码改编自"Jerry不是猫"
 // 引用开始
 function randomHex(length, pad = "-") {
         return Array.isArray(length) ? length.map((l)=>randomHex(l, pad)).join(pad) : Array.from({
