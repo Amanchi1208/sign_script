@@ -77,6 +77,7 @@
 | 🟢️ | 签到 | WEB | 看雪论坛 | https://bbs.kanxue.com/ | kanxue.js | 2024-05-07 | 是 | 是 | 签到,得雪币 |
 | 🟢️ | 签到 | WEB | 哔哩哔哩 | https://www.bilibili.com/ | bilibili.js | 2024-05-07 | 是 | 是 | 直播签到,得经验、辣条和银瓜子 |
 | 🟢️ | 多功能 | APP | vivo社区 | https://bbs.vivo.com.cn/newbbs/ | vivo.js | 2024-05-07 | 是 | 是 | 签到得积分,抽奖 |
+| 🟢️ | 多功能 | WEB | 中国移动云盘 | https://yun.139.com/ | caiyun.js | 2024-05-07 | 是 | 是 | 签到得彩云,做任务 |
 
 ## 支持的通知列表
 
@@ -274,6 +275,7 @@ function execHandle(cookie, pos) {
 ## 更新日志 
 - 2024-05-07
     * 增添【vivo社区】脚本
+    * 增添【中国移动云盘】脚本
 - 2024-05-05
     * 修复【夸克网盘】实际签到成功，文字却显示失败的问题
     * 增加【爱奇艺】白金抽奖功能
@@ -363,7 +365,8 @@ function execHandle(cookie, pos) {
 <a href="https://github.com/KD-happy/KDCheckin">KD-happy</a>、
 <a href="https://github.com/wd210010/only_for_happly">wd210010</a>、
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin</a>、
-<a href="https://github.com/BeaCox/pediy-CheckIn">BeaCox</a>
+<a href="https://github.com/BeaCox/pediy-CheckIn">BeaCox</a>、
+<a href="">@Jerry不是猫</a>
 </br>
 
 ## README模板来源于
