@@ -367,7 +367,9 @@ function execHandle(cookie, pos) {
 <a href="https://github.com/wd210010/only_for_happly">wd210010</a>、
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin</a>、
 <a href="https://github.com/BeaCox/pediy-CheckIn">BeaCox</a>、
-<a href="">@Jerry不是猫</a>
+<a href="">@Jerry不是猫</a>、
+<a href="https://www.52pojie.cn/thread-1869673-43-1.html">@凌帝。</a>
+
 </br>
 
 ## README模板来源于
