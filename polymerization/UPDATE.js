@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240507
+// 20240508
 
 // 当前分配置表：
 // 可用脚本：
@@ -9,10 +9,10 @@
 // 北京时间、AcFun、喜马拉雅
 // ios游戏迷、希沃白板、小木虫、夸克网盘
 // 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
-// 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
+// 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘、wps(打卡版)
 
 // 失效脚本：
-// 吾爱破解、 wps(轻量版)、wps(客户端版)
+// 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
 // 时光相册、像素蛋糕、甜润世界、囍福社
 // 叮咚买菜-叮咚果园
 
@@ -30,7 +30,7 @@ var subConfigWorkbook=[
   'xifushe', 'ddmc', 'everphoto', 'btime','acfun',
   'xmly', 'tonghua', 'en', 'xmc','quark',
   'huluxia', 'iqiyi', 'huaxiaozhu','ztebbs','mi',
-  'kanxue', 'bilibili', 'vivo', 'caiyun',
+  'kanxue', 'bilibili', 'vivo', 'caiyun', 'jxmir'
 ];
 var workbook = [] // 存储已存在表数组
 
