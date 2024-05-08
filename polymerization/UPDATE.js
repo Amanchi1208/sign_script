@@ -9,7 +9,8 @@
 // 北京时间、AcFun、喜马拉雅
 // ios游戏迷、希沃白板、小木虫、夸克网盘
 // 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
-// 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘、wps(打卡版)
+// 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
+// wps(打卡版)、golo汽修之家、天翼云盘
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
@@ -30,7 +31,8 @@ var subConfigWorkbook=[
   'xifushe', 'ddmc', 'everphoto', 'btime','acfun',
   'xmly', 'tonghua', 'en', 'xmc','quark',
   'huluxia', 'iqiyi', 'huaxiaozhu','ztebbs','mi',
-  'kanxue', 'bilibili', 'vivo', 'caiyun', 'jxmir'
+  'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
+  'tianyi',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -76,6 +78,9 @@ var configContent=[
   ['bilibili','哔哩哔哩','否','否'],
   ['vivo','vivo社区','否','否'],
   ['caiyun','中国移动云盘','否','否'],
+  ['wps_daka','wps(打卡版）','否','否'],
+  ['golo','golo汽修大师','否','否'],
+  ['tianyi','天翼云盘','否','否'],
 ]
 
 // PUSH表内容 		
@@ -158,6 +163,20 @@ var subConfigMi = [
   ['xxxxxxxx2', '否', '昵称2', '100']
 ]
 
+// 定制化分配置表内容，golo汽修大师
+var subConfigGolo = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','username', 'password'],
+  ['xxxxxxxx1', '是', '昵称1', '此格填用户名', '此格填密码'],
+  ['xxxxxxxx2', '否', '昵称2', '此格填用户名', '此格填密码']
+]
+
+// 定制化分配置表内容，天翼云盘
+var subConfigTianyi = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','手机号(加密后的)', '密码(加密后的)'],
+  ['xxxxxxxx1', '是', '昵称1', '此格填加密后的手机号', '此格填加密后的密码'],
+  ['xxxxxxxx2', '否', '昵称2', '此格填加密后的手机号', '此格填加密后的密码']
+]
+
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
@@ -212,6 +231,13 @@ editConfigSheet(subConfigHuaxiaozhu)
 
 // ActivateSheet(subConfigWorkbook[24]) // 激活小米商城分配置表
 // editConfigSheet(subConfigMi)  
+
+ActivateSheet(subConfigWorkbook[29]) // 激活golo汽修大师分配置表
+editConfigSheet(subConfigGolo)  
+
+ActivateSheet(subConfigWorkbook[30]) // 激活天翼云盘分配置表
+editConfigSheet(subConfigTianyi) 
+
 
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
