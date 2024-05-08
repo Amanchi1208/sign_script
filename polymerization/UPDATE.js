@@ -10,7 +10,7 @@
 // ios游戏迷、希沃白板、小木虫、夸克网盘
 // 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
 // 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
-// wps(打卡版)、golo汽修之家、天翼云盘
+// wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
@@ -32,7 +32,7 @@ var subConfigWorkbook=[
   'xmly', 'tonghua', 'en', 'xmc','quark',
   'huluxia', 'iqiyi', 'huaxiaozhu','ztebbs','mi',
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
-  'tianyi',
+  'tianyi', 'aliyun', 
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -81,6 +81,7 @@ var configContent=[
   ['wps_daka','wps(打卡版）','否','否'],
   ['golo','golo汽修大师','否','否'],
   ['tianyi','天翼云盘','否','否'],
+  ['aliyun','阿里云盘(自动更新token版)','否','否'],
 ]
 
 // PUSH表内容 		
@@ -177,6 +178,12 @@ var subConfigTianyi = [
   ['xxxxxxxx2', '否', '昵称2', '此格填加密后的手机号', '此格填加密后的密码']
 ]
 
+// 定制化分配置表内容，阿里云盘(自动更新token)
+var subConfigAliyunToken = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','是否领取自动备份的奖励(是/否)','token登陆时间','签到结果'],
+  ['xxxxxxxx1', '是', '昵称1', '否', '无', '无'],
+  ['xxxxxxxx2', '否', '昵称2', '否', '无', '无']
+]
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
@@ -237,6 +244,9 @@ editConfigSheet(subConfigGolo)
 
 ActivateSheet(subConfigWorkbook[30]) // 激活天翼云盘分配置表
 editConfigSheet(subConfigTianyi) 
+
+ActivateSheet(subConfigWorkbook[31]) // 激活阿里云盘(自动更新token)分配置表
+editConfigSheet(subConfigAliyunToken) 
 
 
 
