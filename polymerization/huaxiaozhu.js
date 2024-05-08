@@ -1,5 +1,5 @@
 // 花小猪自动做任务和抽奖
-// 20240503
+// 20240506
 
 let sheetNameSubConfig = "huaxiaozhu"; // 分配置表名称
 let pushHeader = "【花小猪】";
@@ -408,6 +408,9 @@ function lottery(url, headers, data){
 // 做任务
 function doTask(url, headers, data, event_key_name){
   // {"errno":810001,"errmsg":"param error","data":{"token":["validation.required"],"event_key":["validation.required"]}}
+  // {"errno":0,"errmsg":"success","data":{"nacc_resp":{"errno":0,"errmsg":"success","data":true},"node_resp":{"errno":0,"errmsg":"success","data":{"200000_0_00000_000000_0":{"canvas_id":0000,"group_id":0000,"canvas_turn_id":4,"node_id":0000,"node_turn_id":1,"user_id":00000,"pid":0,"start_time":"2024-05-05 09:49:36","finish_time":"2024-05-05 11:00:08","expire_time":"2024-05-05 23:59:59","fail_time":"","status":"finish","reward_list":[{"type":"send_ticket","amount":1,"params":{"agent_key":"task_agent","button_text":"去浏览","event_key":"browse_huahua_member_page","finish_button_text":"已完成",...
+  
+
   // console.log(data)
   messageSuccess = ""
   messageFail = ""
@@ -443,6 +446,91 @@ function doTask(url, headers, data, event_key_name){
   msg = [messageSuccess, messageFail]
   return msg
 }
+
+// 获取game_id
+function getGameId(url, headers, data){
+  // console.log(data)
+  // messageSuccess = ""
+  // messageFail = ""
+  game_id = ""
+  resp = HTTP.post(
+    url,
+    JSON.stringify(data),
+    { headers: headers }
+  );
+  
+  if (resp.status == 200) {
+    resp = resp.json();
+    console.log(resp)
+    errno = resp["errno"]
+    
+    if(errno == 0)
+    {
+      content = "获取game_id完成 "
+      // messageSuccess += content;
+      console.log(content)
+      
+      xak = ""
+      // data
+      // conf
+      // ext
+      // content_conf
+      // project_data
+      // businessData
+      // xakModules
+      kf_prob_lottery_arry  = resp["data"]["conf"]["ext"]["content_conf"]["project_data"]["businessData"]["xakModules"]
+      // console.log(kf_prob_lottery_arry)
+      for(i = 0; i<kf_prob_lottery_arry.length;i++)
+      {
+        // {
+        //   "xak": "kf-prob-lottery-xxxx",
+        //   "layerId": "",
+        //   "prodKey": "kf-prob-lottery"
+        // },
+        prodKey = ""
+        // console.log(kf_prob_lottery_arry[i])
+        // kf = JSON.parse(kf_prob_lottery_arry[i]);
+        prodKey = kf_prob_lottery_arry[i]["prodKey"]
+        // console.log(prodKey)
+        if(prodKey == "kf-prob-lottery")
+        {
+          xak = kf_prob_lottery_arry[i]["xak"]
+          console.log(xak)
+        }
+      }
+
+      // 路径
+      // data
+      // conf
+      // strategy_data
+      // data
+      // xaks
+      // kf-prob-lottery-xxxx
+      // details
+      // game_info
+      // game_id
+      // console.log(xak)
+      game_id = resp["data"]["conf"]["strategy_data"]["data"]["xaks"][xak]["details"][0]["game_info"]["game_id"]
+      console.log(game_id)
+
+    }else
+    {
+      content = "获取game_id完成 "
+      // messageFail += content;
+      console.log(content);
+    }
+  } else {
+    content = "做任务：" + event_key_name + "失败 "
+    messageFail += content;
+    console.log(content);
+  }
+
+  // console.log(messageSuccess)
+  // msg = [messageSuccess, messageFail]
+  // return msg
+  return game_id
+}
+
 // 具体的执行函数
 function execHandle(cookie, pos) {
   let messageSuccess = "";
@@ -457,12 +545,34 @@ function execHandle(cookie, pos) {
   // try {
     var url1 = "https://dop.hongyibo.com.cn/popeapi/rosenbridge/lottery/realtime_lotto"; // 抽奖
     var url2 = "https://dop.hongyibo.com.cn/popeapi/rosenbridge/common/sync_event"; // 做任务
-    
+    var url3 = "https://api.huaxz.cn/webx/chapter/product/init"; // 获取game_id，抽奖要用
+    // dchn = "v6j2MG2"
+    dchn = "3eGxp8p"
+    // dchn = "a"
+
     // city_id = 666;  // 城市id
     city_id = Application.Range("D" + pos).Text;
     city_id = parseInt(city_id)
     // console.log(city_id)
     let number = 4; // 抽奖次数
+
+    // 获取game_id
+    game_id = ""
+    headers = {
+      "Host":"api.huaxz.cn",
+      "Content-Type": "application/json;charset=utf-8",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586"
+    };
+    data = {
+      "args":{
+        "runtime_args":{
+          "token":cookie,
+          "city_id":city_id
+        }
+      },
+      "dchn":dchn
+    }
+    game_id = getGameId(url3, headers, data)
 
     headers = {
       "Host":"dop.hongyibo.com.cn",
@@ -476,6 +586,7 @@ function execHandle(cookie, pos) {
     event_key = ["browse_huahua_member_page", "user_share_activity"]
     event_key_name = ["浏览页面","分享"]
 
+    event_key = []
     for(i=0; i<event_key.length; i++)
     {
       data = {
@@ -507,9 +618,10 @@ function execHandle(cookie, pos) {
       data = {
         "token":cookie,
         "city_id":city_id,
-        "game_id":254461
+        "game_id":game_id,
       }
-      messageSuccessTemp,messageFailTemp = lottery(url1, headers, data)
+      // messageSuccessTemp,messageFailTemp = lottery(url1, headers, data)
+      msg = lottery(url1, headers, data)
       messageSuccess += msg[0]
       messageFail += msg[1]
       sleep(2000);
