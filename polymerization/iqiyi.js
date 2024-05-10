@@ -1,5 +1,5 @@
-// 爱奇艺自动签到
-// 20240505
+// 爱奇艺自动签到、白金抽奖、做任务获取成长值
+// 20240510
 
 let sheetNameSubConfig = "iqiyi"; // 分配置表名称
 let pushHeader = "【爱奇艺】";
@@ -352,8 +352,102 @@ function give_times(P00001){
     }
 }
 
+// // 摇一摇抽奖
+// function lottery(P00001, award_list=[]){
+//   url = "https://act.vip.iqiyi.com/shake-api/lottery"
+//   params = {
+//       "P00001": p00001,
+//       "lotteryType": "0",
+//       "actCode": "0k9GkUcjqqj4tne8",
+//   }
+//   params = {
+//       "P00001": p00001,
+//       "deviceID": str(uuid4()),
+//       "version": "15.3.0",
+//       "platform": str(uuid4())[:16],
+//       "lotteryType": "0",
+//       "actCode": "0k9GkUcjqqj4tne8",
+//       "extendParams": json.dumps(
+//           {
+//               "appIds": "iqiyi_pt_vip_iphone_video_autorenew_12m_348yuan_v2",
+//               "supportSk2Identity": True,
+//               "testMode": "0",
+//               "iosSystemVersion": "17.4",
+//               "bundleId": "com.qiyi.iphone",
+//           }
+//       ),
+//   }
+  
+//   res = requests.get(url, params=params).json()
+//   msgs = []
+//   if res.get("code") == "A00000":
+//       award_info = res.get("data", {}).get("title")
+//       award_list.append(award_info)
+//       time.sleep(3)
+//       return self.lottery(p00001=p00001, award_list=award_list)
+//   elif res.get("msg") == "抽奖次数用完":
+//       if award_list:
+//           msgs = [{"name": "每天摇一摇", "value": "、".join(award_list)}]
+//       else:
+//           msgs = [{"name": "每天摇一摇", "value": res.get("msg")}]
+//   else:
+//       msgs = [{"name": "每天摇一摇", "value": res.get("msg")}]
+//   return msgs
+// }
 
-// 抽奖
+// function draw(draw_type, p00001, p00003):
+//         """
+//         查询抽奖次数(必),抽奖
+//         :param draw_type: 类型。0 查询次数；1 抽奖
+//         :param p00001: 关键参数
+//         :param p00003: 关键参数
+//         :return: {status, msg, chance}
+//         """
+//         url = "https://iface2.iqiyi.com/aggregate/3.0/lottery_activity"
+//         params = {
+//             "lottery_chance": 1,
+//             "app_k": "b398b8ccbaeacca840073a7ee9b7e7e6",
+//             "app_v": "11.6.5",
+//             "platform_id": 10,
+//             "dev_os": "8.0.0",
+//             "dev_ua": "FRD-AL10",
+//             "net_sts": 1,
+//             "qyid": "2655b332a116d2247fac3dd66a5285011102",
+//             "psp_uid": p00003,
+//             "psp_cki": p00001,
+//             "psp_status": 3,
+//             "secure_v": 1,
+//             "secure_p": "GPhone",
+//             "req_sn": round(time.time() * 1000),
+//         }
+//         if draw_type == 1:
+//             del params["lottery_chance"]
+//         res = requests.get(url=url, params=params).json()
+//         if not res.get("code"):
+//             chance = int(res.get("daysurpluschance"))
+//             msg = res.get("awardName")
+//             return {"status": True, "msg": msg, "chance": chance}
+//         else:
+//             try:
+//                 msg = res.get("kv", {}).get("msg")
+//             except Exception as e:
+//                 print(e)
+//                 msg = res["errorReason"]
+//         return {"status": False, "msg": msg, "chance": 0}
+
+  // chance = self.draw(draw_type=0, p00001=p00001, p00003=p00003)["chance"]
+  // lottery_msgs = self.lottery(p00001=p00001, award_list=[])
+  // if chance:
+  //     draw_msg = ""
+  //     for _ in range(chance):
+  //         ret = self.draw(draw_type=1, p00001=p00001, p00003=p00003)
+  //         draw_msg += ret["msg"] + ";" if ret["status"] else ""
+  // else:
+  //     draw_msg = "抽奖机会不足"
+
+
+
+// 白金抽奖
 function lotto_lottery(P00001){
   // {"code":"Q00397","msg":"次数类型不存在","data":{}}
   // {"code":"A00000","msg":"成功","data":{"giftName":"未中奖","orderCode":"20240505000000000","giftType":29,"giftId":17000,"times":3,"giftLevel":5,"giftCode":"G_9aaaaaaaaaa","ticket":{},"sendType":1,"fillPhone":0,"imageUrl":{},"giftExtendConfig":{},"giftInfos":{}}}
@@ -392,9 +486,10 @@ function lotto_lottery(P00001){
   return msg
 }
 
-// 未完成
+// 获取 VIP 日常任务 和 taskCode(任务状态)
 function query_user_task(P00001){
     // 获取 VIP 日常任务 和 taskCode(任务状态)
+    tasklist = []
     url = "https://tc.vip.iqiyi.com/taskCenter/task/queryUserTask"
     // params = {"P00001": P00001}
     params = "?P00001=" + P00001
@@ -404,20 +499,154 @@ function query_user_task(P00001){
       method: "post",
     });
     res = res.json()
-    console.log(res)
+    // console.log(res)
+    // Application.Range("A8").Value = res.text()
     if(res["code"] == "A00000"){
-        for(item in res["data"].get("tasks", {}).get("daily", [])){
-            task_list.append(
-                {
-                    "taskTitle": item["taskTitle"],
-                    "taskCode": item["taskCode"],
-                    "status": item["status"],
-                    "taskReward": item["taskReward"]["task_reward_growth"],
+        // 判断是否是vip
+        flagvip = res["data"]["userInfo"]["vip"]
+        if(flagvip == true) // 是vip
+        {
+            for(i in res["data"]["tasks"]["daily"]){
+              item = res["data"]["tasks"]["daily"][i]
+              // console.log(item["taskTitle"])
+              task_list[i] = {
+                "taskTitle" : item["taskTitle"],
+                "taskCode" : item["taskCode"],
+                "status" : item["status"],
+                "taskReward" : item["taskReward"]["task_reward_growth"],
                 }
-            )
+              
+            }
+          console.log(task_list)
         }
     }
     return task_list
+}
+
+// 完成任务
+function join_task(P00001, task_list){
+    // 遍历完成任务
+    url = "https://tc.vip.iqiyi.com/taskCenter/task/joinTask"
+    // params = {
+    //     "P00001": P00001,
+    //     "taskCode": "",
+    //     "platform": "bb136ff4276771f3",
+    //     "lang": "zh_CN",
+    // }
+    params = "?P00001=" + P00001 + "&platform=bb136ff4276771f3&lang=zh_CN" 
+    // console.log(task_list)
+    for(i in task_list)
+    {
+      item = task_list[i]
+      // console.log(item)
+      // if(item["status"] == 2){
+        params= params + "&taskCode=" + item["taskCode"]
+        // console.log(params)
+        res = HTTP.fetch(url + params , {
+          method: "get",
+        });
+        // {"code":"A00000","msg":"成功"}
+        // {"code":"Q00401","msg":"任务无效"}
+        console.log(res.json())
+      // }
+    } 
+}
+
+function get_task_rewards(P00001, task_list){
+  // 获取任务奖励
+  messageSuccess = ""
+  messageFail = ""
+
+  url = "https://tc.vip.iqiyi.com/taskCenter/task/getTaskRewards"
+  // params = {
+  //     "P00001": P00001,
+  //     "taskCode": "",
+  //     "platform": "bb136ff4276771f3",
+  //     "lang": "zh_CN",
+  // }
+  params = "?P00001=" + P00001 + "&platform=bb136ff4276771f3&lang=zh_CN" 
+  growth_task = 0
+  for(i in task_list){
+    item = task_list[i]
+    if(item["status"] == 0){
+        // params["taskCode"] = item.get("taskCode")
+        params= params + "&taskCode=" + item["taskCode"]
+        res = HTTP.fetch(url + params , {
+          method: "get",
+        });
+    }else if(item["status"] == 4){
+        params["taskCode"] = item.get("taskCode")
+        // requests.get(
+        //     url="https://tc.vip.iqiyi.com/taskCenter/task/notify", params=params
+        // )
+        res = HTTP.fetch("https://tc.vip.iqiyi.com/taskCenter/task/notify" + params , {
+          method: "get",
+        });
+    }else if(item["status"] == 1){
+        taskTitle = item["taskTitle"]
+        growth_task += item["taskReward"]
+        content = taskTitle + "完成奖励" + growth_task + "成长值 "
+        messageSuccess += content
+    }
+  }
+
+  msg = [messageSuccess, messageFail]
+  return msg
+}
+
+// 签到
+function signin(url, headers, data){
+  messageSuccess = ""
+  messageFail = ""
+
+  resp = HTTP.post(
+    // url2 + params,
+    url,
+    JSON.stringify(data),
+    { headers: headers }
+  );
+
+  if (resp.status == 200) {
+    resp = resp.json();
+    console.log(resp)
+    code = resp["code"]
+    
+    if(code == "A00000")
+    {
+      respmsg = resp["data"]["msg"]
+      // console.log(msg)
+      if(respmsg == "[object Object]")
+      {
+        respmsg = ""
+      }
+      signDays = ""
+      try{
+          signDays = resp["data"]["data"]["signDays"] // 签到天数
+      }catch{
+          console.log("无法获取到签到天数")
+      }
+
+      if(signDays == undefined)
+      {
+        signDays = ""
+      }
+      content = "已签到" + signDays + " " + respmsg
+      messageSuccess += content;
+      console.log(content)
+    }else
+    {
+      content = "签到失败 "
+      messageFail += content;
+      console.log(content);
+    }
+  } else {
+    content = "签到失败 "
+    messageFail += content;
+    console.log(content);
+  }
+
+  msg = [messageSuccess, messageFail]
+  return msg
 }
 
 
@@ -465,18 +694,15 @@ function execHandle(cookie, pos) {
     // console.log(digits);
 
 
-  // {'code': 'A00000', 'message': '成功执行.', 'validateResult': True, 'data': {'msg': '任务今日完成次数已经到达上限', 'duration': 0, 'code': 'A0014', 'data': None, 'success': False, 'timestamp': 1714400000000}, 'abtest': {}}
-  // {"code":"A00000","message":"成功执行.","validateResult":true,"data":{"msg":"qyid和iqid不能都为空","duration":0,"code":"A0005","data":{},"success":false,"timestamp":1714400000000},"abtest":{}}
-  // {"code":"A00101","message":"接口参数校验失败."}
+
     // 签到
+    // {'code': 'A00000', 'message': '成功执行.', 'validateResult': True, 'data': {'msg': '任务今日完成次数已经到达上限', 'duration': 0, 'code': 'A0014', 'data': None, 'success': False, 'timestamp': 1714400000000}, 'abtest': {}}
+    // {"code":"A00000","message":"成功执行.","validateResult":true,"data":{"msg":"qyid和iqid不能都为空","duration":0,"code":"A0005","data":{},"success":false,"timestamp":1714400000000},"abtest":{}}
+    // {"code":"A00101","message":"接口参数校验失败."}
     time_stamp = getts13()
     qyid = getUUIDDigits(16)
-    // console.log(qyid);
-    // console.log(time_stamp)
     data = "agentType=1|agentversion=1|appKey=basic_pcw|authCookie=" + P00001 + "|qyid=" + qyid + "|task_code=natural_month_sign|timestamp=" + time_stamp + "|typeCode=point|userId=" + P00003 + "|UKobMjDMsDoScuWOfp6F"
-    // console.log(data)
     sign = getsign(data) // 注意，需要小写sign
-    // console.log(sign)
     params = "?agentType=1&agentversion=1&appKey=basic_pcw&authCookie=" + P00001 + "&qyid=" + qyid + "&sign=" + sign + "&task_code=natural_month_sign&timestamp=" + time_stamp + "&typeCode=point&userId=" + P00003
     data = {
         "natural_month_sign": {
@@ -488,11 +714,14 @@ function execHandle(cookie, pos) {
             "verticalCode": "iQIYI",
         }
     }
-
     headers={
       "Cookie": "P00001=" + P00001, 
       "Content-Type": "application/json"
     }
+
+    msg = signin(url2+params, headers, data)
+    messageSuccess += msg[0]
+    messageFail += msg[1]
 
     // resp = HTTP.fetch(url2 + params , {
     //   method: "post",
@@ -500,60 +729,17 @@ function execHandle(cookie, pos) {
     //   data: data
     // });
 
-
-
-    resp = HTTP.post(
-      url2 + params,
-      JSON.stringify(data),
-      { headers: headers }
-    );
-
-    if (resp.status == 200) {
-      resp = resp.json();
-      console.log(resp)
-      code = resp["code"]
-      
-      if(code == "A00000")
-      {
-        msg = resp["data"]["msg"]
-        // msg = {}
-        // console.log(msg)
-        if(msg == "[object Object]")
-        {
-          msg = ""
-        }
-        // console.log(msg)
-        signDays = ""
-        try{
-            signDays = resp["data"]["data"]["signDays"] // 签到天数
-        }catch{
-            console.log("无法获取到签到天数")
-        }
-
-        if(signDays == undefined)
-        {
-          signDays = ""
-        }
-        content = "已签到" + signDays + " " + msg
-        messageSuccess += content;
-        console.log(content)
-      }else
-      {
-        content = "签到失败 "
-        messageFail += content;
-        console.log(content);
-      }
-    } else {
-      content = "签到失败 "
-      messageFail += content;
-      console.log(content);
-    }
-
     // 抽奖
     msg = lotto_lottery(P00001)
     messageSuccess += msg[0]
     messageFail += msg[1]
 
+    // 做任务,VIP才会做任务
+    task_list = query_user_task(P00001)
+    join_task(P00001, task_list)
+    msg = get_task_rewards(P00001, task_list)
+    messageSuccess += msg[0]
+    messageFail += msg[1]
     
   // } catch {
   //   messageFail += messageName + "失败";
