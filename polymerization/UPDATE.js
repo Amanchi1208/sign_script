@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240508
+// 20240510
 
 // 当前分配置表：
 // 可用脚本：
@@ -11,6 +11,8 @@
 // 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
 // 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
 // wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
+// 宽带技术网
+// 紫云网络
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
@@ -32,7 +34,7 @@ var subConfigWorkbook=[
   'xmly', 'tonghua', 'en', 'xmc','quark',
   'huluxia', 'iqiyi', 'huaxiaozhu','ztebbs','mi',
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
-  'tianyi', 'aliyun', 
+  'tianyi', 'aliyun', 'chinadsl',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -82,6 +84,8 @@ var configContent=[
   ['golo','golo汽修大师','否','否'],
   ['tianyi','天翼云盘','否','否'],
   ['aliyun','阿里云盘(自动更新token版)','否','否'],
+  // ['zywl','紫云网络','否','否'],
+  ['chinadsl','宽带技术网','否','否'],
 ]
 
 // PUSH表内容 		
@@ -184,6 +188,15 @@ var subConfigAliyunToken = [
   ['xxxxxxxx1', '是', '昵称1', '否', '无', '无'],
   ['xxxxxxxx2', '否', '昵称2', '否', '无', '无']
 ]
+
+// 定制化分配置表内容，紫云网络
+var subConfigZywl = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)',"紫雨点", "积分", "成长值", "彩虹糖"],
+  ['xxxxxxxx1', '是', '昵称1', '无', '无', '无', '无'],
+  ['xxxxxxxx2', '否', '昵称2', '无', '无', '无', '无']
+]
+
+
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
@@ -247,6 +260,9 @@ editConfigSheet(subConfigTianyi)
 
 ActivateSheet(subConfigWorkbook[31]) // 激活阿里云盘(自动更新token)分配置表
 editConfigSheet(subConfigAliyunToken) 
+
+// ActivateSheet(subConfigWorkbook[32]) // 激活紫云网络分配置表
+// editConfigSheet(subConfigZywl) 
 
 
 
