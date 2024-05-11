@@ -64,7 +64,6 @@
 | 🟢️ | 签到 | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-04-30 | 签到得空间 |
 | 🟢️ | 签到 | APP | 葫芦侠3楼 | 葫芦侠3楼 | huluxia.js | 2024-05-11 | 板块签到 |
 | 🟢️ | 多功能 | WEB | 爱奇艺 | https://www.iqiyi.com | iqiyi.js | 2024-05-11 | 签到，白金抽奖,做任务得成长值 |
-| 🟡 | 签到 | APP | 花小猪打车 | 花小猪 | huaxiaozhu.js | 2024-05-03 | 做任务，抽奖得花花币或优惠券 |
 | 🟢️ | 签到 | WEB | 中兴社区 | https://bbs.ztedevices.com/ | ztebbs.js | 2024-05-11 | 签到,得经验和流星 |
 | 🟢️ | 签到 | APP | 小米商城 | 小米商城 | mi.js | 2024-05-11 | 签到,得米金 |
 | 🟢️ | 签到 | WEB | 看雪论坛 | https://bbs.kanxue.com/ | kanxue.js | 2024-05-11 | 签到,得雪币 |
