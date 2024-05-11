@@ -58,7 +58,7 @@
 | 🟡 | 签到 | APP | 北京时间 | 北京时间 | btime.js | 2023-08-26 | 签到、领时间币 |
 | 🟢️ | 签到 | APP | AcFun | AcFun | acfun.js | 2024-05-08 | 签到得香蕉 |
 | 🟢️ | 签到 | APP | 喜马拉雅 | 喜马拉雅 | xmly.js | 2024-05-11 | 签到 |
-| 🟡 | 签到 | WEB | ios游戏迷 | https://yuchen.tonghuaios.com/ | xmly.js | 2023-12-26 | 签到得积分 |
+| 🟡 | 签到 | WEB | ios游戏迷 | https://yuchen.tonghuaios.com/ | tonghua.js | 2023-12-26 | 签到得积分 |
 | 🟢️ | 签到 | APP | 希沃白板 | 希沃白板 | easinote.js | 2024-05-11 | 签到得空间 |
 | 🟢️ | 签到 | APP | 小木虫 | 小木虫 | xmc.js | 2024-05-03 | 签到得金币 |
 | 🟢️ | 签到 | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-04-30 | 签到得空间 |
