@@ -75,6 +75,7 @@
 | 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-05-11 | 签到，领取奖励，领取备份奖励 |
 | 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-05-11 | 签到得积分、做任务、领取猫粮 |
 | 🟢️ | 签到 | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-05-11 | 签到得积分,自动更新token |
+| 🟢️ | 签到 | APP | 海信爱家  | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
 
 ## 支持的通知列表
 
@@ -272,6 +273,7 @@ function execHandle(cookie, pos) {
 ## 更新日志 
 - 2024-05-11
     * 增添【golo汽修大师】脚本
+    * 增添【海信爱家】脚本
 - 2024-05-10
     * 增加【爱奇艺】做任务得成长值功能
     * 增添【宽带技术网】脚本
