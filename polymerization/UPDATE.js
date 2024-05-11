@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240510
+// 20240511
 
 // 当前分配置表：
 // 可用脚本：
@@ -11,17 +11,16 @@
 // 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
 // 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
 // wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
-// 宽带技术网
-// 紫云网络
+// 宽带技术网、海信爱家
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
 // 时光相册、像素蛋糕、甜润世界、囍福社
 // 叮咚买菜-叮咚果园
 
-
 // 定制化分配置表:
 // 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间、WPS
+// golo汽修之家、天翼云盘、阿里云盘（自动更新token版）、海信爱家
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -34,7 +33,7 @@ var subConfigWorkbook=[
   'xmly', 'tonghua', 'en', 'xmc','quark',
   'huluxia', 'iqiyi', 'huaxiaozhu','ztebbs','mi',
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
-  'tianyi', 'aliyun', 'chinadsl',
+  'tianyi', 'aliyun', 'chinadsl', 'hxaj',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -86,6 +85,7 @@ var configContent=[
   ['aliyun','阿里云盘(自动更新token版)','否','否'],
   // ['zywl','紫云网络','否','否'],
   ['chinadsl','宽带技术网','否','否'],
+  ['hxaj','海信爱家','否','否'],
 ]
 
 // PUSH表内容 		
@@ -196,6 +196,12 @@ var subConfigZywl = [
   ['xxxxxxxx2', '否', '昵称2', '无', '无', '无', '无']
 ]
 
+// 定制化分配置表内容，海信爱家
+var subConfigHxaj = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)',"用户名", "密码", "webSign(必填)", "timeStamp(必填)"],
+  ['xxxxxxxx1', '是', '昵称1', 'xxx', 'xxx', 'xxx', 'xxx'],
+  ['xxxxxxxx2', '否', '昵称2', 'xxx', 'xxx', 'xxx', 'xxx']
+]
 
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
@@ -264,7 +270,8 @@ editConfigSheet(subConfigAliyunToken)
 // ActivateSheet(subConfigWorkbook[32]) // 激活紫云网络分配置表
 // editConfigSheet(subConfigZywl) 
 
-
+ActivateSheet(subConfigWorkbook[33]) // 激活海信爱家分配置表
+editConfigSheet(subConfigHxaj) 
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
 function determineRowCol(){
