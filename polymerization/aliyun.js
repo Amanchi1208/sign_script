@@ -1,5 +1,5 @@
 // 阿里云盘(自动更新token版)
-// 20240508
+// 20240512
 // 文中引用代码改编自https://www.52pojie.cn/thread-1869673-43-1.html
 
 let sheetNameSubConfig = "aliyun"; // 分配置表名称
@@ -11,9 +11,12 @@ let flagSubConfig = 0; // 激活分配置工作表标志
 let flagConfig = 0; // 激活主配置工作表标志
 let flagPush = 0; // 激活推送工作表标志
 let line = 21; // 指定读取从第2行到第line行的内容
+var messageArray = [];  // 待发送的消息数据，每个元素都是某个账号的消息。目的是将不同用户消息分离，方便个性化消息配置
 var message = ""; // 待发送的消息
 var messageOnlyError = 0; // 0为只推送失败消息，1则为推送成功消息。
-var messageNickname = 0; // 1为用昵称替代单元格，0为不替代
+var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称为空时）），0为不推送位置标识
+var messageHeader = []; // 存放每个消息的头部，如：【xxxx】帐号：单元格A3。目的是分离附加消息和执行结果消息
+
 pushData = []
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -101,13 +104,29 @@ if (flagSubConfig == 1) {
     }
   }
 
+  message = messageMerge()// 将消息数组融合为一条总消息
   push(message); // 推送消息
+}
+
+// 将消息数组融合为一条总消息
+function messageMerge(){
+  for(i=0; i<messageArray.length; i++){
+    if(messageArray[i] != "" && messageArray[i] != null)
+    {
+      message += messageHeader[i] + messageArray[i] + " "; // 加上推送头
+    }
+  }
+  if(message != "")
+  {
+    console.log(message)  // 打印总消息
+  }
+  return message
 }
 
 // 总推送
 function push(message) {
   if (message != "") {
-    message = pushHeader + message; // 加上推送头
+    message = pushHeader + message // 消息头最前方默认存放：【xxxx】
     let length = jsonPush.length;
     let name;
     let key;
@@ -441,9 +460,10 @@ function doTask(row){
                         messageSuccess += content
                         console.log(content)
                     } catch (error) {
-                        content = "单元格【" + tokenColumn + row + "】签到出错,请检查API接口"
+                        console.log("单元格【" + tokenColumn + row + "】签到出错,请检查API接口")
+                        content = "签到出错,请检查API接口 "
                         messageFail += content
-                        console.log(content)
+                        // console.log(content)
                         // continue; // 跳过当前行的后续操作()
                     }
                     Time.sleep(3000)
@@ -466,9 +486,10 @@ function doTask(row){
                     } catch (error) {
                         // console.log("单元格【" + tokenColumn + row + "】领奖出错，请手动确认");
                         // continue; // 跳过当前行的后续操作()
-                        content = "单元格【" + tokenColumn + row + "】领奖出错，请手动确认"
+                        console.log("单元格【" + tokenColumn + row + "】领奖出错，请手动确认")
+                        content = "领奖出错，请手动确认 "
                         messageFail += content
-                        console.log(content)
+                        // console.log(content)
                     }
                     if (backups === true) {
                         // try {
@@ -595,16 +616,29 @@ function doTask(row){
 function execHandle(cookie, pos) {
   let messageSuccess = "";
   let messageFail = "";
-  let messageName = "";
+  let messageName = ""; // 存放推送位置标识，如昵称或单元格（昵称为空时）
 
+  // // 推送昵称还是单元格
+  // if (messageNickname == 1) {
+  //   messageName = Application.Range("C" + pos).Text;
+  // } else {
+  //   messageName = "单元格A" + pos + "";
+  // }
+
+  // 推送昵称或单元格，还是不推送位置标识
   if (messageNickname == 1) {
+    // 推送昵称或单元格
     messageName = Application.Range("C" + pos).Text;
-  } else {
-    messageName = "单元格A" + pos + "";
+    if(messageName == "")
+    {
+      messageName = "单元格A" + pos + "";
+    }
   }
+
+  posLabel = pos-2 ;  // 存放下标，从0开始
+  messageHeader[posLabel] = messageName
   // try {
     
- 
     // console.log(msg)
     msg = doTask(pos)
     messageSuccess += msg[0]
@@ -629,14 +663,22 @@ function execHandle(cookie, pos) {
 
   // console.log(messageSuccess)
   sleep(2000);
+  // if (messageOnlyError == 1) {
+  //   message += messageFail;
+  // } else {
+  //   message += messageFail + " " + messageSuccess;
+  // }
+
   if (messageOnlyError == 1) {
-    message += messageFail;
+    messageArray[posLabel] = messageFail;
   } else {
-    message += messageFail + " " + messageSuccess;
+    messageArray[posLabel] = messageFail + " " + messageSuccess;
   }
 
-  message = "帐号：" + messageName + message  // 附加账号信息
-
-  console.log(message);
+  // message = "帐号：" + messageName + message  // 附加账号信息
+  if(messageArray[posLabel] != "")
+  {
+    console.log(messageArray[posLabel]);
+  }
 }
 
