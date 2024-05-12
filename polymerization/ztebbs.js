@@ -1,5 +1,5 @@
 // 中兴社区自动签到
-// 20240503
+// 20240512
 
 let sheetNameSubConfig = "ztebbs"; // 分配置表名称
 let pushHeader = "【中兴社区】";
@@ -11,8 +11,12 @@ let flagConfig = 0; // 激活主配置工作表标志
 let flagPush = 0; // 激活推送工作表标志
 let line = 21; // 指定读取从第2行到第line行的内容
 var message = ""; // 待发送的消息
+var messageArray = [];  // 待发送的消息数据，每个元素都是某个账号的消息。目的是将不同用户消息分离，方便个性化消息配置
 var messageOnlyError = 0; // 0为只推送失败消息，1则为推送成功消息。
-var messageNickname = 0; // 1为用昵称替代单元格，0为不替代
+var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称为空时）），0为不推送位置标识
+var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
+var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
+
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
   { name: "pushplus", key: "xxxxxx", flag: "0" },
@@ -99,13 +103,29 @@ if (flagSubConfig == 1) {
     }
   }
 
+  message = messageMerge()// 将消息数组融合为一条总消息
   push(message); // 推送消息
+}
+
+// 将消息数组融合为一条总消息
+function messageMerge(){
+  for(i=0; i<messageArray.length; i++){
+    if(messageArray[i] != "" && messageArray[i] != null)
+    {
+      message += messageHeader[i] + messageArray[i] + " "; // 加上推送头
+    }
+  }
+  if(message != "")
+  {
+    console.log(message)  // 打印总消息
+  }
+  return message
 }
 
 // 总推送
 function push(message) {
   if (message != "") {
-    message = pushHeader + message; // 加上推送头
+    message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
     let length = jsonPush.length;
     let name;
     let key;
@@ -343,11 +363,18 @@ function execHandle(cookie, pos) {
   let messageSuccess = "";
   let messageFail = "";
   let messageName = "";
+  // 推送昵称或单元格，还是不推送位置标识
   if (messageNickname == 1) {
+    // 推送昵称或单元格
     messageName = Application.Range("C" + pos).Text;
-  } else {
-    messageName = "单元格A" + pos + "";
+    if(messageName == "")
+    {
+      messageName = "单元格A" + pos + "";
+    }
   }
+
+  posLabel = pos-2 ;  // 存放下标，从0开始
+  messageHeader[posLabel] = messageName
   // try {
     var url1 = "https://api-bbs.ztedevices.com/points/home/pointsRegister"; // 社区签到
     // var url2 = "https://www.ztemall.com/index.php/topapi" // 商城签到
@@ -363,7 +390,9 @@ function execHandle(cookie, pos) {
 
     headers={
       "Accesstoken": cookie, 
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
+      // "Host":"api-bbs.ztedevices.com",
+      // "Cookie":""
     }
 
     resp = HTTP.post(
@@ -446,12 +475,13 @@ function execHandle(cookie, pos) {
 
   sleep(2000);
   if (messageOnlyError == 1) {
-    message += messageFail;
+    messageArray[posLabel] = messageFail;
   } else {
-    message += messageFail + " " + messageSuccess;
+    messageArray[posLabel] = messageFail + " " + messageSuccess;
   }
 
-  message = "帐号：" + messageName + message  // 附加账号信息
-
-  console.log(message);
+  if(messageArray[posLabel] != "")
+  {
+    console.log(messageArray[posLabel]);
+  }
 }
