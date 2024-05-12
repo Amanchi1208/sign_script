@@ -11,13 +11,13 @@ let flagSubConfig = 0; // 激活分配置工作表标志
 let flagConfig = 0; // 激活主配置工作表标志
 let flagPush = 0; // 激活推送工作表标志
 let line = 21; // 指定读取从第2行到第line行的内容
-var messageArray = [];  // 待发送的消息数据，每个元素都是某个账号的消息。目的是将不同用户消息分离，方便个性化消息配置
 var message = ""; // 待发送的消息
+var messageArray = [];  // 待发送的消息数据，每个元素都是某个账号的消息。目的是将不同用户消息分离，方便个性化消息配置
 var messageOnlyError = 0; // 0为只推送失败消息，1则为推送成功消息。
 var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称为空时）），0为不推送位置标识
-var messageHeader = []; // 存放每个消息的头部，如：【xxxx】帐号：单元格A3。目的是分离附加消息和执行结果消息
+var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
+var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
 
-pushData = []
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
   { name: "pushplus", key: "xxxxxx", flag: "0" },
@@ -126,7 +126,7 @@ function messageMerge(){
 // 总推送
 function push(message) {
   if (message != "") {
-    message = pushHeader + message // 消息头最前方默认存放：【xxxx】
+    message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
     let length = jsonPush.length;
     let name;
     let key;
@@ -675,7 +675,6 @@ function execHandle(cookie, pos) {
     messageArray[posLabel] = messageFail + " " + messageSuccess;
   }
 
-  // message = "帐号：" + messageName + message  // 附加账号信息
   if(messageArray[posLabel] != "")
   {
     console.log(messageArray[posLabel]);
