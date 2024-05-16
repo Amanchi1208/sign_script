@@ -41,12 +41,12 @@
 | 状态 | 类别 | 终端 | 任务名称 | 名称 | 脚本 | 检查日期 |备注 |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |:---: |
 | 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2024-04-14 | 签到、自动领取首个任务奖励 |
-| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-05-11 | 签到、只能签6个左右 |
+| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-05-16 | 签到、只能签6个左右 |
 | 🔴 | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-08-26 | 签到 |
 | 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-08-08 | 签到、领取空间 |
 | 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-31 | 适用于手机端签到，不具备绕验证码功能 |
 | 🔴 | 签到 | 客户端 | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-31 | 适用于PC端签到，需要手动兑换奖励 |
-| 🟢️ | 多功能 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2024-05-11 | 适用于稻壳签到，自动领取和保存每日PPT |
+| 🟢️ | 多功能 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2024-05-16 | 适用于稻壳，自动领取和保存每日PPT |
 | 🟢️ | 签到 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-08-26 | 签到 |
 | 🟢️ | 抽奖 | WEB | 什么值得买 | https://www.smzdm.com/ | smzdm.js | 2024-05-11 | 抽奖的碎银子 |
 | 🟢️ | 签到 | WEB | 在线工具 | https://tool.lu/ | toolu.js | 2024-05-11 | 签到获取积分 |
@@ -70,12 +70,13 @@
 | 🟢️ | 签到 | WEB | 哔哩哔哩 | https://www.bilibili.com/ | bilibili.js | 2024-05-11 | 直播签到,得经验、辣条和银瓜子 |
 | 🟢️ | 多功能 | APP | vivo社区 | https://bbs.vivo.com.cn/newbbs/ | vivo.js | 2024-05-11 | 签到得积分,抽奖 |
 | 🟢️ | 多功能 | WEB | 中国移动云盘 | https://yun.139.com/ | caiyun.js | 2024-05-11 | 签到得彩云,做任务 |
-| 🟢️ | 多功能 | 小程序 | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-05-11 | 金山文档微信小程序报名和打卡，领取权益 |
+| 🟢️ | 多功能 | 小程序 | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-05-16 | 金山文档微信小程序报名和打卡，领取权益 |
 | 🟢️ | 多功能 | APP | 天翼云盘 | 天翼云盘 | tianyi.js | 2024-05-11 | 签到空间，抽奖 |
-| 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-05-11 | 签到，领取奖励，领取备份奖励 |
+| 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-05-16 | 签到，领取奖励，领取备份奖励 |
 | 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-05-11 | 签到得积分、做任务、领取猫粮 |
 | 🟢️ | 签到 | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-05-11 | 签到得积分,自动更新token |
 | 🟢️ | 签到 | APP | 海信爱家  | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
+| 🟢️ | 签到 | APP | 中国联通  | 中国联通 | zglt.js | 2024-05-16 | 签到 |
 
 ## 支持的通知列表
 
@@ -96,6 +97,7 @@
 <a href="https://github.com/jarryyen">@jarryyen</a>、
 <a href="https://github.com/darkbfly">@darkbfly</a>、
 <a href="https://github.com/SunWuyuan">@孙悟元</a>
+<a href="https://github.com/wawmb">@wawmb</a>
 
 ## 致开发者
 代码进行了模块化的开发，即使是**零开发经验、无代码基础**也能根据以下教程快速编写出所需脚本。  
