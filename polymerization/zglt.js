@@ -1,4 +1,3 @@
-// 作者：wawmb GITHUB:https://github.com/wawmb
 // 中国联通自动签到
 // 20240516
 

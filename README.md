@@ -11,13 +11,6 @@
     <a href="https://github.com/imoki/sign_script/issues"><img src="https://img.shields.io/github/issues/imoki/sign_script?style=popout-square" alt="GitHub issues"></a>
 </p>
 
-## 视频教程
-可参考<a href="https://github.com/SunWuyuan">孙悟元</a>开发者录制的视频
-<a href="https://www.bilibili.com/video/BV18j411r79G">https://www.bilibili.com/video/BV18j411r79G</a>  
-
-## 文本教程  
-可关注“**默库**”公众号  
-
 ## 聚合脚本（polymerization）
 文件夹“polymerization”内的所有脚本统称为聚合脚本，运行UPDATE.js即可自动生成表格及配置内容。
 ### 聚合脚本优势
@@ -96,7 +89,7 @@
 ## 贡献者  
 <a href="https://github.com/jarryyen">@jarryyen</a>、
 <a href="https://github.com/darkbfly">@darkbfly</a>、
-<a href="https://github.com/SunWuyuan">@孙悟元</a>
+<a href="https://github.com/SunWuyuan">@孙悟元</a>、
 <a href="https://github.com/wawmb">@wawmb</a>
 
 ## 致开发者
