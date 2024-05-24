@@ -1,5 +1,5 @@
 // 百度贴吧自动签到
-// 20240512
+// 20240524
 
 let sheetNameSubConfig = "tieba"; // 分配置表名称
 let pushHeader = "【百度贴吧】";
@@ -305,6 +305,19 @@ function jsonPushHandle(pushName, pushFlag, pushKey) {
   }
 }
 
+// cookie字符串转json格式
+function cookie_to_json(cookies) {
+  var cookie_text = cookies;
+  var arr = [];
+  var text_to_split = cookie_text.split(";");
+  for (var i in text_to_split) {
+    var tmp = text_to_split[i].split("=");
+    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
+  }
+  var res = "{\n" + arr.join(",\n") + "\n}";
+  return JSON.parse(res);
+}
+
 // 具体的执行函数
 function execHandle(cookie, pos) {
   let messageSuccess = "";
@@ -323,6 +336,20 @@ function execHandle(cookie, pos) {
   posLabel = pos-2 ;  // 存放下标，从0开始
   messageHeader[posLabel] = messageName
   try {
+
+    cookie_json = cookie_to_json(cookie);
+    try {
+      BDUSS = cookie_json["BDUSS"];  // 只需要BDUSS
+      if(BDUSS != "" && BDUSS != "undefined" && BDUSS != undefined)
+      {
+        cookie = BDUSS
+        console.log("读取到的cookie为原始ck，提取其中的BDUSS")
+      }
+    }catch
+    {
+      console.log("BDUSS搜寻失败")
+    }
+
     // 获取tbs
     let resp = HTTP.fetch("http://tieba.baidu.com/dc/common/tbs", {
       method: "get",
