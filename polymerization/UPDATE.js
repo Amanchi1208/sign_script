@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240516
+// 20240524
 
 // 当前分配置表：
 // 可用脚本：
@@ -11,7 +11,7 @@
 // 葫芦侠3楼、爱奇艺、花小猪、中兴社区、小米商城
 // 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
 // wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
-// 宽带技术网、海信爱家、中国联通
+// 宽带技术网、海信爱家、中国联通、中兴商城
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
@@ -33,7 +33,8 @@ var subConfigWorkbook = [
   'xmly', 'tonghua', 'en', 'xmc', 'quark',
   'huluxia', 'iqiyi', 'huaxiaozhu', 'ztebbs', 'mi',
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
-  'tianyi', 'aliyun', 'chinadsl', 'hxaj', 'zglt'
+  'tianyi', 'aliyun', 'chinadsl', 'hxaj', 'zglt',
+  'ztemall',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -84,10 +85,10 @@ var configContent = [
   ['golo', 'golo汽修大师', '否', '是'],
   ['tianyi', '天翼云盘', '否', '是'],
   ['aliyun', '阿里云盘(自动更新token版)', '否', '是'],
-  // ['zywl','紫云网络','否','是'],
   ['chinadsl', '宽带技术网', '否', '是'],
   ['hxaj', '海信爱家', '否', '是'],
   ['zglt', '中国联通', '否', '是'],
+  ['ztemall', '中兴商城', '否', '是'],
 ]
 
 // PUSH表内容 		
