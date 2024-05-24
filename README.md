@@ -68,11 +68,12 @@
 | 🟢️ | 多功能 | WEB | 中国移动云盘 | https://yun.139.com/ | caiyun.js | 2024-05-24 | 签到得彩云,做任务 |
 | 🟢️ | 多功能 | 小程序 | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-05-24 | 金山文档微信小程序报名和打卡，领取权益 |
 | 🟢️ | 多功能 | APP | 天翼云盘 | 天翼云盘 | tianyi.js | 2024-05-24 | 签到空间，抽奖 |
-| 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-05-24 | 签到，领取奖励，领取备份奖励 |
+| 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-05-24 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
 | 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-05-24 | 签到得积分、做任务、领取猫粮 |
 | 🟢️ | 签到 | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-05-24 | 签到得积分,自动更新token |
 | 🟢️ | 签到 | APP | 海信爱家  | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
 | 🟢️ | 签到 | APP | 中国联通  | 中国联通 | zglt.js | 2024-05-24 | 签到 |
+| 🟢️ | 签到 | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-05-24 | 签到,得积分 |
 
 ## 支持的通知列表
 
@@ -270,6 +271,7 @@ function execHandle(cookie, pos) {
 
 ## 更新日志 
 - 2024-05-24
+    * 增添【中兴商城】脚本
     * 更新【百度贴吧】，增加cookie自动识别功能，复制整个cookie或者单独复制BDUSS内的值都可以执行
 - 2024-05-12
     * 修复聚合脚本选择“只推送失败消息”依旧会推送的问题
