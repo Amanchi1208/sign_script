@@ -1,5 +1,5 @@
-// WPS权益报名和打卡(打卡版)
-// 20240512
+// WPS权益报名和打卡、超级会员打卡(打卡版)
+// 20240525
 
 let sheetNameSubConfig = "wps"; // 分配置表名称
 let sheetNameSubConfig2 = "wps_daka";
@@ -306,6 +306,76 @@ function jsonPushHandle(pushName, pushFlag, pushKey) {
   }
 }
 
+// 打卡渠道2
+function daka2(cookie, Signature){
+  messageSuccess = ""
+  messageFail = ""
+  msg = []
+
+  // 查询获得的奖励
+  // url = "https://personal-bus.wps.cn/activity/clock_in/v1/info?client_type=1&page_index=0&page_size=2"
+  // 签到
+  url = "https://personal-bus.wps.cn/activity/clock_in/v1/clock_in"
+  headers = {
+    "Host": "personal-bus.wps.cn",
+    "Content-Type": "application/json",
+    "Cookie": "csrf=1234567890;wps_sid=" + cookie,
+    "sid": cookie,
+    "Date": "Wed, 15 May 2024 02:20:22 GMT",
+    "Signature": Signature,
+    "X-CSRFToken": 1234567890,
+  }
+
+  data = {
+    "client_type":1
+  }
+
+  // {"result":"ok","msg":"","data":{"reward_list":{"list":[],"total_num":0},"clock_in_total_num":,"continuous_days":0,"s_key":""}}
+  // {"result":"ok","msg":"","data":{"reward_list":{"list":[{"reward_id":5990777,"reward_status":1,"clock_in_time":1715998599,"reward_type":2,"sku_name":"图片权益包1天","mb_name":"","mb_id":0,"mb_img_url":""},{"reward_id":5897293,"reward_status":3,"clock_in_time":1715825063,"reward_type":4,"sku_name":"","mb_name":"蓝色简约大气商务模板","mb_id":,"mb_img_url":""}],"total_num":3},"clock_in_total_num":18040065,"continuous_days":1,"s_key":""}}
+  // resp = HTTP.fetch(url, {
+  //   method: "post",
+  //   headers: headers,
+  //   data : data,
+  // });
+
+  // {"result":"error","msg":"already clocked in today","data":{}}
+  resp = HTTP.post(url,
+    data = data,
+    {headers : headers}
+  )
+
+  resp = resp.json();
+  console.log(resp);
+  result = resp["result"]
+  continuous_days = resp["data"]["continuous_days"]
+  if(result == "ok")
+  {
+    
+    // clock_in_status = resp["data"]["clock_in_status"]
+
+    // right = resp["data"]["reward_list"]["list"][0]["sku_name"]
+    // if(right == "" || right == "undefined")
+    // {
+    //   right = "打卡成功"
+    // }
+
+    content = "打卡渠道2：已连签" + continuous_days + "天 "
+    messageSuccess += content;
+    console.log(content);
+  }else
+  {
+    msg = resp["msg"]
+    content = "打卡渠道2：" + msg + " "
+    // messageFail += content;
+    messageSuccess += content;
+    console.log(content);
+  }
+
+  sleep(2000); 
+  msg = [messageSuccess, messageFail]
+  return msg
+}
+
 // 具体的执行函数
 function execHandle(cookie, pos) {
   let messageSuccess = "";
@@ -335,65 +405,91 @@ function execHandle(cookie, pos) {
     };
     data = {};
 
-    // 打卡
-    // {"code":0,"msg":"ok","data":{"equity":"1天PDF权益包即将到账","right":"1天PDF权益包","writer":"即将到账!"},"request_id":""}
-    // {"code":20002,"msg":"打卡失败","request_id":""}
-    resp = HTTP.fetch(url1, {
-      method: "post",
-      headers: headers,
-      data: data,
-    });
-
-    resp = resp.json();
-    console.log(resp);
-    code = resp["code"]
-    if(code == 0)
+    // 渠道1是否打卡。渠道1打卡，此渠道自动领取奖励
+    flagExec1 = Application.Range("E" + pos).Text;
+    if(flagExec1 == '是')
     {
-      right = resp["data"]["right"]
-      content = "打卡：" + right + " "
-      messageSuccess += content;
-      console.log(content);
-    }else
-    {
-      msg = resp["msg"]
-      content = "打卡：" + msg + " "
-      messageFail += content;
-      console.log(content);
-    }
+      console.log("进行渠道1打卡，此渠道自动领取奖励")
+      // 打卡
+      // {"code":0,"msg":"ok","data":{"equity":"1天PDF权益包即将到账","right":"1天PDF权益包","writer":"即将到账!"},"request_id":""}
+      // {"code":20002,"msg":"打卡失败","request_id":""}
+      resp = HTTP.fetch(url1, {
+        method: "post",
+        headers: headers,
+        data: data,
+      });
 
-    sleep(2000); 
+      resp = resp.json();
+      console.log(resp);
+      code = resp["code"]
+      if(code == 0)
+      {
+        right = resp["data"]["right"]
+        content = "打卡渠道1：" + right + " "
+        messageSuccess += content;
+        console.log(content);
+      }else
+      {
+        respmsg = resp["msg"]
+        content = "打卡渠道1：" + respmsg + " "
+        messageFail += content;
+        console.log(content);
+      }
+
+      sleep(2000); 
     
-    // 报名
-    // {"code":0,"msg":"ok","data":{"subscribe":true},"request_id":""}
-    // {"code":20001,"msg":"报名失败","request_id":""}
-    resp = HTTP.fetch(url2, {
-      method: "post",
-      headers: headers,
-      data: data,
-    });
+      // 报名
+      // {"code":0,"msg":"ok","data":{"subscribe":true},"request_id":""}
+      // {"code":20001,"msg":"报名失败","request_id":""}
+      resp = HTTP.fetch(url2, {
+        method: "post",
+        headers: headers,
+        data: data,
+      });
 
-    resp = resp.json();
-    console.log(resp);
-    code = resp["code"]
-    if(code == 0)
-    {
-      msg = resp["msg"]
-      content = "报名情况：" + msg + " "
-      messageSuccess += content;
-      console.log(content);
+      resp = resp.json();
+      console.log(resp);
+      code = resp["code"]
+      if(code == 0)
+      {
+        respmsg = resp["msg"]
+        content = "渠道1报名情况：" + respmsg + " "
+        messageSuccess += content;
+        console.log(content);
+      }else
+      {
+        respmsg = resp["msg"]
+        content = "渠道1报名情况：" + respmsg + " "
+        messageFail += content;
+        console.log(content);
+      }
+
     }else
     {
-      msg = resp["msg"]
-      content = "报名情况：" + msg + " "
-      messageFail += content;
-      console.log(content);
+      console.log("不进行渠道1打卡")
+    }
+    
+    sleep(2000);
+
+    // 渠道2是否打卡。渠道1打卡，此渠道需手动领取奖励
+    flagExec2 = Application.Range("F" + pos).Text;
+    if(flagExec2 == '是')
+    {
+      // 打卡渠道2
+      console.log("进行渠道2打卡，此渠道需手动领取奖励")
+      Signature = Application.Range("G" + pos).Text;
+      msg = daka2(cookie, Signature)
+      messageSuccess += msg[0]
+      messageFail += msg[1]
+    }else{
+      console.log("不进行渠道2打卡")
     }
     
   // } catch {
   //   messageFail += messageName + "失败";
   // }
 
-  sleep(2000);
+  
   if (messageOnlyError == 1) {
     messageArray[posLabel] = messageFail;
   } else {
