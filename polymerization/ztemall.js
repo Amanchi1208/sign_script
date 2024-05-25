@@ -1,5 +1,5 @@
 // 中兴商城自动签到
-// 20240524
+// 20240525
 
 let sheetNameSubConfig = "ztemall"; // 分配置表名称
 let pushHeader = "【中兴商城】";
@@ -467,7 +467,7 @@ function execHandle(cookie, pos) {
         currentCheckInPoint = resp["data"]["currentCheckInPoint"] // 获得积分
         point = resp["data"]["point"] // 总积分
 
-        content = msg + " 连签" + continueDays + "天,获得"+currentCheckInPoint +"积分，当前共有" + point + "积分 "
+        content = msg + " 连签" + checkin_days + "天,获得"+currentCheckInPoint +"积分，当前共有" + point + "积分 "
         messageSuccess += content;
         console.log(content)
       }else if(errorcode == 10000){
