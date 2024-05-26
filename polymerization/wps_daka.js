@@ -1,5 +1,5 @@
 // WPS权益报名和打卡、超级会员打卡(打卡版)
-// 20240525
+// 20240526
 
 let sheetNameSubConfig = "wps"; // 分配置表名称
 let sheetNameSubConfig2 = "wps_daka";
@@ -359,7 +359,7 @@ function daka2(cookie, Signature){
     //   right = "打卡成功"
     // }
 
-    content = "打卡渠道2：已连签" + continuous_days + "天 "
+    content = "打卡渠道2：当周已连签" + continuous_days + "天 "
     messageSuccess += content;
     console.log(content);
   }else
