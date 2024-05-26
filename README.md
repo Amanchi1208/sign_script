@@ -37,12 +37,12 @@
 | 状态 | 类别 | 终端 | 任务名称 | 名称 | 脚本 | 检查日期 |备注 |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |:---: |
 | 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2024-04-14 | 签到、自动领取首个任务奖励 |
-| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-05-25 | 签到、只能签6个左右 |
+| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-05-26 | 签到、只能签6个左右 |
 | 🔴 | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-08-26 | 签到 |
 | 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-08-08 | 签到、领取空间 |
 | 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-31 | 适用于手机端签到，不具备绕验证码功能 |
 | 🔴 | 签到 | 客户端 | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-31 | 适用于PC端签到，需要手动兑换奖励 |
-| 🟢️ | 多功能 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2024-05-16 | 适用于稻壳，自动领取和保存每日PPT |
+| 🔴 | 多功能 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2024-05-16 | 适用于稻壳，自动领取和保存每日PPT |
 | 🟢️ | 签到 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-08-26 | 签到 |
 | 🟢️ | 抽奖 | WEB | 什么值得买 | https://www.smzdm.com/ | smzdm.js | 2024-05-11 | 抽奖的碎银子 |
 | 🟢️ | 签到 | WEB | 在线工具 | https://tool.lu/ | toolu.js | 2024-05-11 | 签到获取积分 |
@@ -55,25 +55,25 @@
 | 🟢️ | 签到 | APP | AcFun | AcFun | acfun.js | 2024-05-08 | 签到得香蕉 |
 | 🟢️ | 签到 | APP | 喜马拉雅 | 喜马拉雅 | xmly.js | 2024-05-25 | 签到 |
 | 🟡 | 签到 | WEB | ios游戏迷 | https://yuchen.tonghuaios.com/ | tonghua.js | 2023-12-26 | 签到得积分 |
-| 🟢️ | 签到 | APP | 希沃白板 | 希沃白板 | easinote.js | 2024-05-25 | 签到得空间 |
+| 🟢️ | 签到 | APP | 希沃白板 | 希沃白板 | easinote.js | 2024-05-26 | 签到得空间 |
 | 🟢️ | 签到 | APP | 小木虫 | 小木虫 | xmc.js | 2024-05-03 | 签到得金币 |
-| 🟢️ | 签到 | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-05-25 | 签到得空间 |
+| 🟢️ | 签到 | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-05-26 | 签到得空间 |
 | 🟢️ | 签到 | APP | 葫芦侠3楼 | 葫芦侠3楼 | huluxia.js | 2024-05-25 | 板块签到 |
 | 🟢️ | 多功能 | WEB | 爱奇艺 | https://www.iqiyi.com | iqiyi.js | 2024-05-11 | 签到，白金抽奖,做任务得成长值 |
-| 🟢️ | 签到 | WEB | 中兴社区 | https://bbs.ztedevices.com/ | ztebbs.js | 2024-05-25 | 签到,得经验和流星 |
-| 🟢️ | 签到 | APP | 小米商城 | 小米商城 | mi.js | 2024-05-25 | 签到,得米金 |
-| 🟢️ | 签到 | WEB | 看雪论坛 | https://bbs.kanxue.com/ | kanxue.js | 2024-05-25 | 签到,得雪币 |
-| 🟢️ | 签到 | WEB | 哔哩哔哩 | https://www.bilibili.com/ | bilibili.js | 2024-05-25 | 直播签到,得经验、辣条和银瓜子 |
-| 🟢️ | 多功能 | APP | vivo社区 | https://bbs.vivo.com.cn/newbbs/ | vivo.js | 2024-05-25 | 签到得积分,抽奖 |
-| 🟢️ | 多功能 | WEB | 中国移动云盘 | https://yun.139.com/ | caiyun.js | 2024-05-25 | 签到得彩云,做任务 |
-| 🟢️ | 多功能 | 小程序 | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-05-25 | 金山文档微信小程序报名和打卡，领取权益 |
-| 🟢️ | 多功能 | APP | 天翼云盘 | 天翼云盘 | tianyi.js | 2024-05-25 | 签到空间，抽奖 |
+| 🟢️ | 签到 | WEB | 中兴社区 | https://bbs.ztedevices.com/ | ztebbs.js | 2024-05-26 | 签到,得经验和流星 |
+| 🟢️ | 签到 | APP | 小米商城 | 小米商城 | mi.js | 2024-05-26 | 签到,得米金 |
+| 🟢️ | 签到 | WEB | 看雪论坛 | https://bbs.kanxue.com/ | kanxue.js | 2024-05-26 | 签到,得雪币 |
+| 🟢️ | 签到 | WEB | 哔哩哔哩 | https://www.bilibili.com/ | bilibili.js | 2024-05-26 | 直播签到,得经验、辣条和银瓜子 |
+| 🟢️ | 多功能 | APP | vivo社区 | https://bbs.vivo.com.cn/newbbs/ | vivo.js | 2024-05-26 | 签到得积分,抽奖 |
+| 🟢️ | 多功能 | WEB | 中国移动云盘 | https://yun.139.com/ | caiyun.js | 2024-05-26 | 签到得彩云,做任务 |
+| 🟢️ | 多功能 | 小程序 | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-05-26 | 金山文档微信小程序报名和打卡，领取权益 |
+| 🟢️ | 多功能 | APP | 天翼云盘 | 天翼云盘 | tianyi.js | 2024-05-26 | 签到空间，抽奖 |
 | 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-05-25 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
-| 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-05-25 | 签到得积分、做任务、领取猫粮 |
-| 🟢️ | 签到 | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-05-25 | 签到得积分,自动更新token |
+| 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-05-26 | 签到得积分、做任务、领取猫粮 |
+| 🟢️ | 签到 | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-05-26 | 签到得积分,自动更新token |
 | 🟢️ | 签到 | APP | 海信爱家  | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
 | 🟢️ | 签到 | APP | 中国联通  | 中国联通 | zglt.js | 2024-05-25 | 签到 |
-| 🟢️ | 签到 | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-05-25 | 签到,得积分 |
+| 🟢️ | 签到 | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-05-26 | 签到,得积分 |
 
 ## 支持的通知列表
 
@@ -114,143 +114,25 @@ var configContent=[
   ['52pojie','吾爱破解','否','否'],
 ]
 ```
-假设需要添加有道云笔记的脚本（英文noteyoudao）,则修改为如下。
+假设需要添加某雪的脚本（英文mouxue）,则修改为如下。
 ```js
 // 分配置表名称
-var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao'];
+var subConfigWorkbook=['aliyundrive_multiuser','52pojie','mouxue'];
 // CONFIG表内容
 var configContent=[
   ['工作表的名称','备注','只推送失败消息（是/否）','推送昵称（是/否）'],
   ['aliyundrive_multiuser','阿里云盘（多用户版）','否','否'],
   ['52pojie','吾爱破解','否','否'],
-  ['noteyoudao','有道云笔记','否','否'],
+  ['mouxue','某雪论坛','否','否'],
 ]
 ```
-此时若运行UPDATE.js脚本，则会在CONFIG表（主配置表）中看到新增了一行有道云笔记的配置，并且新增了名称为noteyoudao的表  
+此时若运行UPDATE.js脚本，则会在CONFIG表（主配置表）中看到新增了一行有道云笔记的配置，并且新增了名称为mouxue的表  
   
-2. 新建自动化脚本，名称需要和步骤1中新增的表名称一致。如上述的noteyoudao.js。可以直接复制已有的自动化脚本，在此基础上修改。  
-例如修改52pojie脚本为新增的noteyoudao脚本  
-在脚本开头的几行会有此脚本的基础信息，将其修改  
-原脚本为：
-```js
-let sheetNameSubConfig = "52pojie"; // 分配置表名称
-let pushHeader = "【52pojie】";
-```  
-修改后脚本为：
-```js
-let sheetNameSubConfig = "noteyoudao"; // 这里需要和步骤1中的表名称一致
-let pushHeader = "【有道云笔记】";  // 这里的内容可以随意填写，仅作为消息推送的备注
-```  
+2.根据TEMPLATE.js模板新建自动化脚本（三小步。详细步骤请看文章）  
+在模板文件中，按Ctrl+F进行搜索，输入“修改这里”，就可以定位到要修改的地方了。仅有几处需要修改，根据模板内的说明可修改。  
+能定位到脚本开头有几处需要修改的地方，名称需要和步骤1中新增的表名称一致如mouxue.js。  
+能定位到脚本末尾有几处需要修改的地方，根据抓包的内容（例如抓取签到的包，软件抓包也不需要代码基础，IOS端可用Stream工具、安卓端可用小黄鸟、PC端可用burp）  
   
-然后修改处于脚本最末尾的execHandle函数，根据抓包的内容（例如抓取签到的包，软件抓包也不需要代码基础，IOS端可用Stream工具、安卓端可用小黄鸟、PC端可用burp）填写如下标注的几处修改的地方即可。
-原脚本大致内容会为：
-```js
-// 具体的执行函数
-function execHandle(cookie, pos) {
-  let messageSuccess = "";
-  let messageFail = "";
-  let messageName = "";
-  if (messageNickname == 1) {
-    messageName = Application.Range("C" + pos).Text;
-  } else {
-    messageName = "单元格A" + pos + "";
-  }
-  try {
-    var url1 = "https://xxxxxx.com";    // 修改处①
-    data ={                             // 修改处②，若是get请求则忽略此处
-        "键":"值",
-    }
-    headers = {                         // 修改处③
-      cookie: cookie,
-      "键":"值",
-    };
-
-    let resp = HTTP.fetch(url1, {       // 可能修改处，若为post请求则用这块代码
-      method: "post",
-      headers: headers,
-      data: data,
-    });
-
-    // let resp = HTTP.fetch(url1, {    // 可能修改处，若为get请求则用这块代码
-    //   method: "get",
-    //   headers: headers,
-    // });
-
-    if (resp.status == 200) {           // 可能修改处，按需对json格式修改。若不会修改，则可以忽略此处
-      resp = resp.json();
-      console.log(resp);
-      messageSuccess += "帐号：" + messageName + "签到成功 " ;
-      console.log("帐号：" + messageName + "签到成功 ");
-    } else {
-      console.log(resp.text());
-      messageFail += "帐号：" + messageName + "签到失败 ";
-      console.log("帐号：" + messageName + "签到失败 ");
-    }
-  } catch {
-    messageFail += messageName + "失败";
-  }
-
-  sleep(2000);
-  if (messageOnlyError == 1) {
-    message += messageFail;
-  } else {
-    message += messageFail + " " + messageSuccess;
-  }
-  console.log(message);
-}
-```  
-例如修改为noteyoudao的脚本后的内容为
-```js
-// 具体的执行函数
-function execHandle(cookie, pos) {
-  let messageSuccess = "";
-  let messageFail = "";
-  let messageName = "";
-  if (messageNickname == 1) {
-    messageName = Application.Range("C" + pos).Text;
-  } else {
-    messageName = "单元格A" + pos + "";
-  }
-  try {
-    var url1 = "https://note.youdao.com/yws/mapi/user?method=checkin";   // 修改了这里
-    headers = { // 修改了这里
-      cookie: cookie,   
-      "User-Agent": "YNote",
-      Host: "note.youdao.com",
-    };
-
-    let resp = HTTP.fetch(url1, {   // 修改了这里
-      method: "post",
-      headers: headers,
-    });
-
-    if (resp.status == 200) {   // 修改了这里
-      resp = resp.json();
-      console.log(resp);
-      total = resp["total"] / 1048576;
-      space = resp["space"] / 1048576;
-      messageSuccess += "帐号：" + messageName + "签到成功，本次获取 " + space + " M, 总共获取 " + total + " M ";
-      console.log("帐号：" + messageName + "签到成功，本次获取 " + space + " M, 总共获取 " + total + " M ");
-    } else {
-      console.log(resp.text());
-      messageFail += "帐号：" + messageName + "签到失败 ";
-      console.log("帐号：" + messageName + "签到失败 ");
-    }
-  } catch {
-    messageFail += messageName + "失败";
-  }
-
-  sleep(2000);
-  if (messageOnlyError == 1) {
-    message += messageFail;
-  } else {
-    message += messageFail + " " + messageSuccess;
-  }
-  console.log(message);
-}
-```
-此时就成功创建新脚本了。  
-
 ## 特别声明
 
 - 本仓库发布的脚本仅用于测试和学习研究，禁止用于商业用途，不能保证其合法性，准确性，完整性和有效性，请根据情况自行判断。
@@ -270,6 +152,8 @@ function execHandle(cookie, pos) {
 > ***您使用或者复制了本仓库且本人制作的任何脚本，则视为 `已接受` 此声明，请仔细阅读***
 
 ## 更新日志 
+- 2024-05-26
+    * 修复【WPS(打卡版)】，提示消息内容。
 - 2024-05-25
     * 修复【中兴商城】消息推送内容变量错误的问题
     * 更新【WPS(打卡版)】，增加打卡渠道2
