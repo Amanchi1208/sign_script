@@ -1,5 +1,5 @@
 // 万能福利吧自动签到
-// 20240527
+// 20240529
 
 let sheetNameSubConfig = "wnflb"; // 分配置表名称
 let pushHeader = "【万能福利吧】";
@@ -472,42 +472,7 @@ function execHandle(cookie, pos) {
 // </p>
 // ]]></root>
 
-    // 获取签到天数数据
-    // resp = HTTP.get(
-    //   url1,
-    //   { headers: headers }
-    // );
-    // 正则匹配
-    // const Reg = /你已经连续签到(.*?)天，再接再厉！/i;
-    Reg = [
-      /累计签到:<i>(.+?)<\/i>天/i, 
-      /已连续签到:<i>(.+?)<\/i>天/i,
-    ]
-
-    valueName = [
-      "累计签", "已连签",
-    ]
-
-    // html = resp.text();
-    // console.log(html)
-    resultall = ""
-    for(i=0; i< Reg.length; i++)
-    {
-      flagTrue = Reg[i].test(html); // 判断是否存在字符串
-      if (flagTrue == true) {
-        let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续签到 1 天，再接再厉！"," 1 "]
-        // result = result[0];
-        result = result[1];
-        content = valueName[i] + ":" + result + "天 "
-        messageSuccess += content;
-        console.log(content)
-      } else {
-        content = "签到数据获取失败 "
-        messageFail += content;
-      }
-    }
-
-    // 获取积分
+    // 获取签到天数数据、获取积分
     headers={
       "Host": "www.wnflb2023.com", 
       // "Content-Type": "application/x-www-form-urlencoded",
@@ -519,21 +484,22 @@ function execHandle(cookie, pos) {
       url1,
       { headers: headers }
     );
-
-    // 正则匹配,获取formhash
-    formhash = ""
+    // console.log(resp.text())
+    // 正则匹配
     // const Reg = /你已经连续签到(.*?)天，再接再厉！/i;
     Reg = [
-      /formhash=(.+?)&/i, 
+      /累计签到:<i>(.+?)<\/i>天/i, 
+      /已连续签到:<i>(.+?)<\/i>天/i,
       /showmenu">积分: (.+?)<\/a>/i,
     ]
 
     valueName = [
-      "formhash", "当前积分",
+      "累计签天数", "已连签天数","当前积分",
     ]
 
     html = resp.text();
     // console.log(html)
+    resultall = ""
     for(i=0; i< Reg.length; i++)
     {
       flagTrue = Reg[i].test(html); // 判断是否存在字符串
@@ -541,21 +507,53 @@ function execHandle(cookie, pos) {
         let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续签到 1 天，再接再厉！"," 1 "]
         // result = result[0];
         result = result[1];
-        formhash = result
-        if(i == 1){
-          content = valueName[i] + ":" + result + " "
-          messageSuccess += content;
-        }else
-        {
-          content = "formhash:" + result + " "
-        }
-        
+        content = valueName[i] + ":" + result + " "
+        messageSuccess += content;
         console.log(content)
       } else {
-        content = "formhash获取失败 "
+        content = "签到数据获取失败 "
         messageFail += content;
       }
     }
+
+    // // 获取积分
+    // // 正则匹配,获取formhash
+    // formhash = ""
+    // // const Reg = /你已经连续签到(.*?)天，再接再厉！/i;
+    // Reg = [
+    //   /formhash=(.+?)&/i, 
+    //   /showmenu">积分: (.+?)<\/a>/i,
+      
+    // ]
+
+    // valueName = [
+    //   "formhash", "当前积分",
+    // ]
+
+    // // html = resp.text();
+    // // console.log(html)
+    // for(i=0; i< Reg.length; i++)
+    // {
+    //   flagTrue = Reg[i].test(html); // 判断是否存在字符串
+    //   if (flagTrue == true) {
+    //     let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续签到 1 天，再接再厉！"," 1 "]
+    //     // result = result[0];
+    //     result = result[1];
+    //     formhash = result
+    //     if(i == 1){
+    //       content = valueName[i] + ":" + result + " "
+    //       messageSuccess += content;
+    //     }else
+    //     {
+    //       content = "formhash:" + result + " "
+    //     }
+        
+    //     console.log(content)
+    //   } else {
+    //     content = "formhash获取失败 "
+    //     messageFail += content;
+    //   }
+    // }
 
   // } catch {
   //   messageFail += messageName + "失败";
