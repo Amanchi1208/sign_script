@@ -154,8 +154,8 @@ var subConfigBtime = [
 // 定制化分配置表内容，WPS
 var subConfigWps = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '转存PPT(是/否)', '是否渠道1打卡(是/否)', '是否渠道2打卡(是/否)', 'Signature(渠道2)'],
-  ['xxxxxxxx1', '是', '昵称1', '否', '是', '是' , 'xxxxxxxx'],
-  ['xxxxxxxx2', '否', '昵称2', '否', '是', '是' , 'xxxxxxxx']
+  ['xxxxxxxx1', '是', '昵称1', '否', '是', '否' , 'xxxxxxxx'],
+  ['xxxxxxxx2', '否', '昵称2', '否', '是', '否' , 'xxxxxxxx']
 ]
 
 // 定制化分配置表内容，花小猪
