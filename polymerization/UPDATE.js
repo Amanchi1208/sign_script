@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240527
+// 20240531
 
 // 当前分配置表：
 // 可用脚本：
@@ -11,6 +11,7 @@
 // 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
 // wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
 // 宽带技术网、海信爱家、中国联通、中兴商城、万能福利吧
+// 百事可乐上海、
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
@@ -34,7 +35,7 @@ var subConfigWorkbook = [
   'huluxia', 'iqiyi', 'huaxiaozhu', 'ztebbs', 'mi',
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
   'tianyi', 'aliyun', 'chinadsl', 'hxaj', 'zglt',
-  'ztemall', 'wnflb',
+  'ztemall', 'wnflb', 'bsklsh',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -90,6 +91,7 @@ var configContent = [
   ['zglt', '中国联通', '否', '是'],
   ['ztemall', '中兴商城', '否', '是'],
   ['wnflb', '万能福利吧', '否', '是'],
+  ['bsklsh', '百事可乐上海', '否', '是'],
 ]
 
 // PUSH表内容 		
@@ -154,8 +156,8 @@ var subConfigBtime = [
 // 定制化分配置表内容，WPS
 var subConfigWps = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '转存PPT(是/否)', '是否渠道1打卡(是/否)', '是否渠道2打卡(是/否)', 'Signature(渠道2)'],
-  ['xxxxxxxx1', '是', '昵称1', '否', '是', '否' , 'xxxxxxxx'],
-  ['xxxxxxxx2', '否', '昵称2', '否', '是', '否' , 'xxxxxxxx']
+  ['xxxxxxxx1', '是', '昵称1', '否', '是', '是' , 'xxxxxxxx'],
+  ['xxxxxxxx2', '否', '昵称2', '否', '是', '是' , 'xxxxxxxx']
 ]
 
 // 定制化分配置表内容，花小猪
@@ -205,6 +207,13 @@ var subConfigHxaj = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', "用户名", "密码", "webSign(必填)", "timeStamp(必填)"],
   ['xxxxxxxx1', '是', '昵称1', 'xxx', 'xxx', 'xxx', 'xxx'],
   ['xxxxxxxx2', '否', '昵称2', 'xxx', 'xxx', 'xxx', 'xxx']
+]
+
+// 定制化分配置表内容，百事可乐上海
+var subConfigBsklsh = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', "HH-APP", "HH-FROM"],
+  ['xxxxxxxx1', '是', '昵称1', 'xxx', 'xxx'],
+  ['xxxxxxxx2', '否', '昵称2', 'xxx', 'xxx']
 ]
 
 // var mosaic = "xxxxxxxx" // 马赛克
@@ -276,6 +285,9 @@ editConfigSheet(subConfigAliyunToken)
 
 ActivateSheet(subConfigWorkbook[33]) // 激活海信爱家分配置表
 editConfigSheet(subConfigHxaj)
+
+ActivateSheet(subConfigWorkbook[37]) // 激活百事可乐上海分配置表
+editConfigSheet(subConfigBsklsh)
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
 function determineRowCol() {
