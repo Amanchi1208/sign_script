@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240531
+// 20240602
 
 // 当前分配置表：
 // 可用脚本：
@@ -11,13 +11,13 @@
 // 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
 // wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
 // 宽带技术网、海信爱家、中国联通、中兴商城、万能福利吧
-// 百事可乐上海、
+// 百事可乐上海
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
 // 时光相册、像素蛋糕、甜润世界、囍福社
 // 叮咚买菜-叮咚果园、叮咚买菜-叮咚鱼塘
-// 北京时间、花小猪、wps(稻壳版）
+// 北京时间、花小猪、wps(稻壳版）、京东
 
 // 定制化分配置表:
 // 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间、WPS
@@ -35,7 +35,7 @@ var subConfigWorkbook = [
   'huluxia', 'iqiyi', 'huaxiaozhu', 'ztebbs', 'mi',
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
   'tianyi', 'aliyun', 'chinadsl', 'hxaj', 'zglt',
-  'ztemall', 'wnflb', 'bsklsh',
+  'ztemall', 'wnflb', 'bsklsh', 'jd',
 ];
 var workbook = [] // 存储已存在表数组
 
