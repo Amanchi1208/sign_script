@@ -37,7 +37,7 @@
 | 状态 | 类别 | 终端 | 任务名称 | 名称 | 脚本 | 检查日期 |备注 |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |:---: |
 | 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2024-04-14 | 签到、自动领取首个任务奖励 |
-| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-05-29 | 签到、只能签6个左右 |
+| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-06-02 | 签到、只能签6个左右 |
 | 🔴 | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-08-26 | 签到 |
 | 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-08-08 | 签到、领取空间 |
 | 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-31 | 适用于手机端签到，不具备绕验证码功能 |
@@ -46,18 +46,18 @@
 | 🟢️ | 签到 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-08-26 | 签到 |
 | 🟢️ | 抽奖 | WEB | 什么值得买 | https://www.smzdm.com/ | smzdm.js | 2024-05-11 | 抽奖的碎银子 |
 | 🟢️ | 签到 | WEB | 在线工具 | https://tool.lu/ | toolu.js | 2024-05-11 | 签到获取积分 |
-| 🟡 | 签到 | 小程序 | 像素蛋糕 | 像素蛋糕AI修图呀 | cake.js | 2023-08-08 | 签到 |
-| 🟡 | 签到 | 小程序 | 甜润世界 | 甜润世界 | tianrun.js | 2023-08-08 | 签到 |
+| 🔴 | 签到 | 小程序 | 像素蛋糕 | 像素蛋糕AI修图呀 | cake.js | 2023-08-08 | 签到 |
+| 🔴 | 签到 | 小程序 | 甜润世界 | 甜润世界 | tianrun.js | 2023-08-08 | 签到 |
 | 🔴 | 多功能 | APP | 叮咚买菜-叮咚果园 | 叮咚买菜 | ddmy_ddgy.js | 2023-11-21 | 领积分、签到、浇水 |
 | 🟡 | 多功能 | APP | 叮咚买菜-叮咚鱼塘 | 叮咚买菜 | ddmy_ddyt.js | 2024-04-12 | 领积分、签到、喂饲料 |
-| 🟡 | 签到 | APP | 时光相册 | 时光相册 | everphoto.js | 2023-08-15 | 签到、领空间 |
-| 🟡 | 签到 | APP | 北京时间 | 北京时间 | btime.js | 2023-08-26 | 签到、领时间币 |
+| 🔴 | 签到 | APP | 时光相册 | 时光相册 | everphoto.js | 2023-08-15 | 签到、领空间 |
+| 🔴 | 签到 | APP | 北京时间 | 北京时间 | btime.js | 2023-08-26 | 签到、领时间币 |
 | 🟢️ | 签到 | APP | AcFun | AcFun | acfun.js | 2024-05-08 | 签到得香蕉 |
-| 🟢️ | 签到 | APP | 喜马拉雅 | 喜马拉雅 | xmly.js | 2024-05-29 | 签到 |
+| 🟢️ | 签到 | APP | 喜马拉雅 | 喜马拉雅 | xmly.js | 2024-06-02 | 签到 |
 | 🟡 | 签到 | WEB | ios游戏迷 | https://yuchen.tonghuaios.com/ | tonghua.js | 2023-12-26 | 签到得积分 |
-| 🟢️ | 签到 | APP | 希沃白板 | 希沃白板 | easinote.js | 2024-05-29 | 签到得空间 |
+| 🟢️ | 签到 | APP | 希沃白板 | 希沃白板 | easinote.js | 2024-06-02 | 签到得空间 |
 | 🟢️ | 签到 | APP | 小木虫 | 小木虫 | xmc.js | 2024-05-03 | 签到得金币 |
-| 🟢️ | 签到 | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-05-29 | 签到得空间 |
+| 🟢️ | 签到 | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-06-02 | 签到得空间 |
 | 🟢️ | 签到 | APP | 葫芦侠3楼 | 葫芦侠3楼 | huluxia.js | 2024-05-25 | 板块签到 |
 | 🔴 | 多功能 | WEB | 爱奇艺 | https://www.iqiyi.com | iqiyi.js | 2024-05-11 | 签到，白金抽奖,做任务得成长值 |
 | 🟢️ | 签到 | WEB | 中兴社区 | https://bbs.ztedevices.com/ | ztebbs.js | 2024-05-26 | 签到,得经验和流星 |
@@ -66,16 +66,16 @@
 | 🟢️ | 签到 | WEB | 哔哩哔哩 | https://www.bilibili.com/ | bilibili.js | 2024-05-26 | 直播签到,得经验、辣条和银瓜子 |
 | 🟢️ | 多功能 | APP | vivo社区 | https://bbs.vivo.com.cn/newbbs/ | vivo.js | 2024-05-26 | 签到得积分,抽奖 |
 | 🟢️ | 多功能 | WEB | 中国移动云盘 | https://yun.139.com/ | caiyun.js | 2024-05-26 | 签到得彩云,做任务 |
-| 🟢️ | 多功能 | 小程序 | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-05-29 | 金山文档微信小程序报名和打卡，领取权益 |
+| 🟢️ | 多功能 | 小程序 | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-06-02 | 金山文档微信小程序报名和打卡，领取权益 |
 | 🟢️ | 多功能 | APP | 天翼云盘 | 天翼云盘 | tianyi.js | 2024-05-26 | 签到空间，抽奖 |
-| 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-05-29 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
-| 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-05-29 | 签到得积分、做任务、领取猫粮 |
-| 🟢️ | 签到 | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-05-29 | 签到得积分,自动更新token |
+| 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-06-02 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
+| 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-06-02 | 签到得积分、做任务、领取猫粮 |
+| 🟢️ | 签到 | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-06-02 | 签到得积分,自动更新token |
 | 🟢️ | 签到 | APP | 海信爱家  | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
 | 🟢️ | 签到 | APP | 中国联通  | 中国联通 | zglt.js | 2024-05-25 | 签到 |
-| 🟢️ | 签到 | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-05-29 | 签到,得积分 |
-| 🟢️ | 签到 | WEB | 万能福利吧 | https://www.wnflb2023.com/ | wnflb.js | 2024-05-29 | 签到,得积分 |
-| 🟡 | 签到 | 小程序 | 百事可乐上海 | 百事可乐上海 | bsklsh.js | 2024-05-31 | 签到,得积分 |
+| 🟢️ | 多功能 | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-06-02| 签到、做任务,得积分 |
+| 🟢️ | 签到 | WEB | 万能福利吧 | https://www.wnflb2023.com/ | wnflb.js | 2024-06-02 | 签到,得积分 |
+| 🟢️ | 签到 | 小程序 | 百事可乐上海 | 百事可乐上海 | bsklsh.js | 2024-06-02 | 签到,得积分 |
 
 ## 支持的通知列表
 
@@ -154,7 +154,9 @@ var configContent=[
 > ***您使用或者复制了本仓库且本人制作的任何脚本，则视为 `已接受` 此声明，请仔细阅读***
 
 ## 更新日志 
- 2024-05-31
+- 2024-06-02
+    * 更新【中兴商城】，增加自动做任务能力
+- 2024-05-31
     * 增添【百事可乐上海】脚本
 - 2024-05-29
     * 增添【万能福利吧】脚本
