@@ -1,5 +1,5 @@
-// 中兴商城自动签到
-// 20240525
+// 中兴商城自动签到、做任务
+// 20240602
 
 let sheetNameSubConfig = "ztemall"; // 分配置表名称
 let pushHeader = "【中兴商城】";
@@ -467,7 +467,7 @@ function execHandle(cookie, pos) {
         currentCheckInPoint = resp["data"]["currentCheckInPoint"] // 获得积分
         point = resp["data"]["point"] // 总积分
 
-        content = msg + " 连签" + checkin_days + "天,获得"+currentCheckInPoint +"积分，当前共有" + point + "积分 "
+        content = msg + " 连签" + checkin_days + "天,获得" + currentCheckInPoint +"积分 " //，当前共有" + point + "积分 "
         messageSuccess += content;
         console.log(content)
       }else if(errorcode == 10000){
@@ -486,6 +486,180 @@ function execHandle(cookie, pos) {
       console.log(content);
     }
 
+    // 商城做任务
+    var url3 = "https://www.ztemall.com/index.php/topapi?platform=h5&method=task.list&format=json&v=v1&sign=&accessToken=" // 商城任务列表
+    var url4 = "https://www.ztemall.com/index.php/topapi" // 商城任务开始、任务完成、任务领取(get)
+
+    // 取任务id
+    console.log("获取任务id列表")
+    resp = HTTP.fetch(url3 + params, {
+      method: "get",
+      headers: headers,
+      // data: data
+    });
+    task_id_list = []  // 存放任务列表
+    resp = resp.json()
+    console.log(resp)
+    tasks = resp["data"]["tasks"]
+    // console.log(tasks.length)
+    for (key = 0; key < tasks.length; key ++) {
+
+      // 类型 去参与、立即领取、已完成、去拼团、去购买。只有去参与才是浏览10s,可以做任务
+      desc = tasks[key]["btn"]["desc"]
+      if(desc == "去参与" || desc == "立即领取")
+      {
+        dict = {
+          "title" : tasks[key]["title"],
+          "task_id" : tasks[key]["task_id"],
+          "page_ids" : tasks[key]["task_data"]["page_ids"],
+        }
+        // console.log(dict)
+        task_id_list.push(dict)
+      }
+      // console.log(tasks[key]["title"])
+      // status = tasks[i]["btn"]["status"]  // 任务状态 finish、todo
+    }
+    console.log(task_id_list)
+    
+    data = {
+      "page_id":0,
+      "task_id":"",
+      "method":"task.start",  // task.start task.finish
+      "format":"json",
+      "v":"v1",
+      "sign":"",
+      "accessToken":accessToken,
+    }
+
+    headers={
+      "Host": "www.ztemall.com",
+      "Content-Type": "application/x-www-form-urlencoded",
+    }
+
+    // headers["Content-Type"] = "application/x-www-form-urlencoded"
+
+    for(i=0; i<task_id_list.length; i++){
+      // 任务开始
+      // console.log(task_id_list[i])
+      title = task_id_list[i]["title"]
+      task_id = task_id_list[i]["task_id"]
+      data["task_id"] = task_id
+      try{
+        page_id = task_id_list[i]["page_ids"][0]
+        // console.log(page_id)
+        if(page_id != undefined && page_id != "" && page_id != "undefined"){
+          data["page_id"] = page_id
+        }else
+        {
+          data["page_id"] = 0
+        }
+        // console.log("page_id:" + data["page_id"])
+      }catch{
+        data["page_id"] = 0
+      }
+
+      data["method"] = "task.start"
+      console.log("开始做任务：" + title) // + " 任务id:" + task_id)
+      resp = HTTP.post(
+        url4,
+        // JSON.stringify(data),
+        data,
+        { headers: headers }
+      );
+      
+      // {"errorcode":10001,"msg":"系统参数：版本号必填","data":{}}
+      // {"from":"lua","msg":"无效请求","errorcode":20001,"data":{}}
+      // {"errorcode":"10000","msg":"找不到API:task.start","data":{}}
+      // {"from":"lua","msg":"","errorcode":0,"data":{"res_sec":10}}
+      
+      // {"from":"lua","msg":"请从任务中心开始任务","errorcode":10000,"data":{}}
+      // {"from":"lua","msg":"该类任务不支持此操作","errorcode":10000,"data":{}}
+      resp = resp.json()
+      console.log(resp)
+      errorcode = resp["errorcode"]
+      if(errorcode != 0)  // 这个任务没做成功，直接进入下一个任务
+      {
+        content = title + "无法开始，直接进入下一个任务 "
+        messageFail += content
+        console.log(content)
+        sleep(2000);
+        continue
+      }
+
+      sleep(11000);
+      // 任务完成
+      data["method"] = "task.finish"
+      resp = HTTP.post(
+        url4,
+        // JSON.stringify(data),
+        data,
+        { headers: headers }
+      );
+      resp = resp.json()
+      console.log(resp)
+      errorcode = resp["errorcode"]
+      // {"from":"lua","msg":"","errorcode":0,"data":{"status":"succ"}}
+      if(errorcode != 0)  // 这个任务没做成功，直接进入下一个任务
+      {
+        content = title + "无法完成，直接进入下一个任务 "
+        messageFail += content
+        console.log(content)
+        sleep(2000);
+        continue
+      }
+
+      sleep(2000);
+      // 领取奖励
+      params = "?task_id=" + task_id + "&method=task.check&format=json&v=v1&sign=&accessToken=" + accessToken // 商城任务领取
+      resp = HTTP.fetch(url4 + params, {
+        method: "get",
+        headers: headers,
+      });
+      resp = resp.json()
+      console.log(resp)
+      // {"errorcode":20001,"msg":"invalid token","data":{}}
+      // {"errorcode":0,"msg":"","data":{"status":"succ"}}
+      if(errorcode != 0)  // 这个任务没做成功，直接进入下一个任务
+      {
+        content = title + "无法领取奖励，请手动领取奖励 "
+        messageFail += content
+        console.log(content)
+        sleep(2000);
+        continue
+      }else{
+        content = title + "已完成 "
+        messageFail += content
+        console.log(content)
+      }
+
+      sleep(2000);
+    }
+
+    // 查询当前积分
+    url5 = "https://www.ztemall.com/index.php/topapi?page_no=1&page_size=1&method=member.point.detail&format=json&v=v1&sign=&accessToken=" + accessToken
+    // headers={
+    //   "Host": "www.ztemall.com",
+    // }
+
+    resp = HTTP.fetch(url5, {
+      method: "get",
+      headers: headers,
+    });
+    resp = resp.json()
+    console.log(resp)
+    errorcode = resp["errorcode"]
+    if(errorcode == 0)
+    {
+      point_count = resp["data"]["point_total"]["point_count"]  // 积分总量
+      content = "当前积分:" + point_count + " "
+      messageSuccess += content
+      console.log(content)
+      sleep(2000);
+    }else{
+      content = "无法查询到当前积分 "
+      // messageFail += content
+      console.log(content)
+    }
 
   // } catch {
   //   messageFail += messageName + "失败";
