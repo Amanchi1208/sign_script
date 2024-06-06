@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240604
+// 20240606
 
 // 当前分配置表：
 // 可用脚本：
@@ -11,7 +11,7 @@
 // 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
 // wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
 // 宽带技术网、海信爱家、中国联通、中兴商城、万能福利吧
-// 百事可乐上海
+// 百事可乐上海、废文小说
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
@@ -35,7 +35,7 @@ var subConfigWorkbook = [
   'huluxia', 'iqiyi', 'huaxiaozhu', 'ztebbs', 'mi',
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
   'tianyi', 'aliyun', 'chinadsl', 'hxaj', 'zglt',
-  'ztemall', 'wnflb', 'bsklsh', 'jd',
+  'ztemall', 'wnflb', 'bsklsh', 'jd', 'fwxs', 
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -93,6 +93,7 @@ var configContent = [
   ['wnflb', '万能福利吧', '否', '是'],
   ['bsklsh', '百事可乐上海', '否', '是'],
   ['jd', '京东', '否', '是'],
+  ['fwxs', '废文小说', '否', '是'],
 ]
 
 // PUSH表内容 		
