@@ -1,5 +1,5 @@
-// 阿里云盘(自动更新token版)
-// 20240512
+// 阿里云盘(自动更新token版)、已移除自动领奖功能
+// 20240606
 // 文中引用代码改编自https://www.52pojie.cn/thread-1869673-43-1.html
 
 let sheetNameSubConfig = "aliyun"; // 分配置表名称
@@ -467,6 +467,7 @@ function doTask(row){
                         // continue; // 跳过当前行的后续操作()
                     }
                     Time.sleep(3000)
+                    if(0){
                     try {
                         // 领取奖励
                         let data3 = HTTP.post(
@@ -475,6 +476,7 @@ function doTask(row){
                             { headers: { "Authorization": access_token2 } }
                         );
                         data3 = data3.json(); // 将响应数据解析为 JSON 格式
+                        console.log(data3)
                         var result3 = data3["result"]["name"]; // 获取奖励名称
                         var result4 = data3["result"]["notice"]; // 获取奖励描述
                         Application.Range(signinresult + row).Value = date + '已签到'
@@ -490,6 +492,7 @@ function doTask(row){
                         content = "领奖出错，请手动确认 "
                         messageFail += content
                         // console.log(content)
+                    }
                     }
                     if (backups === true) {
                         // try {
