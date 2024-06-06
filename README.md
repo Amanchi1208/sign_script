@@ -78,6 +78,7 @@
 | 🟢️ | 签到 | 小程序 | 百事可乐上海 | 百事可乐上海 | bsklsh.js | 2024-06-06 | 签到,得积分 |
 | 🟤 | 签到 | APP | 京东 | 京东 | jd.js | 2024-06-02 | 签到 |
 | 🟢️ | 签到 | WEB | 废文 | 废文 | fwxs.js | 2024-06-06 | 签到 |
+| 🟢️ | 签到 | 小程序 | 鸿星尔克 | 鸿星尔克 | hxek.js | 2024-06-06 | 签到,得积分 |
 
 ## 支持的通知列表
 
@@ -158,6 +159,7 @@ var configContent=[
 ## 更新日志 
 - 2024-06-06
     * 增添【废文小说】脚本
+    * 增添【鸿星尔克】脚本
     * 移除【阿里云盘(自动更新token版) 】中的自动领奖功能
 - 2024-06-02
     * 增添【京东】脚本
@@ -281,7 +283,8 @@ var configContent=[
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin</a>、
 <a href="https://github.com/BeaCox/pediy-CheckIn">BeaCox</a>、
 <a href="">@Jerry不是猫</a>、
-<a href="https://www.52pojie.cn/thread-1869673-43-1.html">@凌帝。</a>
+<a href="https://www.52pojie.cn/thread-1869673-43-1.html">@凌帝。</a>、
+<a href="https://github.com/CHERWING/CHERWIN_SCRIPTS">CHERWING</a>
 
 </br>
 
