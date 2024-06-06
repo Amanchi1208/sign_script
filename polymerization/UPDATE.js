@@ -11,7 +11,7 @@
 // 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
 // wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
 // 宽带技术网、海信爱家、中国联通、中兴商城、万能福利吧
-// 百事可乐上海、废文小说
+// 百事可乐上海、废文小说、鸿星尔克
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
@@ -22,6 +22,7 @@
 // 定制化分配置表:
 // 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间、WPS
 // golo汽修之家、天翼云盘、阿里云盘（自动更新token版）、海信爱家
+// 百事可乐上海、鸿星尔克
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -36,6 +37,7 @@ var subConfigWorkbook = [
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
   'tianyi', 'aliyun', 'chinadsl', 'hxaj', 'zglt',
   'ztemall', 'wnflb', 'bsklsh', 'jd', 'fwxs', 
+  'hxek', 
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -94,6 +96,7 @@ var configContent = [
   ['bsklsh', '百事可乐上海', '否', '是'],
   ['jd', '京东', '否', '是'],
   ['fwxs', '废文小说', '否', '是'],
+  ['hxek', '鸿星尔克', '否', '是'],
 ]
 
 // PUSH表内容 		
@@ -218,6 +221,13 @@ var subConfigBsklsh = [
   ['xxxxxxxx2', '否', '昵称2', 'xxx', 'xxx']
 ]
 
+// 定制化分配置表内容，hxek
+var subConfigHxek = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', "memberId", "enterpriseId"],
+  ['xxxxxxxx1', '是', '昵称1', 'xxx', 'xxx'],
+  ['xxxxxxxx2', '否', '昵称2', 'xxx', 'xxx']
+]
+
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
@@ -290,6 +300,9 @@ editConfigSheet(subConfigHxaj)
 
 ActivateSheet(subConfigWorkbook[37]) // 激活百事可乐上海分配置表
 editConfigSheet(subConfigBsklsh)
+
+ActivateSheet(subConfigWorkbook[40]) // 激活鸿星尔克分配置表
+editConfigSheet(subConfigHxek)
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
 function determineRowCol() {
