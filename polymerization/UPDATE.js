@@ -18,6 +18,7 @@
 // 时光相册、像素蛋糕、甜润世界、囍福社
 // 叮咚买菜-叮咚果园、叮咚买菜-叮咚鱼塘
 // 北京时间、花小猪、wps(稻壳版）、京东
+// 一点万象
 
 // 定制化分配置表:
 // 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间、WPS
@@ -37,7 +38,7 @@ var subConfigWorkbook = [
   'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
   'tianyi', 'aliyun', 'chinadsl', 'hxaj', 'zglt',
   'ztemall', 'wnflb', 'bsklsh', 'jd', 'fwxs', 
-  'hxek', 'flyert', 'jyw', 
+  'hxek', 'flyert', 'jyw', 'ydwx',
 ];
 var workbook = [] // 存储已存在表数组
 
@@ -99,6 +100,7 @@ var configContent = [
   ['hxek', '鸿星尔克', '否', '是'],
   ['flyert', '飞客茶馆', '否', '是'],
   ['jyw', '菁优网', '否', '是'],
+  ['ydwx', '一点万象', '否', '是'],
 ]
 
 // PUSH表内容 		
