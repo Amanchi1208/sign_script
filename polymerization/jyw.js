@@ -379,7 +379,7 @@ function execHandle(cookie, pos) {
   // =================修改这块区域，区域开始=================
 
   url1 = "http://www.jyeoo.com/api/SignPost"; // 签到url（修改这里，这里填抓包获取到的地址）
-  
+
   // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
   headers= {
     "Cookie": cookie,
@@ -420,6 +420,7 @@ function execHandle(cookie, pos) {
     // （修改这里，这里就是自己写了，根据抓包的响应自行修改）
     // {"S":0,"M":"签到成功!已连续签到4天!<br/>奖励20积分","D”:0}
     // {"S":1,"M":"今天已经签到，请明天继续","D":null}
+    // {"S":-2,"M":"请登录后操作","D":{}}
     // 接收到的响应数据是json格式，如下，假设有2种情况
     // 情况1：{"code": "0","message": "签到成功"}
     // 情况2：{"code":"-1","message":"签到失败"}
@@ -437,9 +438,10 @@ function execHandle(cookie, pos) {
     else
     {
       // 这里是签到失败
-      msg = "签到失败 "   // 给自己看的，可以随便写，如 msg = "失败啦！ " 。
-      
-      content = msg + " "     
+      // msg = "签到失败 "   // 给自己看的，可以随便写，如 msg = "失败啦！ " 。
+      // content = msg + " "  
+      respmsg = resp["M"] 
+      content = respmsg + " "   
       messageFail += content;
       console.log(content)
     }
