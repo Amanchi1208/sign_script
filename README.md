@@ -1,8 +1,8 @@
 <p align="center">
     <img src="https://socialify.git.ci/imoki/sign_script/image?description=1&font=Rokkitt&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark"/>
     <br><strong><font size=50>签到脚本框架</font></strong>
-    <br>基于【金山文档】的签到脚本框架
-    <br>支持多账号使用、支持消息推送、易于编写新脚本
+    <br>基于【金山文档&青龙】的签到脚本框架
+    <br>支持金山文档、青龙。多账号使用、支持消息推送、易于编写新脚本
 </p>
 
 <p align="center">
@@ -12,7 +12,10 @@
 </p>
 
 ## 文字教程及反馈  
-公众号“**默库**”  
+公众号“**默库**”
+
+## 脚本概述
+脚本能同时在金山文档和青龙运行。
 
 ## 聚合脚本（polymerization）
 文件夹“polymerization”内的所有脚本统称为聚合脚本，运行UPDATE.js即可自动生成表格及配置内容。
@@ -159,6 +162,8 @@ var configContent=[
 > ***您使用或者复制了本仓库且本人制作的任何脚本，则视为 `已接受` 此声明，请仔细阅读***
 
 ## 更新日志 
+- 2024-06-10
+    * 兼容青龙
 - 2024-06-08
     * 增添【一点万象】脚本
     * 修复【菁优网】第一次签到成功却提示失败的问题
