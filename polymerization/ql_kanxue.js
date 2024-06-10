@@ -2,6 +2,12 @@
 // 20240610
 // 已进行青龙适配
 
+/*
+看雪论坛
+脚本兼容: 金山文档， 青龙
+cron: 40 0,2 * * * 
+*/
+
 let sheetNameSubConfig = "kanxue"; // 分配置表名称
 let pushHeader = "【看雪论坛】";
 let sheetNameConfig = "CONFIG"; // 总配置表
