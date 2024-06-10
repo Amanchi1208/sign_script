@@ -1,7 +1,8 @@
 /*
 看雪论坛
-cron: 41 0,2 * * * kanxue.js
+cron: 42 0,2 * * *
 脚本兼容: 金山文档， 青龙
+更新时间：20240610
 */
 
 let sheetNameSubConfig = "kanxue"; // 分配置表名称
