@@ -1,11 +1,7 @@
-// 看雪论坛自动签到
-// 20240610
-// 已进行青龙适配
-
 /*
 看雪论坛
+cron: 40 0,2 * * * kanxue.js
 脚本兼容: 金山文档， 青龙
-cron: 40 0,2 * * * 
 */
 
 let sheetNameSubConfig = "kanxue"; // 分配置表名称
