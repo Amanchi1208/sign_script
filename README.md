@@ -15,7 +15,7 @@
 公众号“**默库**”
 
 ## 脚本概述
-脚本能同时在金山文档和青龙运行。
+脚本能同时在金山文档和青龙运行。以“ql_”开头的脚本，即可在金山文档运行也可在青龙内运行。
 
 ## 青龙拉取仓库命令
 ql repo https://github.com/imoki/sign_script.git "ql_" "main"
@@ -32,17 +32,16 @@ ql repo https://github.com/imoki/sign_script.git "ql_" "main"
 * 两个账号，内含多个值：xxx1#xxx2@xxx11#xxx22
 
 ## 青龙推送环境变量填写
-**bark推送**
+**bark推送**  
 变量名：BARK_PUSH  
 值：key  
-**pushplus推送**
+**pushplus推送**  
 变量名：PUSH_PLUS_PUSH  
 值：token 
 
 ## 青龙需要的依赖（nodejs）
 * crypto-js
 * nodemailer
-
 
 
 ## 聚合脚本（polymerization）
@@ -56,9 +55,9 @@ ql repo https://github.com/imoki/sign_script.git "ql_" "main"
 * 方便定时任务的添加与查看
 * 支持仅推送错误消息、推送昵称等，支持更多的推送方式
 * 配置灵活快捷，利于新增脚本及新配置功能
-* 支持多脚本共用同一个表格，如WPS(轻量版)、WPS(客户端版)、WPS(稻壳版)脚本共用名称为wps的表格。
-**青龙**
-* 脚本也可以直接在青龙中运行
+* 支持多脚本共用同一个表格，如WPS(轻量版)、WPS(客户端版)、WPS(稻壳版)脚本共用名称为wps的表格。  
+**青龙**  
+* 脚本也可以直接在青龙中运行  
 
 ## 调试脚本（DEBUG、仅用于测试脚本错误）
 文件夹“DEBUG”为适配聚合版脚本的调试脚本，如果运行聚合脚本出现问题，可复制此文件夹内的调试脚本并运行，可一定程度指出是何种错误。
@@ -114,7 +113,7 @@ ql repo https://github.com/imoki/sign_script.git "ql_" "main"
 | 🟢️ | 签到 | 小程序 | 百事可乐上海 | 百事可乐上海 | bsklsh.js | 2024-06-08 | 签到,得积分 |
 | 🟤 | 签到 | APP | 京东 | 京东 | jd.js | 2024-06-02 | 签到 |
 | 🟢️ | 签到 | WEB | 废文 | 废文 | fwxs.js | 2024-06-07 | 签到 |
-| 🟢️ | 签到 | 小程序 | 鸿星尔克 | 鸿星尔克 | hxek.js | 2024-06-08 | 签到,得积分 |
+| 🟢️ | 签到 | 小程序 | 鸿星尔克 | 鸿星尔克 | hxek.js | 2024-06-10 | 签到,得积分 |
 | 🟢️ | 签到 | WEB | 菁优网 | 菁优网 | jyw.js | 2024-06-08 | 签到 |
 | 🟤 | 签到 | APP | 一点万象 | 一点万象 | ydwx.js | 2024-06-08 | 签到 |
 
