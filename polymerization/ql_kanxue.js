@@ -1,6 +1,6 @@
 /*
 看雪论坛
-cron: 40 0,2 * * * kanxue.js
+cron: 41 0,2 * * * kanxue.js
 脚本兼容: 金山文档， 青龙
 */
 
