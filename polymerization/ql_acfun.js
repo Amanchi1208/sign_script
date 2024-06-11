@@ -807,13 +807,13 @@ function resultHandle(resp, pos){
       resp = resp.json();
       console.log(resp);
       msg = resp["msg"]
-      content = messageName  + "" + msg + " ";
+      content = msg + " ";
       messageSuccess += content
       console.log(content);
     } else {
       // {"result":-401,"error_msg":"user not login"}
     //   console.log(resp.text());
-      content = messageName + "签到失败 ";
+      content = "签到失败 ";
       messageFail += content
       console.log(content);
     }
