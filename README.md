@@ -15,7 +15,7 @@
 公众号“**默库**”
 
 ## 脚本概述
-脚本能同时在金山文档和青龙运行。以“ql_”开头的脚本，即可在金山文档运行也可在青龙内运行。
+以“ql_”开头的脚本，既可在金山文档运行也可在青龙内运行。未特殊标识脚本，仅支持金山文档。
 
 ## 青龙拉取仓库命令
 ql repo https://github.com/imoki/sign_script.git "ql_" "main"
@@ -38,6 +38,17 @@ ql repo https://github.com/imoki/sign_script.git "ql_" "main"
 **pushplus推送**  
 变量名：PUSH_PLUS_PUSH  
 值：token 
+**Server酱推送**  
+变量名：PUSH_KEY  
+**钉钉推送**   
+变量名：DD_BOT_TOKENG  
+**邮箱推送**   
+SMTP服务器域名：SMTP_SERVER  
+端口：SMTP_PORT  
+发送邮箱：SMTP_EMAIL  
+授权码：SMTP_PASSWORD  
+**discord推送**   
+变量名：DISCORD_WEBHOOK  
 
 ## 青龙需要的依赖（nodejs）
 * crypto-js
