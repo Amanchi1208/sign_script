@@ -36,7 +36,7 @@ ql repo https://github.com/imoki/sign_script.git "ql_" "main"
 变量名：BARK_PUSH  
 值：key  
 **pushplus推送**  
-变量名：PUSH_PLUS_PUSH  
+变量名：PUSH_PLUS_TOKEN  
 值：token 
 **Server酱推送**  
 变量名：PUSH_KEY  
