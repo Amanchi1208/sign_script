@@ -1,12 +1,12 @@
 /*
-    name: "喜马拉雅"
-    cron: 10 0 12 * * *
+    name: "哔哩哔哩"
+    cron: 10 30 12 * * *
     脚本兼容: 金山文档， 青龙
     更新时间：20240611
 */
 
-let sheetNameSubConfig = "xmly"; // 分配置表名称
-let pushHeader = "【喜马拉雅】";
+let sheetNameSubConfig = "bilibili"; // 分配置表名称
+let pushHeader = "【哔哩哔哩】";
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
 let sheetNameEmail = "EMAIL"; // 邮箱表
@@ -780,6 +780,46 @@ function jsonPushHandle(pushName, pushFlag, pushKey) {
   }
 }
 
+// cookie字符串转json格式
+function cookie_to_json(cookies) {
+  var cookie_text = cookies;
+  var arr = [];
+  var text_to_split = cookie_text.split(";");
+  for (var i in text_to_split) {
+    var tmp = text_to_split[i].split("=");
+    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
+  }
+  var res = "{\n" + arr.join(",\n") + "\n}";
+  return JSON.parse(res);
+}
+
+// 获取10 位时间戳
+function getts10() {
+  var ts = Math.round(new Date().getTime() / 1000).toString();
+  return ts;
+}
+
+// 获取13位时间戳
+function getts13(){
+  // var ts = Math.round(new Date().getTime()/1000).toString()  // 获取10 位时间戳
+  let ts = new Date().getTime()
+  return ts
+}
+
+// 符合UUID v4规范的随机字符串 b9ab98bb-b8a9-4a8a-a88a-9aab899a88b9
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0,
+        v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+function getUUIDDigits(length) {
+    var uuid = generateUUID();
+    return uuid.replace(/-/g, '').substr(16, length);
+}
+
 // 青龙适配
 // 结果处理函数
 function resultHandle(resp, pos){
@@ -802,29 +842,44 @@ function resultHandle(resp, pos){
     posLabel = pos-2 ;  // 存放下标，从0开始
     messageHeader[posLabel] = messageName
 
-    // {
-    //     ret: 0,
-    //     msg: null,
-    //     data: {
-    //         code: -2,
-    //         msg: '已打卡',
-    //         continueDay: 0,
-    //         totalDay: 0,
-    //         roundPeriod: 0,
-    //         dayAward: null,
-    //         orderData: { value: 0, context: null, randomQuantity: 0 }
-    //     },
-    //     context: null
-    // }
     if (resp.status == 200) {
-      resp = resp.json();
-      console.log(resp);
-      msg = resp["data"]["msg"]
-      content = msg + " "
-      messageSuccess += content;
-      console.log(content);
-    } else { // 401 {"ret":50,"msg":"请登录"}
-    //   console.log(resp.text());
+        // {"code":1011040,"message":"今日已签到过,无法重复签到","ttl":1,"data":{}}
+        // { code: -101, message: '账号未登录', ttl: 1 }
+        // {
+        //     code: 0,
+        //     message: '0',
+        //     ttl: 1,
+        //     data: {
+        //         text: '3000点用户经验,2根辣条',
+        //         specialText: '再签到4天可以获得666银瓜子',
+        //         allDays: 30,
+        //         hadSignDays: 1,
+        //         isBonusDay: 0
+        //     }
+        // }
+        resp = resp.json()
+        console.log(resp)
+        code = resp["code"]
+        if (code != null){
+        content = ""
+        if (code == 0){
+            content = resp["data"]["text"]
+            // console.log(resp["data"]["text"])
+            }else{
+                content = resp["message"]
+                // console.log(resp["message"])
+            }
+            messageSuccess += content;
+            console.log(content)
+        }else
+        {
+            content = "签到失败 "
+            messageFail += content;
+            console.log(content);
+        }
+      
+    } else {
+        //   console.log(resp.text());
         content = "签到失败 ";
         messageFail += content
         console.log(content);
@@ -850,42 +905,39 @@ function resultHandle(resp, pos){
     return flagFinish
 }
 
+
 // 具体的执行函数
 function execHandle(cookie, pos) {
     // 青龙适配，青龙微适配
     qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
 
+  // try {
+    var url = "https://api.live.bilibili.com/xlive/web-ucenter/v1/sign/DoSign"; // 直播签到
 
-    // 签到
-    var url;
-    // url1 = 'https://hybrid.ximalaya.com/web-activity/signIn/v2/signIn?v=new'
-    url = 'https://hybrid.ximalaya.com/web-activity/signIn/v2/signIn'
     headers = {
-        "Host": "hybrid.ximalaya.com",
-        'Content-Type': 'application/json',
-        // 'Accept': '*/*',
-        "X-Xuid-Fp": "FISDYy0YZLgYhwIObU0_rmpz5ZIWc2doY1AQZ8xlyQk8pafpgABxMiE5LjAuNDMh",
-        // 'Connection': 'keep-alive',
-        "Cookie": cookie,
-        // 'User-Agent': 'ting_v9.0.87_c5(CFNetwork, iOS 15.6, iPhone14,5)',
-        // 'Content-Length': '10',
-        // 'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
-        // 'Accept-Encoding': 'gzip, deflate, br',
-        // "Content-Type" : "application/x-www-form-urlencoded"
+        'Cookie':cookie,
+        'User-Agent': 'HD1910(Android/7.1.2) (pediy.UNICFBC0DD/1.0.5) Weex/0.26.0 720x1280',
     }
-    data={"aid":87}
-    resp = HTTP.post(
-      url,
-    //   JSON.stringify(data),
-        data,
-      { headers: headers}
-    );
-    // {"ret":0,"msg":{},"data":{"code":-2,"msg":"已打卡","continueDay":0,"totalDay":0,"roundPeriod":0,"dayAward":{},"orderData":{"value":0,"context":{},"randomQuantity":0}},"context":{}}
 
-
-
+    if(qlSwitch != 1){  // 金山文档
+        // 直播签到
+        resp = HTTP.get(url, {
+            headers: headers,
+        })
+    }else{  // 青龙
+        data = {}
+        option = "get"
+        resp = HTTP.post(
+            url,
+            data,
+            { headers: headers },
+            option
+        );
+    }
+    
     // 青龙适配，青龙微适配
     if(qlSwitch != 1){  // 选择金山文档
         resultHandle(resp, pos)
     }
+    
 }
