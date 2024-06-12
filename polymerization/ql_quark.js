@@ -2,7 +2,7 @@
     name: "夸克网盘"
     cron: 10 30 10 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240611
+    更新时间：20240612
 */
 
 let sheetNameSubConfig = "quark"; // 分配置表名称
@@ -50,7 +50,7 @@ try{
 // 适配青龙转换代码
 // cookie内容填写位置
 var userContent = [
-  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', 'mishop-client-id'],
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)'],
 //   ["", "否", "昵称1", "xxx1"],
 //   ["", "是", "昵称2", "xxx1"],
 ]
@@ -140,6 +140,7 @@ function dataToFormdata(jsonObj){
 
 var posHttp = 0 // 请求坐标，请求逻辑控制参数，用于记录是第几个请求。控制递归次数，使得异步执行看起来像同步执行，调用多次请求时候需要
 var flagFinish = 0  // 签到结束标识，1为结束
+var flagResultFinish = 0    // 请求是否结束标识，1为结束
 
 // 发送请求
 var SendReq = {
@@ -183,6 +184,7 @@ var SendReq = {
     // console.log(headers)
     // console.log(jsonData)
     if(option == "get" || option == "GET"){
+        let pos = userContent.length - qlpushFlag  // 计算用户坐标
         method = "get"
         resp = fetch(url, {
             method: method,
@@ -193,23 +195,29 @@ var SendReq = {
             // return response.json();
             return {
                 status: response.status,
-                json: response.json() // 注意这里返回的是一个 Promise
+                json: response.json(),  // 注意这里返回的是一个 Promise
+                pos:pos
             };
         })
         .then(function(result) {
             return result.json.then(data => {
-                return { status: result.status, json: function json(){return data;} }; // 返回一个新的对象
+                return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
             });
         })
         .then(result => {
             // 青龙推送标识
-            pos = userContent.length - qlpushFlag  // 计算用户坐标
-            flagFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
+            pos = result.pos
+            flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
+            if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
+                flagFinish = 1
+            }
 
             if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
                 console.log("青龙发起推送")
                 message = messageMerge()// 将消息数组融合为一条总消息
-                push(message); // 推送消息
+                // push(message); // 推送消息
+                const { sendNotify } = require('./sendNotify.js'); // commonjs
+                sendNotify(pushHeader, message);
             }
         })
         .catch(error => {
@@ -217,6 +225,9 @@ var SendReq = {
             console.error('Fetch error:', error);
         });
     }else{
+        // 青龙推送标识
+        let pos = userContent.length - qlpushFlag  // 计算用户坐标
+        // console.log("推送：" + pos)
         method = "post"
         resp = fetch(url, {
             method: method,
@@ -227,23 +238,30 @@ var SendReq = {
             // return response.json();
             return {
                 status: response.status,
-                json: response.json() // 注意这里返回的是一个 Promise
+                json: response.json(), // 注意这里返回的是一个 Promise
+                pos: pos,   // 用户坐标
             };
         })
         .then(function(result) {
+            
             return result.json.then(data => {
-                return { status: result.status, json: function json(){return data;} }; // 返回一个新的对象
+                return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
             });
         })
         .then(result => {
-            // 青龙推送标识
-            pos = userContent.length - qlpushFlag  // 计算用户坐标
-            flagFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
+            // console.log(result)
+            pos = result.pos
+            flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
+            if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
+                flagFinish = 1
+            }
 
             if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
                 console.log("青龙发起推送")
                 message = messageMerge()// 将消息数组融合为一条总消息
-                push(message); // 推送消息
+                // push(message); // 推送消息
+                const { sendNotify } = require('./sendNotify.js'); // commonjs
+                sendNotify(pushHeader, message);
             }
         })
         .catch(error => {
@@ -251,8 +269,6 @@ var SendReq = {
             console.error('Fetch error:', error);
         });
     }
-
-
 
   }
 };
@@ -266,8 +282,6 @@ if(qlSwitch == 1){  // 选择青龙
   cookies = process.env[sheetNameSubConfig]
 //   console.log(cookies)
   cookiesTocookie(cookies)
-  // 推送数据适配
-    adaptPush() // 推送适配
   // 函数适配
   Application = ApplicationCustom
   HTTP = SendReq
@@ -295,13 +309,15 @@ function cookiesTocookie(cookies) {
   let temparr = []
   let text_to_split = cookie_text.split("@");
   for (let i in text_to_split) {
+      temparr = []
     let pos = Number(i) + 1
     // 解离细微cookie
     arr = cookiesTocookieMin(text_to_split[i])
-    if(arr.length != 0){    // 存在细微cookie
-        temparr.push(arr[0])
-        temparr.push("是")
-        temparr.push("昵称" + pos)
+    // console.log(arr)
+    temparr.push(arr[0])
+    temparr.push("是")
+    temparr.push("昵称" + pos)
+    if(arr.length > 0){    // 存在细微cookie
         for (let j=3; j < arr.length + 2; j++){
             temparr.push(arr[j - 2])
         }
@@ -311,75 +327,6 @@ function cookiesTocookie(cookies) {
   }
   qlpushFlag = userContent.length - 1
 //   console.log(userContent)
-}
-
-function extractBark(url) {
-  const regex = /https:\/\/api\.day\.app\/(\w+)/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-}
-
-// 推送适配
-function adaptPush(){
-    // bark
-    BARK_PUSH = process.env["BARK_PUSH"] 
-    if (BARK_PUSH.startsWith('http')) {
-        BARK_PUSH = extractBark(BARK_PUSH);// `https://api.day.app/xxx`; -> xxx
-    }
-    if(BARK_PUSH != "" && BARK_PUSH != undefined ){
-        pushContent[1][1] = BARK_PUSH;
-        pushContent[1][2] = "是";
-    }
-
-    // pushplus
-    PUSH_PLUS_TOKEN = process.env["PUSH_PLUS_TOKEN"] 
-    if(PUSH_PLUS_TOKEN != "" && PUSH_PLUS_TOKEN != undefined  ){
-        pushContent[2][1] = PUSH_PLUS_TOKEN;
-        pushContent[2][2] = "是";
-    }
-
-    // ServerChan
-    PUSH_KEY = process.env["PUSH_KEY"] 
-    if(PUSH_KEY != "" && PUSH_KEY != undefined ){
-        pushContent[3][1] = PUSH_KEY;
-        pushContent[3][2] = "是";
-    }
-
-    // email
-    SMTP_SERVER = process.env["SMTP_SERVER"]
-    SMTP_PORT = process.env["SMTP_PORT"]
-    SMTP_EMAIL = process.env["SMTP_EMAIL"] 
-    SMTP_PASSWORD = process.env["SMTP_PASSWORD"] 
-    // SMTP_NAME = process.env["SMTP_NAME"] 
-    if(PUSH_KEY != "" ){
-        pushContent[4][2] = "是";
-        emailContent[1][0] = SMTP_SERVER;   // SMTP服务器域名
-        if(SMTP_PORT == "" || SMTP_PORT == undefined || SMTP_PORT == "undefined" ){    // 如果端口为空
-            SMTP_PORT   = 465
-        }
-        emailContent[1][1] = SMTP_PORT;     // 端口 
-        emailContent[1][2] = SMTP_EMAIL;    // 发送邮箱
-        emailContent[1][3] = SMTP_PASSWORD; // 授权码
-    }
-
-    // dingtalk
-    DD_BOT_SECRET = process.env["DD_BOT_SECRET"]
-    DD_BOT_TOKEN  = process.env["DD_BOT_TOKEN"]
-    if(DD_BOT_SECRET != "" && DD_BOT_SECRET != undefined ){
-        pushContent[5][1] = DD_BOT_SECRET;
-        pushContent[5][2] = "是";
-    }
-    if(DD_BOT_TOKEN != "" && DD_BOT_TOKEN != undefined ){    // 以access_token优先
-        pushContent[5][1] = DD_BOT_TOKEN;
-        pushContent[5][2] = "是";
-    }
-
-    // discord
-    DISCORD_WEBHOOK = process.env["DISCORD_WEBHOOK"]
-    if(DISCORD_WEBHOOK != "" && DISCORD_WEBHOOK != undefined ){    // 以access_token优先
-        pushContent[6][1] = DISCORD_WEBHOOK;
-        pushContent[6][2] = "是";
-    }
 }
 
 // 功能函数适配
@@ -424,222 +371,6 @@ function getsign(data) {
         const md5Hash = CryptoJS.MD5(data).toString();
         console.log(md5Hash);
         return md5Hash
-    }
-}
-
-// 推送函数适配
-// 推送bark消息
-function bark(message, key) {
-    console.log("执行bark")
-  if (key != "") {
-    let url = "https://api.day.app/" + key + "/" + message;
-    // 若需要修改推送的分组，则将上面一行改为如下的形式
-    // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
-    headers = { "Content-Type": "application/x-www-form-urlencoded" }
-    let resp = HTTP.get(url, {
-        headers: headers,
-    });
-  }
-}
-
-
-// 推送pushplus消息
-function pushplus(message, key) {
-    console.log("执行pushplus")
-  if (key != "") {
-    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
-    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
-    if(qlSwitch != 1){ // 金山文档
-        let resp = HTTP.fetch(url, {
-            method: "get",
-        });
-    }
-    else{   // 青龙
-        headers= {'Content-Type': 'application/json'}
-        let resp = fetch(url, {
-            method: 'get',
-            headers: headers,
-            // body: jsonData
-            timeout: 30000 // 超时时间设置为30秒
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            console.log(data);
-        });
-
-    }
-  }
-}
-
-// 推送serverchan消息
-function serverchan(message, key) {
-    console.log("执行serverchan")
-  if (key != "") {
-    url =
-      "https://sctapi.ftqq.com/" +
-      key +
-      ".send" +
-      "?title=消息推送" +
-      "&desp=" +
-      message; 
-    if(qlSwitch != 1){  // 金山文档  
-        let resp = HTTP.fetch(url, {
-            method: "get",
-        });
-    }
-    else{
-        // 青龙
-        console.log(url)
-        headers= {'Content-Type': 'application/json'}
-        resp = fetch(url, {
-            method: 'get',
-            headers: headers,
-            // body: jsonData
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            console.log(data);
-        });
-
-    }
-  }
-}
-
-// email邮箱推送
-function email(message) {
-    console.log("执行email")
-  var myDate = new Date(); // 创建一个表示当前时间的 Date 对象
-  var data_time = myDate.toLocaleDateString(); // 获取当前日期的字符串表示
-  let server = jsonEmail.server;
-  let port = parseInt(jsonEmail.port); // 转成整形
-  let sender = jsonEmail.sender;
-  let authorizationCode = jsonEmail.authorizationCode;
-    if(qlSwitch != 1){  // 金山文档
-        let mailer;
-        mailer = SMTP.login({
-            host: server,
-            port: port,
-            username: sender,
-            password: authorizationCode,
-            secure: true,
-        });
-        mailer.send({
-            from: pushHeader + "<" + sender + ">",
-            to: sender,
-            subject: pushHeader + " - " + data_time,
-            text: message,
-        });
-        // console.log("已发送邮件至：" + sender);
-        console.log("已发送邮件");
-        sleep(5000);
-    }else{    // 青龙
-        const nodemailer = require('nodemailer');
-        transporter = nodemailer.createTransport({
-            host: server,
-            port: port,
-            auth: {
-                user: sender,
-                pass: authorizationCode,
-            },
-        });
-
-        transporter.sendMail({
-            from: pushHeader + "<" + sender + ">",
-            to: sender,
-            subject: pushHeader + " - " + data_time,
-            text: message,
-        });
-
-        transporter.close();
-
-    }
-}
-
-// 邮箱配置
-function emailConfig() {
-  console.log("开始读取邮箱配置");
-  let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
-  let name;
-  for (let i = 0; i < length; i++) {
-    name = jsonPush[i].name;
-    if (name == "email") {
-      if (jsonPush[i].flag == 1) {
-        let flag = ActivateSheet(sheetNameEmail); // 激活邮箱表
-        // 邮箱表存在
-        // var email = {
-        //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
-        // } // 有效配置
-        if (flag == 1) {
-          console.log("开始读取邮箱表");
-          for (let i = 2; i <= 2; i++) {
-            // 从工作表中读取推送数据
-            jsonEmail.server = Application.Range("A" + i).Text;
-            jsonEmail.port = Application.Range("B" + i).Text;
-            jsonEmail.sender = Application.Range("C" + i).Text;
-            jsonEmail.authorizationCode = Application.Range("D" + i).Text;
-            if (Application.Range("A" + i).Text == "") {
-              // 如果为空行，则提前结束读取
-              break;
-            }
-          }
-        }
-        break;
-      }
-    }
-  }
-}
-
-// 推送钉钉机器人
-function dingtalk(message, key) {
-    console.log("执行dingtalk")
-  let url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
-    if(qlSwitch != 1){    
-        // 金山文档
-        let resp = HTTP.post(url, { msgtype: "text", text: { content: message } });
-    }else{
-        // 青龙
-        data = { msgtype: "text", text: { content: message } }
-        var jsonData = JSON.stringify(data);
-        resp = fetch(url, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: jsonData
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            console.log(data);
-        });
-    }
-}
-
-// 推送Discord机器人
-function discord(message, key) {
-    console.log("执行discord")
-  let url = key;
-  if(qlSwitch != 1){    
-    // 金山文档
-    let resp = HTTP.post(url, { content: message });
-  }else{
-        // 青龙
-        data = { content: message }
-        var jsonData = JSON.stringify(data);
-        resp = fetch(url, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: jsonData
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            console.log(data);
-        });
     }
 }
 
@@ -721,6 +452,19 @@ if (flagSubConfig == 1) {
   push(message); // 推送消息
 }
 
+// 对推送数据进行处理
+function jsonPushHandle(pushName, pushFlag, pushKey) {
+  let length = jsonPush.length;
+  for (let i = 0; i < length; i++) {
+    if (jsonPush[i].name == pushName) {
+      if (pushFlag == "是") {
+        jsonPush[i].flag = 1;
+        jsonPush[i].key = pushKey;
+      }
+    }
+  }
+}
+
 // 将消息数组融合为一条总消息
 function messageMerge(){
   for(i=0; i<messageArray.length; i++){
@@ -767,17 +511,129 @@ function push(message) {
   }
 }
 
-// 对推送数据进行处理
-function jsonPushHandle(pushName, pushFlag, pushKey) {
-  let length = jsonPush.length;
+// 推送bark消息
+function bark(message, key) {
+  if (key != "") {
+    let url = "https://api.day.app/" + key + "/" + message;
+    // 若需要修改推送的分组，则将上面一行改为如下的形式
+    // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
+    let resp = HTTP.get(url, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+    sleep(5000);
+  }
+}
+
+// 推送pushplus消息
+function pushplus(message, key) {
+  if (key != "") {
+    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+    url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
+    let resp = HTTP.fetch(url, {
+      method: "get",
+    });
+    sleep(5000);
+  }
+}
+
+// 推送serverchan消息
+function serverchan(message, key) {
+  if (key != "") {
+    url =
+      "https://sctapi.ftqq.com/" +
+      key +
+      ".send" +
+      "?title=消息推送" +
+      "&desp=" +
+      message;
+    let resp = HTTP.fetch(url, {
+      method: "get",
+    });
+    sleep(5000);
+  }
+}
+
+// email邮箱推送
+function email(message) {
+  var myDate = new Date(); // 创建一个表示当前时间的 Date 对象
+  var data_time = myDate.toLocaleDateString(); // 获取当前日期的字符串表示
+  let server = jsonEmail.server;
+  let port = parseInt(jsonEmail.port); // 转成整形
+  let sender = jsonEmail.sender;
+  let authorizationCode = jsonEmail.authorizationCode;
+
+  let mailer;
+  mailer = SMTP.login({
+    host: server,
+    port: port,
+    username: sender,
+    password: authorizationCode,
+    secure: true,
+  });
+  mailer.send({
+    from: pushHeader + "<" + sender + ">",
+    to: sender,
+    subject: pushHeader + " - " + data_time,
+    text: message,
+  });
+  // console.log("已发送邮件至：" + sender);
+  console.log("已发送邮件");
+  sleep(5000);
+}
+
+// 邮箱配置
+function emailConfig() {
+  console.log("开始读取邮箱配置");
+  let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
+  let name;
   for (let i = 0; i < length; i++) {
-    if (jsonPush[i].name == pushName) {
-      if (pushFlag == "是") {
-        jsonPush[i].flag = 1;
-        jsonPush[i].key = pushKey;
+    name = jsonPush[i].name;
+    if (name == "email") {
+      if (jsonPush[i].flag == 1) {
+        let flag = ActivateSheet(sheetNameEmail); // 激活邮箱表
+        // 邮箱表存在
+        // var email = {
+        //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
+        // } // 有效配置
+        if (flag == 1) {
+          console.log("开始读取邮箱表");
+          for (let i = 2; i <= 2; i++) {
+            // 从工作表中读取推送数据
+            jsonEmail.server = Application.Range("A" + i).Text;
+            jsonEmail.port = Application.Range("B" + i).Text;
+            jsonEmail.sender = Application.Range("C" + i).Text;
+            jsonEmail.authorizationCode = Application.Range("D" + i).Text;
+            if (Application.Range("A" + i).Text == "") {
+              // 如果为空行，则提前结束读取
+              break;
+            }
+          }
+          // console.log(jsonEmail)
+        }
+        break;
       }
     }
   }
+}
+
+// 推送钉钉机器人
+function dingtalk(message, key) {
+  let url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
+  let resp = HTTP.post(url, { msgtype: "text", text: { content: message } });
+  // console.log(resp.text())
+  sleep(5000);
+}
+
+// 推送Discord机器人
+function discord(message, key) {
+  let url = key;
+  let resp = HTTP.post(url, { content: message });
+  //console.log(resp.text())
+  sleep(5000);
+}
+
+function sleep(d) {
+  for (var t = Date.now(); Date.now() - t <= d; );
 }
 
 // 青龙适配
@@ -834,7 +690,7 @@ function resultHandle(resp, pos){
         console.log(content)
         
         // 青龙适配，青龙微适配
-        flagFinish = 1; // 签到结束
+        flagResultFinish = 1; // 签到结束
       }else
       {
         if(posHttp == 1 || qlSwitch != 1){  // 第一次进来时用
@@ -941,7 +797,7 @@ function resultHandle(resp, pos){
             console.log(content)
 
             // 青龙适配，青龙微适配
-            flagFinish = 1; // 签到结束
+            flagResultFinish = 1; // 签到结束
         }
             
         //   }
@@ -966,7 +822,7 @@ function resultHandle(resp, pos){
         console.log(messageArray[posLabel]);
     }
 
-    return flagFinish
+    return flagResultFinish
 }
 
 // 具体的执行函数
