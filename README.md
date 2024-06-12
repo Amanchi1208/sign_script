@@ -20,40 +20,8 @@
 ## 青龙拉取仓库命令
 ql repo https://github.com/imoki/sign_script.git "ql_" "backUp|icon" "sendNotify" "main"
 
-## 青龙环境变量cookie填写格式
-1. 环境变量的命名和金山文档的表名一致，值填cookie。如变量名为:"mouxue"，代表某雪论坛。  
-2. 值填账号cookie。多个账号之间以"@"分隔。如：账号1@账号2@账号3  
-3. 如果一个脚本同时需要多个变量，以"#"分隔，如：xxx1#xxx2#xxx3  
-* 例子：
-* 一个账号：xxxxxxxx
-* 两个账号：xxxxxxxx1@xxxxxxxx2
-* 三个账号：xxxxxxxx1@xxxxxxxx2@xxxxxxxx3
-* 一个账号，内含多个值（如同时需要cookie和memberId）：xxx1#xxx2
-* 两个账号，内含多个值：xxx1#xxx2@xxx11#xxx22
-
-## 青龙推送环境变量填写
-**bark推送**  
-变量名：BARK_PUSH  
-值：key  
-**pushplus推送**  
-变量名：PUSH_PLUS_TOKEN  
-值：token 
-**Server酱推送**  
-变量名：PUSH_KEY  
-**钉钉推送**   
-变量名：DD_BOT_TOKENG  
-**邮箱推送**   
-SMTP服务器域名：SMTP_SERVER  
-端口：SMTP_PORT  
-发送邮箱：SMTP_EMAIL  
-授权码：SMTP_PASSWORD  
-**discord推送**   
-变量名：DISCORD_WEBHOOK  
-
-## 青龙需要的依赖（nodejs）
-* crypto-js
-* nodemailer
-* got@10.0.0
+## 青龙教程
+<a href="https://jewel-pullover-9d0.notion.site/dfec17946a164658bb77e9682df954a2?pvs=4">艾默库</a>
 
 
 ## 聚合脚本（polymerization）
