@@ -84,7 +84,7 @@ SMTP服务器域名：SMTP_SERVER
 | 状态 | 类别 | 终端 | 任务名称 | 名称 | 脚本 | 检查日期 |备注 |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |:---: |
 | 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2024-04-14 | 签到、自动领取首个任务奖励 |
-| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-06-08 | 签到、只能签6个左右 |
+| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-06-12 | 签到、只能签6个左右 |
 | 🔴 | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-08-26 | 签到 |
 | 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-08-08 | 签到、领取空间 |
 | 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-31 | 适用于手机端签到，不具备绕验证码功能 |
@@ -108,26 +108,28 @@ SMTP服务器域名：SMTP_SERVER
 | 🟢️ | 签到 | APP | 葫芦侠3楼 | 葫芦侠3楼 | huluxia.js | 2024-05-25 | 板块签到 |
 | 🔴 | 多功能 | WEB | 爱奇艺 | https://www.iqiyi.com | iqiyi.js | 2024-05-11 | 签到，白金抽奖,做任务得成长值 |
 | 🟢️ | 签到 | WEB | 中兴社区 | https://bbs.ztedevices.com/ | ztebbs.js | 2024-05-26 | 签到,得经验和流星 |
-| 🟢️ | 签到 | APP | 小米商城 | 小米商城 | mi.js | 2024-05-26 | 签到,得米金 |
-| 🟢️ | 签到 | WEB | 看雪论坛 | https://bbs.kanxue.com/ | kanxue.js | 2024-05-26 | 签到,得雪币 |
-| 🟢️ | 签到 | WEB | 哔哩哔哩 | https://www.bilibili.com/ | bilibili.js | 2024-05-26 | 直播签到,得经验、辣条和银瓜子 |
+| 🟢️ | 签到 | APP | 小米商城 | 小米商城 | mi.js | 2024-06-12 | 签到,得米金 |
+| 🟢️ | 签到 | WEB | 看雪论坛 | https://bbs.kanxue.com/ | kanxue.js | 2024-06-12 | 签到,得雪币 |
+| 🟢️ | 签到 | WEB | 哔哩哔哩 | https://www.bilibili.com/ | bilibili.js | 2024-06-12 | 直播签到,得经验、辣条和银瓜子 |
 | 🟢️ | 多功能 | APP | vivo社区 | https://bbs.vivo.com.cn/newbbs/ | vivo.js | 2024-05-26 | 签到得积分,抽奖 |
 | 🟢️ | 多功能 | WEB | 中国移动云盘 | https://yun.139.com/ | caiyun.js | 2024-05-26 | 签到得彩云,做任务 |
 | 🟢️ | 多功能 | 小程序 | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-06-02 | 金山文档微信小程序报名和打卡，领取权益 |
-| 🟢️ | 多功能 | APP | 天翼云盘 | 天翼云盘 | tianyi.js | 2024-06-08 | 签到空间，抽奖 |
+| 🟢️ | 多功能 | APP | 天翼云盘 | 天翼云盘 | tianyi.js | 2024-06-12 | 签到空间，抽奖 |
 | 🟢️ | 签到 | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-06-07 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
-| 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-06-07 | 签到得积分、做任务、领取猫粮 |
+| 🟢️ | 多功能 | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-06-12 | 签到得积分、做任务、领取猫粮 |
 | 🟢️ | 签到 | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-06-06 | 签到得积分,自动更新token |
 | 🟡 | 签到 | APP | 海信爱家  | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
 | 🟢️ | 签到 | APP | 中国联通  | 中国联通 | zglt.js | 2024-05-25 | 签到 |
-| 🟢️ | 多功能 | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-06-08| 签到、做任务,得积分 |
-| 🟢️ | 签到 | WEB | 万能福利吧 | https://www.wnflb2023.com/ | wnflb.js | 2024-06-07 | 签到,得积分 |
+| 🟢️ | 多功能 | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-06-12| 签到、做任务,得积分 |
+| 🟢️ | 签到 | WEB | 万能福利吧 | https://www.wnflb2023.com/ | wnflb.js | 2024-06-12 | 签到,得积分 |
 | 🟢️ | 签到 | 小程序 | 百事可乐上海 | 百事可乐上海 | bsklsh.js | 2024-06-08 | 签到,得积分 |
 | 🟤 | 签到 | APP | 京东 | 京东 | jd.js | 2024-06-02 | 签到 |
 | 🟢️ | 签到 | WEB | 废文 | 废文 | fwxs.js | 2024-06-07 | 签到 |
-| 🟢️ | 签到 | 小程序 | 鸿星尔克 | 鸿星尔克 | hxek.js | 2024-06-10 | 签到,得积分 |
-| 🟢️ | 签到 | WEB | 菁优网 | 菁优网 | jyw.js | 2024-06-08 | 签到 |
-| 🟤 | 签到 | APP | 一点万象 | 一点万象 | ydwx.js | 2024-06-08 | 签到 |
+| 🟢️ | 签到 | 小程序 | 鸿星尔克 | 鸿星尔克 | hxek.js | 2024-06-12 | 签到,得积分 |
+| 🟢️ | 签到 | WEB | 菁优网 | 菁优网 | jyw.js | 2024-06-12 | 签到 |
+| 🟤 | 签到 | APP | 一点万象 | 一点万象 | ydwx.js | 2024-06-12 | 签到 |
+| 🟢️ | 签到 | APP | 飞客茶馆 | 飞客茶馆 | flyert.js | 2024-06-12 | 签到 |
+
 
 ## 支持的通知列表
 
@@ -206,6 +208,8 @@ var configContent=[
 > ***您使用或者复制了本仓库且本人制作的任何脚本，则视为 `已接受` 此声明，请仔细阅读***
 
 ## 更新日志 
+- 2024-06-12
+    * 增添【飞客茶馆】脚本
 - 2024-06-10
     * 兼容青龙
 - 2024-06-08
