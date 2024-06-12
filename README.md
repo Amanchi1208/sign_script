@@ -14,15 +14,16 @@
 ## 文字教程及反馈  
 公众号“**默库**”
 
+## 青龙教程
+<a href="https://jewel-pullover-9d0.notion.site/dfec17946a164658bb77e9682df954a2?pvs=4">艾默库教程</a>
+
 ## 脚本概述
 以“ql_”开头的脚本，既可在金山文档运行也可在青龙内运行。未特殊标识脚本，仅支持金山文档。
 
 ## 青龙拉取仓库命令
+```
 ql repo https://github.com/imoki/sign_script.git "ql_" "backUp|icon" "sendNotify" "main"
-
-## 青龙教程
-<a href="https://jewel-pullover-9d0.notion.site/dfec17946a164658bb77e9682df954a2?pvs=4">艾默库</a>
-
+```  
 
 ## 聚合脚本（polymerization）
 文件夹“polymerization”内的所有脚本统称为聚合脚本，运行UPDATE.js即可自动生成表格及配置内容。  
