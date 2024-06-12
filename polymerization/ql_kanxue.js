@@ -214,6 +214,7 @@ var SendReq = {
             console.log("青龙发起推送")
             message = messageMerge()// 将消息数组融合为一条总消息
             // push(message); // 推送消息
+            const { sendNotify } = require('./sendNotify.js'); // commonjs
             sendNotify(pushHeader, message);
         }
     })
@@ -230,7 +231,7 @@ if(qlSwitch == 1){  // 选择青龙
   console.log("【+】 开始适配青龙环境，执行青龙代码")
   // 模块引用
     //   var axios = require('axios');
-    const { sendNotify } = require('./sendNotify.js'); // commonjs
+    // const { sendNotify } = require('./sendNotify.js'); // commonjs
     //import { sendNotify } from './sendNotify'; // es6
 
 

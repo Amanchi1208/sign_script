@@ -18,7 +18,7 @@
 以“ql_”开头的脚本，既可在金山文档运行也可在青龙内运行。未特殊标识脚本，仅支持金山文档。
 
 ## 青龙拉取仓库命令
-ql repo https://github.com/imoki/sign_script.git "ql_|sendNotify" "main"
+ql repo https://github.com/imoki/sign_script.git "ql_" "backUp|icon" "sendNotify" "main"
 
 ## 青龙环境变量cookie填写格式
 1. 环境变量的命名和金山文档的表名一致，值填cookie。如变量名为:"mouxue"，代表某雪论坛。  
