@@ -1,8 +1,8 @@
 /*
-name: "看雪论坛"
-cron: 45 0 9 * * *
-脚本兼容: 金山文档， 青龙
-更新时间：20240610
+    name: "看雪论坛"
+    cron: 45 0 9 * * *
+    脚本兼容: 金山文档， 青龙
+    更新时间：20240612
 */
 
 let sheetNameSubConfig = "kanxue"; // 分配置表名称
@@ -59,7 +59,7 @@ var userContent = [
 // 推送昵称(推送位置标识)选项：若“是”则推送“账户名称”，若账户名称为空则推送“单元格Ax”，这两种统称为位置标识。若“否”，则不推送位置标识
 var configContent = [
   ['工作表的名称', '备注', '只推送失败消息（是/否）', '推送昵称（是/否）'],
-  [sheetNameSubConfig, pushHeader, '否', '是'],
+  ['kanxue', '看雪论坛', '否', '是'],
 ]
 
 // PUSH表内容 		
@@ -213,7 +213,8 @@ var SendReq = {
         if(qlpushFlag == 0){  // 最后才推送
             console.log("青龙发起推送")
             message = messageMerge()// 将消息数组融合为一条总消息
-            push(message); // 推送消息
+            // push(message); // 推送消息
+            sendNotify(pushHeader, message);
         }
     })
     .catch(error => {
@@ -228,7 +229,11 @@ var SendReq = {
 if(qlSwitch == 1){  // 选择青龙
   console.log("【+】 开始适配青龙环境，执行青龙代码")
   // 模块引用
-  var axios = require('axios');
+    //   var axios = require('axios');
+    const { sendNotify } = require('./sendNotify.js'); // commonjs
+    //import { sendNotify } from './sendNotify'; // es6
+
+
   // 用户数据适配
   cookies = process.env[sheetNameSubConfig]
   // console.log(cookies)
