@@ -53,6 +53,7 @@ SMTP服务器域名：SMTP_SERVER
 ## 青龙需要的依赖（nodejs）
 * crypto-js
 * nodemailer
+* got@10.0.0
 
 
 ## 聚合脚本（polymerization）
