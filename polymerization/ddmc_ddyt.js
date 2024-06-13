@@ -1,5 +1,5 @@
 // 叮咚买菜-叮咚鱼塘自动签到
-// 20240412
+// 20240613
 
 let sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddyt";
@@ -370,17 +370,23 @@ function execHandle(cookie, pos) {
       code = resp["code"];
       msg = resp["msg"];
       if(code == 0){
-        messageSuccess += "帐号：" + messageName + "积分签到成功 "
-        console.log("帐号：" + messageName + "积分签到成功 ");
+        // content = "帐号：" + messageName + "积分签到成功 "
+        content = "积分签到成功 "
+        messageSuccess += content
+        console.log(content);
       }else{
         // {"msg":"出了点问题哦，请稍后再试吧","code":119000001,"timestamp":"2023-08-10 21:06:53","success":false,"exec_time":{}}
-        messageFail += "帐号：" + messageName + msg + " ";
-        console.log("帐号：" + messageName + msg + " ");
+        // content += "帐号：" + messageName + msg + " ";
+        content += msg + " ";
+        messageFail += content;
+        console.log(content);
       }
     } else {
       console.log(resp.text());
-      messageFail += "帐号：" + messageName + "积分签到失败 ";
-      console.log("帐号：" + messageName + "积分签到失败 ");
+      // content = "帐号：" + messageName + "积分签到失败 "
+      content = "积分签到失败 "
+      messageFail += content;
+      console.log(content);
     }
 
     // 签到领饲料
@@ -422,21 +428,36 @@ function execHandle(cookie, pos) {
       console.log(resp);
       code = resp["code"];
       msg = resp["msg"];
-      if(code == 0){
+      if(code == 0 ){
         flagSign = 1;
         console.log("帐号：" + messageName + "鱼塘签到成功 ");
       }else{
-        tempmessageFail = "帐号：" + messageName + msg + " ";
-        console.log("帐号：" + messageName + msg + " ");
+        if(code == 601){
+          // 此不为错误消息
+          // {"msg":"今日已完成任务，明日再来吧！","code":601,"timestamp":"2024-06-13 20:30:28","success":false}
+          flagSign = 1;
+          console.log("帐号：" + messageName + msg + " ");
+        }else{
+          // content = "帐号：" + messageName + msg + " ";
+          content = msg + " ";
+          tempmessageFail = content;
+          console.log(content);
+
+        }
+        
       }
     } else {
       console.log(resp.text());
-      tempmessageFail = "帐号：" + messageName + "签到失败 ";
-      console.log("帐号：" + messageName + "签到失败 ");
+      // content = "帐号：" + messageName + "签到失败 ";
+      content = "签到失败 ";
+      tempmessageFail = content;
+      console.log(content);
     }
 
     if(flagSign == 1){
-      messageSuccess += "帐号：" + messageName + "鱼塘签到成功 ";
+      // content = "帐号：" + messageName + "鱼塘签到成功 "
+      content = "鱼塘签到成功 "
+      messageSuccess += content;
     }else{
       messageFail += tempmessageFail;
     }
@@ -596,7 +617,7 @@ function execHandle(cookie, pos) {
       messageSuccess += "成功喂饲料" +  amoutCount + "次 "
       console.log("成功喂饲料" +  amoutCount + "次 ");
     }else{
-      messageFail += "喂饲料日志：" + msg + " ";
+      // messageFail += "喂饲料日志：" + msg + " ";   // 此错误消息无需推送
       console.log( "喂饲料日志：" + msg + " ");
     }
 
@@ -609,6 +630,7 @@ function execHandle(cookie, pos) {
   if (messageOnlyError == 1) {
     message += messageFail;
   } else {
+    message += messageName + " "
     message += messageFail + " " + messageSuccess;
   }
   console.log(message);

@@ -70,45 +70,19 @@ var flagResultFinish = 0    // 请求是否结束标识，1为结束
 var HTTPOverwrite = {
     get: function get(url, headers){
         headers = headers["headers"]
-        resp = fetch(url, {
-            method: 'get',
-            headers: headers,
-            timeout: 30000 // 超时时间设置为30秒
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            console.log(data);
-        });
-    },
-  post: function post(url, data, headers, option){
-    headers = headers["headers"]
-    contentType = headers["Content-Type"]
-    contentType2 = headers["content-type"]
-    // var jsonData = JSON.stringify(data);
-    // console.log(data)
-    var jsonData = ""
-    if((contentType != undefined && contentType != "") || (contentType2 != undefined && contentType2 != "")){
-        if(contentType == "application/x-www-form-urlencoded"){
-            console.log("检测到请求为表单格式，发送表单请求")
-            jsonData = dataToFormdata(data)
-        }else{
-            try{
-                // json格式
-                console.log("json格式data")
-                jsonData = JSON.stringify(data);
-            }catch{
-                console.log("非json，非表单data")
-                jsonData = data
-            }
-        }
-    }
-    
-    // console.log(headers)
-    // console.log(jsonData)
-    if(option == "get" || option == "GET"){
+        // resp = fetch(url, {
+        //     method: 'get',
+        //     headers: headers,
+        //     timeout: 30000 // 超时时间设置为30秒
+        // })
+        // .then(function(response) {
+        //     return response.json();
+        // })
+        // .then(function(data) {
+        //     console.log(data);
+        // });
         let pos = userContent.length - qlpushFlag  // 计算用户坐标
+        let flagJson = 1    // 判断响应是否为json。1为json
         method = "get"
         resp = fetch(url, {
             method: method,
@@ -116,17 +90,37 @@ var HTTPOverwrite = {
             // body: jsonData
         })
         .then(function(response) {
-            // return response.json();
-            return {
-                status: response.status,
-                json: response.json(),  // 注意这里返回的是一个 Promise
-                pos:pos
-            };
+            let contentType = response.headers.get('Content-Type');   
+            // console.log(contentType)    // text/html; charset=gbk
+            if (contentType && contentType.includes('application/json')) {
+                flagJson = 1
+                return {
+                    status: response.status,
+                    json: response.json(),  // 注意这里返回的是一个 Promise
+                    pos:pos
+                };
+            }else{
+                flagJson = 0
+                return {
+                    status: response.status,
+                    text: response.text(),  // 注意这里返回的是一个 Promise
+                    pos:pos
+                };
+            }
+
+            // return response.json().catch(() => response.text());
         })
         .then(function(result) {
-            return result.json.then(data => {
-                return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
-            });
+            if(flagJson == 1){
+                return result.json.then(data => {
+                    return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
+                });
+            }else{
+                return result.text.then(data => {
+                    return { status: result.status, text: function text(){return data;} , pos:pos}; // 返回一个新的对象
+                });
+            }
+            
         })
         .then(result => {
             // 青龙推送标识
@@ -148,53 +142,120 @@ var HTTPOverwrite = {
             // 捕获并处理在请求或处理响应过程中发生的任何错误
             console.error('Fetch error:', error);
         });
-    }else{
-        // 青龙推送标识
-        let pos = userContent.length - qlpushFlag  // 计算用户坐标
-        // console.log("推送：" + pos)
-        method = "post"
-        resp = fetch(url, {
-            method: method,
-            headers: headers,
-            body: jsonData
-        })
-        .then(function(response) {
-            // return response.json();
-            return {
-                status: response.status,
-                json: response.json(), // 注意这里返回的是一个 Promise
-                pos: pos,   // 用户坐标
-            };
-        })
-        .then(function(result) {
-            
-            return result.json.then(data => {
-                return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
+    },
+    post: function post(url, data, headers, option){
+        headers = headers["headers"]
+        contentType = headers["Content-Type"]
+        contentType2 = headers["content-type"]
+        // var jsonData = JSON.stringify(data);
+        // console.log(data)
+        var jsonData = ""
+        if((contentType != undefined && contentType != "") || (contentType2 != undefined && contentType2 != "")){
+            if(contentType == "application/x-www-form-urlencoded"){
+                console.log("检测到请求为表单格式，发送表单请求")
+                jsonData = dataToFormdata(data)
+            }else{
+                try{
+                    // json格式
+                    console.log("json格式data")
+                    jsonData = JSON.stringify(data);
+                }catch{
+                    console.log("非json，非表单data")
+                    jsonData = data
+                }
+            }
+        }
+        
+        // console.log(headers)
+        // console.log(jsonData)
+        if(option == "get" || option == "GET"){
+            let pos = userContent.length - qlpushFlag  // 计算用户坐标
+            method = "get"
+            resp = fetch(url, {
+                method: method,
+                headers: headers,
+                // body: jsonData
+            })
+            .then(function(response) {
+                // return response.json();
+                return {
+                    status: response.status,
+                    json: response.json(),  // 注意这里返回的是一个 Promise
+                    pos:pos
+                };
+            })
+            .then(function(result) {
+                return result.json.then(data => {
+                    return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
+                });
+            })
+            .then(result => {
+                // 青龙推送标识
+                pos = result.pos
+                flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
+                if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
+                    flagFinish = 1
+                }
+
+                if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
+                    console.log("青龙发起推送")
+                    message = messageMerge()// 将消息数组融合为一条总消息
+                    // push(message); // 推送消息
+                    const { sendNotify } = require('./sendNotify.js'); // commonjs
+                    sendNotify(pushHeader, message);
+                }
+            })
+            .catch(error => {
+                // 捕获并处理在请求或处理响应过程中发生的任何错误
+                console.error('Fetch error:', error);
             });
-        })
-        .then(result => {
-            // console.log(result)
-            pos = result.pos
-            flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
-            if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
-                flagFinish = 1
-            }
+        }else{
+            // 青龙推送标识
+            let pos = userContent.length - qlpushFlag  // 计算用户坐标
+            // console.log("推送：" + pos)
+            method = "post"
+            resp = fetch(url, {
+                method: method,
+                headers: headers,
+                body: jsonData
+            })
+            .then(function(response) {
+                // return response.json();
+                return {
+                    status: response.status,
+                    json: response.json(), // 注意这里返回的是一个 Promise
+                    pos: pos,   // 用户坐标
+                };
+            })
+            .then(function(result) {
+                
+                return result.json.then(data => {
+                    return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
+                });
+            })
+            .then(result => {
+                // console.log(result)
+                pos = result.pos
+                flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
+                if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
+                    flagFinish = 1
+                }
 
-            if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
-                console.log("青龙发起推送")
-                let message = messageMerge()// 将消息数组融合为一条总消息
-                // push(message); // 推送消息
-                const { sendNotify } = require('./sendNotify.js'); // commonjs
-                sendNotify(pushHeader, message);
-            }
-        })
-        .catch(error => {
-            // 捕获并处理在请求或处理响应过程中发生的任何错误
-            console.error('Fetch error:', error);
-        });
+                if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
+                    console.log("青龙发起推送")
+                    let message = messageMerge()// 将消息数组融合为一条总消息
+                    // push(message); // 推送消息
+                    const { sendNotify } = require('./sendNotify.js'); // commonjs
+                    sendNotify(pushHeader, message);
+                }
+            })
+            .catch(error => {
+                // 捕获并处理在请求或处理响应过程中发生的任何错误
+                console.error('Fetch error:', error);
+            });
+        }
+
     }
-
-  }
 };
 
 // 覆写
