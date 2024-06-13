@@ -1,21 +1,44 @@
-<p align="center">
+<div align="center">
+    <img src="https://socialify.git.ci/imoki/sign_script/image?description=1&font=Rokkitt&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark">
+<h1>艾默库</h1>
+基于「金山文档」/「青龙面板」的签到框架
+<!--
+<div align="center">
     <img src="https://socialify.git.ci/imoki/sign_script/image?description=1&font=Rokkitt&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark"/>
     <br><strong><font size=50>签到脚本框架</font></strong>
     <br>基于【金山文档&青龙】的签到脚本框架
     <br>支持金山文档、青龙。多账号使用、支持消息推送、易于编写新脚本
-</p>
+</div>
 
 <p align="center">
     <a href="https://github.com/imoki/sign_script/stargazers"><img src="https://img.shields.io/github/stars/imoki/sign_script?style=popout-square" alt="GitHub stars"></a>
     <a href="https://github.com/imoki/sign_script/network/members"><img src="https://img.shields.io/github/forks/imoki/sign_script?style=popout-square" alt="GitHub forks"></a>
     <a href="https://github.com/imoki/sign_script/issues"><img src="https://img.shields.io/github/issues/imoki/sign_script?style=popout-square" alt="GitHub issues"></a>
 </p>
+-->
+<div id="shield">
 
-## 文字教程及反馈  
-公众号“**默库**”
+[![][github-stars-shield]][github-stars-link]
+[![][github-forks-shield]][github-forks-link]
+[![][github-issues-shield]][github-issues-link]
+[![][github-contributors-shield]][github-contributors-link]
 
-## 金山文档及青龙教程
+<!-- SHIELD GROUP -->
+</div>
+</div>
+
+## 🦄 教程 
+公众号“**默库**”<br>
 <a href="https://jewel-pullover-9d0.notion.site/dfec17946a164658bb77e9682df954a2?pvs=4">艾默库教程</a>
+
+## ✨ 特性
+
+- 💻 支持金山文档
+- ⚙️ 支持青龙部署
+- 📢 支持多平台通知
+- ♾️ 支持多账号
+- 🕙 支持定时任务设置
+- 🆙 支持项目自动更新
 
 ## 签到列表
 
@@ -70,6 +93,55 @@
 | 🟤 | 签到 | APP | 一点万象 | 一点万象 | ydwx.js | 2024-06-12 | 签到 |
 | 🟢️ | 签到 | APP | 飞客茶馆 | 飞客茶馆 | flyert.js | 2024-06-12 | 签到 |
 
+## 💬 金山文档支持的通知列表
+- Bark（iOS）
+- dingtalk（钉钉）
+- server 酱（微信）
+- pushplus（微信）
+- 邮箱
+- Discord
+
+## 💬 青龙支持的通知列表
+青龙配置中的全部推送
+
+## 🤝 欢迎参与贡献
+欢迎各种形式的贡献
+
+[![][pr-welcome-shield]][pr-welcome-link]
+
+### 💗 感谢我们的贡献者
+<a href="https://github.com/jarryyen">@jarryyen</a>、
+<a href="https://github.com/darkbfly">@darkbfly</a>、
+<a href="https://github.com/SunWuyuan">@孙悟元</a>、
+<a href="https://github.com/wawmb">@wawmb</a>
+<br>
+<br>
+[![][github-contrib-shield]][github-contrib-link]
+
+
+## ✨ Star 数
+
+[![][starchart-shield]][starchart-link]
+
+## 代码参考
+<a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a>、
+<a href="https://github.com/kxs2018/daily_sign">daily_sign</a>、
+<a href="https://www.52pojie.cn/thread-1811357-1-1.html">@qike2391</a>、
+<a href="https://www.52pojie.cn/thread-1784167-1-1.html">@佚名RJ</a>、
+<!-- <a href="https://github.com/wd210010/just_for_happy">wd210010</a>、 -->
+<a href="https://github.com/KD-happy/KDCheckin">KD-happy</a>、
+<a href="https://github.com/wd210010/only_for_happly">wd210010</a>、
+<a href="https://github.com/Sitoi/dailycheckin">dailycheckin</a>、
+<a href="https://github.com/BeaCox/pediy-CheckIn">BeaCox</a>、
+<a href="">@Jerry不是猫</a>、
+<a href="https://www.52pojie.cn/thread-1869673-43-1.html">@凌帝。</a>、
+<a href="https://github.com/CHERWING/CHERWIN_SCRIPTS">CHERWING</a>
+
+</br>
+
+## README模板来源于
+<a href="https://github.com/Sitoi/dailycheckin">dailycheckin仓库</a>
+
 ## 特别声明
 
 - 本仓库发布的脚本仅用于测试和学习研究，禁止用于商业用途，不能保证其合法性，准确性，完整性和有效性，请根据情况自行判断。
@@ -87,3 +159,33 @@
 **您必须在下载后的24小时内从计算机或手机中完全删除以上内容**
 
 > ***您使用或者复制了本仓库且本人制作的任何脚本，则视为 `已接受` 此声明，请仔细阅读***
+
+<!-- LINK GROUP -->
+
+[github-codespace-link]: https://codespaces.new/imoki/sign_script
+[github-codespace-shield]: https://github.com/imoki/sign_script/blob/main/images/codespaces.png?raw=true
+[github-contributors-link]: https://github.com/imoki/sign_script/graphs/contributors
+[github-contributors-shield]: https://img.shields.io/github/contributors/imoki/sign_script?color=c4f042&labelColor=black&style=flat-square
+[github-forks-link]: https://github.com/imoki/sign_script/network/members
+[github-forks-shield]: https://img.shields.io/github/forks/imoki/sign_script?color=8ae8ff&labelColor=black&style=flat-square
+[github-issues-link]: https://github.com/imoki/sign_script/issues
+[github-issues-shield]: https://img.shields.io/github/issues/imoki/sign_script?color=ff80eb&labelColor=black&style=flat-square
+[github-stars-link]: https://github.com/imoki/sign_script/stargazers
+[github-stars-shield]: https://img.shields.io/github/stars/imoki/sign_script?color=ffcb47&labelColor=black&style=flat-square
+[github-releases-link]: https://github.com/imoki/sign_script/releases
+[github-releases-shield]: https://img.shields.io/github/v/release/imoki/sign_script?labelColor=black&style=flat-square
+[github-release-date-link]: https://github.com/imoki/sign_script/releases
+[github-release-date-shield]: https://img.shields.io/github/release-date/imoki/sign_script?labelColor=black&style=flat-square
+[pr-welcome-link]: https://github.com/imoki/sign_script/pulls
+[pr-welcome-shield]: https://img.shields.io/badge/🤯_pr_welcome-%E2%86%92-ffcb47?labelColor=black&style=for-the-badge
+[github-contrib-link]: https://github.com/imoki/sign_script/graphs/contributors
+[github-contrib-shield]: https://contrib.rocks/image?repo=imoki%2Fsign_script
+[docker-pull-shield]: https://img.shields.io/docker/pulls/imoki/sign_script?labelColor=black&style=flat-square
+[docker-pull-link]: https://hub.docker.com/repository/docker/imoki/sign_script
+[docker-size-shield]: https://img.shields.io/docker/image-size/imoki/sign_script?labelColor=black&style=flat-square
+[docker-size-link]: https://hub.docker.com/repository/docker/imoki/sign_script
+[docker-stars-shield]: https://img.shields.io/docker/stars/imoki/sign_script?labelColor=black&style=flat-square
+[docker-stars-link]: https://hub.docker.com/repository/docker/imoki/sign_script
+[starchart-shield]: https://api.star-history.com/svg?repos=imoki/sign_script&type=Date
+[starchart-link]: https://api.star-history.com/svg?repos=imoki/sign_script&type=Date
+
