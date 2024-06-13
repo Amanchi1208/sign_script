@@ -2,7 +2,7 @@
     name: "看雪论坛"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240612
+    更新时间：20240613
 */
 
 let sheetNameSubConfig = "kanxue"; // 分配置表名称
@@ -37,16 +37,6 @@ var jsonEmail = {
 }; // 有效邮箱配置
 
 // =================青龙适配开始===================
-// 自动检测是否是青龙环境
-try{
-    // 青龙环境
-    qlSwitch = process.env[sheetNameSubConfig]
-    qlSwitch = 1 // 是否青龙环境，1则是青龙，0则是金山文档
-    console.log("【+】当前环境为青龙")
-}catch{
-  qlSwitch = 0
-  console.log("【+】当前环境为金山文档")
-}
 // 适配青龙转换代码
 // cookie内容填写位置
 var userContent = [
@@ -62,88 +52,22 @@ var configContent = [
   [sheetNameSubConfig, pushHeader, '否', '是'],
 ]
 
-// PUSH表内容 		
-var pushContent = [
-  ['推送类型', '推送识别号(如：token、key)', '是否推送（是/否）'],
-  ['bark', 'xxxxxxxx', '否'],
-  ['pushplus', 'xxxxxxxx', '否'],
-  ['ServerChan', 'xxxxxxxx', '否'],
-  ['email', '若要邮箱发送，请配置EMAIL表', '否'],
-  ['dingtalk', 'xxxxxxxx', '否'],
-  ['discord', '请填入镜像webhook链接,自行处理Query参数', '否'],
-]
-
-// email表内容
-var emailContent = [
-  ['SMTP服务器域名', '端口', '发送邮箱', '授权码'],
-  ['smtp.qq.com', '465', 'xxxxxxxx@qq.com', 'xxxxxxxx']
-]
-
 var qlpushFlag = 0  // 推送标识
 var qlSheet = []  // 存储当前表的内容
 var colNum = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q']
 
 qlConfig = {
   "CONFIG" : configContent,
-  "PUSH"   : pushContent,
-  "EMAIL"  : emailContent,
   "SUBCONFIG" : userContent,
-}
-
-var ApplicationCustom = {
-  Range: function Range(pos){
-    // 解析位置
-    charFirst = pos.substring(0, 1);  // 列
-    qlRow = pos.substring(1, pos.length);  // 行
-    // qlSheet存储当前表，直接处理此数组
-    // 将字母转成对应列
-    qlCol = 1
-    for(num in colNum){
-      if(colNum[num] == charFirst){
-        break;
-      }
-      qlCol += 1
-    }
-    // console.log(qlRow + "-" + qlCol)
-    try{  // 超出范围则认为为空
-      result = qlSheet[qlRow - 1][qlCol - 1]
-    }catch{
-      result = ""
-    }
-    dict = { Text: result }
-    return dict;
-  }
-};
-
-// json格式装表单
-function dataToFormdata(jsonObj){
-//   console.log(jsonObj)
-  // "xxx=xxx&xxx=xxx"
-  result = ""
-  values = Object.values(jsonObj);
-
-  values.forEach((value, index) => {
-      key = Object.keys(jsonObj)[index]; // 获取对应的键
-      // if(value == "[object Object]")
-      // {
-      //   value = "{}"
-      // }
-      // console.log(key + ": " + value);
-      content = key + "=" + value + "&"
-      result += content 
-  });
-
-  result = result.substring(0, result.length - 1);
-  // console.log(result)
-  return result
 }
 
 var posHttp = 0 // 请求坐标，请求逻辑控制参数，用于记录是第几个请求。控制递归次数，使得异步执行看起来像同步执行，调用多次请求时候需要
 var flagFinish = 0  // 签到结束标识，1为结束
 var flagResultFinish = 0    // 请求是否结束标识，1为结束
 
+// 覆写
 // 发送请求
-var SendReq = {
+var HTTPOverwrite = {
     get: function get(url, headers){
         headers = headers["headers"]
         resp = fetch(url, {
@@ -258,7 +182,7 @@ var SendReq = {
 
             if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
                 console.log("青龙发起推送")
-                message = messageMerge()// 将消息数组融合为一条总消息
+                let message = messageMerge()// 将消息数组融合为一条总消息
                 // push(message); // 推送消息
                 const { sendNotify } = require('./sendNotify.js'); // commonjs
                 sendNotify(pushHeader, message);
@@ -272,22 +196,121 @@ var SendReq = {
 
   }
 };
-    
 
-if(qlSwitch == 1){  // 选择青龙
-  console.log("【+】 开始适配青龙环境，执行青龙代码")
-  // 模块引用
-//   var axios = require('axios');
-  // 用户数据适配
-  cookies = process.env[sheetNameSubConfig]
-//   console.log(cookies)
-  cookiesTocookie(cookies)
-  // 函数适配
-  Application = ApplicationCustom
-  HTTP = SendReq
+// 覆写
+var ApplicationOverwrite = {
+    Range: function Range(pos){
+        // 解析位置
+        charFirst = pos.substring(0, 1);  // 列
+        qlRow = pos.substring(1, pos.length);  // 行
+        // qlSheet存储当前表，直接处理此数组
+        // 将字母转成对应列
+        qlCol = 1
+        for(num in colNum){
+        if(colNum[num] == charFirst){
+            break;
+        }
+        qlCol += 1
+        }
+        // console.log(qlRow + "-" + qlCol)
+        try{  // 超出范围则认为为空
+        result = qlSheet[qlRow - 1][qlCol - 1]
+        }catch{
+        result = ""
+        }
+        dict = { Text: result }
+        return dict;
+    },
 
-}else{  // 金山文档
-  console.log("【+】 开始适配金山文档，执行金山文档代码")
+    Sheets: {
+        Item: function(sheetName) {
+            // console.log(sheetName)
+            // 返回一个模拟的Sheet对象
+            return {
+                Name: sheetName,
+                // Name: sheetName,
+                // Data: sheetsData[sheetName] || null, // 如果找不到对应的sheet，返回null
+                Activate: function() {
+                    flag = 1
+                    qlSheet = qlConfig[sheetName]
+                    if(qlSheet == undefined){ // 读取不到表，则认为是分配置表
+                        qlSheet = qlConfig["SUBCONFIG"]
+                    }
+                    console.log("青龙激活工作表：" + sheetName);
+                    return flag
+
+                }
+            };
+        }
+    },
+};
+
+// 覆写
+// md5加密
+var CryptoOverwrite = {
+    createHash : function createHash(method){
+        // console.log("加密算法：" + method)
+            return {
+                update : function update(data, code){
+                    // console.log("数据" + data)
+                    // console.log("编码" + code)
+                    return {
+                        digest : function digest(format){
+                            // console.log("数据" + data)
+                            // console.log("数据格式" + format)
+                            return{
+                                toUpperCase : function toUpperCase(){
+                                    // console.log("转大写" )
+                                    return{
+                                        toString : function toString(){
+                                            // console.log("转字符串" )
+                                            // 引入模块
+                                            let CryptoJS = require("crypto-js");
+                                            let md5Hash = CryptoJS.MD5(data).toString();
+                                            // 转大写
+                                            md5Hash = md5Hash.toUpperCase()
+                                            console.log(md5Hash);
+                                            return md5Hash
+                                        }
+                                    }
+                                },
+                                toString : function toString(){
+                                    // console.log("转字符串" )
+                                    // 引入模块
+                                    const CryptoJS = require("crypto-js");
+                                    const md5Hash = CryptoJS.MD5(data).toString();
+                                    console.log(md5Hash);
+                                    return md5Hash
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+}
+
+// json格式装表单
+function dataToFormdata(jsonObj){
+//   console.log(jsonObj)
+  // "xxx=xxx&xxx=xxx"
+  result = ""
+  values = Object.values(jsonObj);
+
+  values.forEach((value, index) => {
+      key = Object.keys(jsonObj)[index]; // 获取对应的键
+      // if(value == "[object Object]")
+      // {
+      //   value = "{}"
+      // }
+      // console.log(key + ": " + value);
+      content = key + "=" + value + "&"
+      result += content 
+  });
+
+  result = result.substring(0, result.length - 1);
+  console.log(result)
+  return result
 }
 
 // 用户数据适配
@@ -329,160 +352,43 @@ function cookiesTocookie(cookies) {
 //   console.log(userContent)
 }
 
-// 功能函数适配
-// 激活工作表函数
-function ActivateSheet(sheetName) {
-  if(qlSwitch != 1){  // 金山文档
-    let flag = 0;
-    try {
-      // 激活工作表
-      let sheet = Application.Sheets.Item(sheetName);
-      sheet.Activate();
-      console.log("激活工作表：" + sheet.Name);
-      flag = 1;
-    } catch {
-      flag = 0;
-      console.log("无法激活工作表，工作表可能不存在");
+var qlSwitch = 0;   // 默认金山文档
+// 自动检测是否是青龙环境
+try{
+    // 青龙环境
+    qlSwitch = process.env[sheetNameSubConfig]
+    qlSwitch = 1 // 是否青龙环境，1则是青龙，0则是金山文档
+    console.log("【+】当前环境为青龙")
+      console.log("【+】 开始适配青龙环境，执行青龙代码")
+    // 模块引用
+    //   var axios = require('axios');
+    try{
+        // 模块适配，部分用户无fetch报错，因此进行引入
+        fetch = require('node-fetch');
+        console.log("【+】系统无fetch，已进行node-fetch引入")
+    }catch{
+        console.log("【+】系统已有原生fetch")
     }
-    return flag;
-  }else{  // 青龙 qlSwitch == 1
-    flag = 1
-    qlSheet = qlConfig[sheetName]
-    if(qlSheet == undefined){ // 读取不到表，则认为是分配置表
-      qlSheet = qlConfig["SUBCONFIG"]
-    }
-    // console.log(qlSheet)
-    console.log("青龙激活工作表：" + sheetName);
-    return flag
-  }
+    
+    // 用户数据适配
+    cookies = process.env[sheetNameSubConfig]
+    //   console.log(cookies)
+    cookiesTocookie(cookies)
+    // 函数适配
+    Application = ApplicationOverwrite
+    Crypto = CryptoOverwrite
+    HTTP = HTTPOverwrite
+
+}catch{
+  qlSwitch = 0
+  console.log("【+】当前环境为金山文档")
+  console.log("【+】 开始适配金山文档，执行金山文档代码")
 }
 
-// 获取sign，返回小写
-function getsign(data) {
-    if(qlSwitch != 1){  // 金山文档
-        var sign = Crypto.createHash("md5")
-            .update(data, "utf8")
-            .digest("hex")
-            // .toUpperCase() // 大写
-            .toString();
-        return sign;
-    }else{  // 青龙
-        const CryptoJS = require("crypto-js");
-        const md5Hash = CryptoJS.MD5(data).toString();
-        console.log(md5Hash);
-        return md5Hash
-    }
-}
 
 // =================青龙适配结束===================
 
-
-flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
-// 主配置工作表存在
-if (flagConfig == 1) {
-  console.log("开始读取主配置表");
-  let name; // 名称
-  let onlyError;
-  let nickname;
-  for (let i = 2; i <= 100; i++) {
-    // 从工作表中读取推送数据
-    name = Application.Range("A" + i).Text;
-    onlyError = Application.Range("C" + i).Text;
-    nickname = Application.Range("D" + i).Text;
-    if (name == "") {
-      // 如果为空行，则提前结束读取
-      break; // 提前退出，提高效率
-    }
-    if (name == sheetNameSubConfig) {
-      if (onlyError == "是") {
-        messageOnlyError = 1;
-        console.log("只推送错误消息");
-      }
-
-      if (nickname == "是") {
-        messageNickname = 1;
-        console.log("单元格用昵称替代");
-      }
-
-      break; // 提前退出，提高效率
-    }
-  }
-}
-
-flagPush = ActivateSheet(sheetNamePush); // 激活推送表
-// 推送工作表存在
-if (flagPush == 1) {
-  console.log("开始读取推送工作表");
-  let pushName; // 推送类型
-  let pushKey;
-  let pushFlag; // 是否推送标志
-  for (let i = 2; i <= line; i++) {
-    // 从工作表中读取推送数据
-    pushName = Application.Range("A" + i).Text;
-    pushKey = Application.Range("B" + i).Text;
-    pushFlag = Application.Range("C" + i).Text;
-    if (pushName == "") {
-      // 如果为空行，则提前结束读取
-      break;
-    }
-    jsonPushHandle(pushName, pushFlag, pushKey);
-  }
-  // console.log(jsonPush)
-}
-
-// 邮箱配置函数
-emailConfig();
-
-flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
-if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
-  for (let i = 2; i <= line; i++) {
-    var cookie = Application.Range("A" + i).Text;
-    var exec = Application.Range("B" + i).Text;
-    if (cookie == "") {
-      // 如果为空行，则提前结束读取
-      break;
-    }
-    if (exec == "是") {
-      execHandle(cookie, i);
-    }
-  }   
-
-    if(qlSwitch != 1){  // 金山文档
-        message = messageMerge()// 将消息数组融合为一条总消息
-        push(message); // 推送消息
-    }
-
-}
-
-// 对推送数据进行处理
-function jsonPushHandle(pushName, pushFlag, pushKey) {
-  let length = jsonPush.length;
-  for (let i = 0; i < length; i++) {
-    if (jsonPush[i].name == pushName) {
-      if (pushFlag == "是") {
-        jsonPush[i].flag = 1;
-        jsonPush[i].key = pushKey;
-      }
-    }
-  }
-}
-
-// 将消息数组融合为一条总消息
-function messageMerge(){
-  for(i=0; i<messageArray.length; i++){
-    if(messageArray[i] != "" && messageArray[i] != null)
-    {
-      message += messageHeader[i] + messageArray[i] + " "; // 加上推送头
-    }
-  }
-  if(message != "")
-  {
-    console.log(message)  // 打印总消息
-  }
-  return message
-}
-
+// =================金山适配开始===================
 // 总推送
 function push(message) {
   if (message != "") {
@@ -636,9 +542,148 @@ function discord(message, key) {
   sleep(5000);
 }
 
+// =================金山适配结束===================
+
+// =================共用开始===================
+flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
+// 主配置工作表存在
+if (flagConfig == 1) {
+  console.log("开始读取主配置表");
+  let name; // 名称
+  let onlyError;
+  let nickname;
+  for (let i = 2; i <= 100; i++) {
+    // 从工作表中读取推送数据
+    name = Application.Range("A" + i).Text;
+    onlyError = Application.Range("C" + i).Text;
+    nickname = Application.Range("D" + i).Text;
+    if (name == "") {
+      // 如果为空行，则提前结束读取
+      break; // 提前退出，提高效率
+    }
+    if (name == sheetNameSubConfig) {
+      if (onlyError == "是") {
+        messageOnlyError = 1;
+        console.log("只推送错误消息");
+      }
+
+      if (nickname == "是") {
+        messageNickname = 1;
+        console.log("单元格用昵称替代");
+      }
+
+      break; // 提前退出，提高效率
+    }
+  }
+}
+
+flagPush = ActivateSheet(sheetNamePush); // 激活推送表
+// 推送工作表存在
+if (flagPush == 1) {
+  console.log("开始读取推送工作表");
+  let pushName; // 推送类型
+  let pushKey;
+  let pushFlag; // 是否推送标志
+  for (let i = 2; i <= line; i++) {
+    // 从工作表中读取推送数据
+    pushName = Application.Range("A" + i).Text;
+    pushKey = Application.Range("B" + i).Text;
+    pushFlag = Application.Range("C" + i).Text;
+    if (pushName == "") {
+      // 如果为空行，则提前结束读取
+      break;
+    }
+    jsonPushHandle(pushName, pushFlag, pushKey);
+  }
+  // console.log(jsonPush)
+}
+
+// 邮箱配置函数
+emailConfig();
+
+flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
+if (flagSubConfig == 1) {
+  console.log("开始读取分配置表");
+  for (let i = 2; i <= line; i++) {
+    var cookie = Application.Range("A" + i).Text;
+    var exec = Application.Range("B" + i).Text;
+    if (cookie == "") {
+      // 如果为空行，则提前结束读取
+      break;
+    }
+    if (exec == "是") {
+      execHandle(cookie, i);
+    }
+  }   
+
+    if(qlSwitch != 1){  // 金山文档
+        message = messageMerge()// 将消息数组融合为一条总消息
+        push(message); // 推送消息
+    }
+
+}
+
+// 激活工作表函数
+function ActivateSheet(sheetName) {
+    let flag = 0;
+    try {
+      // 激活工作表
+      let sheet = Application.Sheets.Item(sheetName);
+      sheet.Activate();
+      console.log("激活工作表：" + sheet.Name);
+      flag = 1;
+    } catch {
+      flag = 0;
+      console.log("无法激活工作表，工作表可能不存在");
+    }
+    return flag;
+}
+
+// 对推送数据进行处理
+function jsonPushHandle(pushName, pushFlag, pushKey) {
+  let length = jsonPush.length;
+  for (let i = 0; i < length; i++) {
+    if (jsonPush[i].name == pushName) {
+      if (pushFlag == "是") {
+        jsonPush[i].flag = 1;
+        jsonPush[i].key = pushKey;
+      }
+    }
+  }
+}
+
+// 将消息数组融合为一条总消息
+function messageMerge(){
+    // console.log(messageArray)
+    let message = ""
+  for(i=0; i<messageArray.length; i++){
+    if(messageArray[i] != "" && messageArray[i] != null)
+    {
+      message += messageHeader[i] + messageArray[i] + " "; // 加上推送头
+    }
+  }
+  if(message != "")
+  {
+    console.log(message)  // 打印总消息
+  }
+  return message
+}
+
 function sleep(d) {
   for (var t = Date.now(); Date.now() - t <= d; );
 }
+
+// 获取sign，返回小写
+function getsign(data) {
+    var sign = Crypto.createHash("md5")
+        .update(data, "utf8")
+        .digest("hex")
+        // .toUpperCase() // 大写
+        .toString();
+    return sign;
+}
+
+// =================共用结束===================
 
 // 结果处理函数
 function resultHandle(resp, pos){
@@ -703,6 +748,7 @@ function resultHandle(resp, pos){
   {
     console.log(messageArray[posLabel]);
   }
+//   console.log(messageArray)
 
   return flagResultFinish
 }
@@ -719,7 +765,7 @@ function execHandle(cookie, pos) {
     headers= {
       'User-Agent': 'HD1910(Android/7.1.2) (pediy.UNICFBC0DD/1.0.5) Weex/0.26.0 720x1280',
       'Cookie': cookie,
-      // "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
+    //   "Content-Type":"application/x-www-form-urlencoded",
     }
 
     data = {
