@@ -1,12 +1,12 @@
 /*
-    name: "夸克网盘"
-    cron: 10 30 10 * * *
+    name: "在线工具"
+    cron: 45 30 13 * * *
     脚本兼容: 金山文档， 青龙
     更新时间：20240614
 */
 
-let sheetNameSubConfig = "quark"; // 分配置表名称
-let pushHeader = "【夸克网盘】";
+let sheetNameSubConfig = "toollu"; // 分配置表名称
+let pushHeader = "【在线工具】";
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
 let sheetNameEmail = "EMAIL"; // 邮箱表
@@ -70,57 +70,45 @@ var flagResultFinish = 0    // 请求是否结束标识，1为结束
 var HTTPOverwrite = {
     get: function get(url, headers){
         headers = headers["headers"]
-        // resp = fetch(url, {
-        //     method: 'get',
-        //     headers: headers,
-        //     timeout: 30000 // 超时时间设置为30秒
-        // })
-        // .then(function(response) {
-        //     return response.json();
-        // })
-        // .then(function(data) {
-        //     console.log(data);
-        // });
         let pos = userContent.length - qlpushFlag  // 计算用户坐标
-        let flagJson = 1    // 判断响应是否为json。1为json
+        // let flagJson = 1    // 判断响应是否为json。1为json
         method = "get"
         resp = fetch(url, {
             method: method,
             headers: headers,
-            // body: jsonData
         })
         .then(function(response) {
-            let contentType = response.headers.get('Content-Type');   
-            // console.log(contentType)    // text/html; charset=gbk
-            if (contentType && contentType.includes('application/json')) {
-                flagJson = 1
+            // 首先读取文本内容
+            return response.text().then(text => {
+                // 然后返回包含文本和状态的对象，并保留响应对象以便后续可能需要
                 return {
                     status: response.status,
-                    json: response.json(),  // 注意这里返回的是一个 Promise
-                    pos:pos
+                    text: text, // 文本内容
+                    response: response, // 保留响应对象
+                    pos: pos // 用户坐标
                 };
-            }else{
-                flagJson = 0
-                return {
-                    status: response.status,
-                    text: response.text(),  // 注意这里返回的是一个 Promise
-                    pos:pos
-                };
-            }
-
-            // return response.json().catch(() => response.text());
+            });
         })
         .then(function(result) {
-            if(flagJson == 1){
-                return result.json.then(data => {
-                    return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
-                });
-            }else{
-                return result.text.then(data => {
-                    return { status: result.status, text: function text(){return data;} , pos:pos}; // 返回一个新的对象
-                });
+            // 尝试将文本内容解析为JSON
+            try {
+                data = JSON.parse(result.text);
+                return {
+                    status: result.status,
+                    json: function json(){return data;}, // 解析后的JSON数据
+                    text: function text(){return result.text;}, // 原始文本内容
+                    pos: result.pos // 用户坐标
+                };
+            } catch (e) {
+                // 如果文本内容不是有效的JSON，则返回一个错误或者保留原始文本
+                // console.error('Error parsing JSON:', e);
+                return {
+                    status: result.status,
+                    json: null, // 或者你可以返回一个特定的错误对象
+                    text: function text(){return result.text;}, // 原始文本内容
+                    pos: result.pos // 用户坐标
+                };
             }
-            
         })
         .then(result => {
             // 青龙推送标识
@@ -143,119 +131,158 @@ var HTTPOverwrite = {
             console.error('Fetch error:', error);
         });
     },
+
     post: function post(url, data, headers, option){
-        headers = headers["headers"]
-        contentType = headers["Content-Type"]
-        contentType2 = headers["content-type"]
-        // var jsonData = JSON.stringify(data);
-        // console.log(data)
-        var jsonData = ""
-        if((contentType != undefined && contentType != "") || (contentType2 != undefined && contentType2 != "")){
-            if(contentType == "application/x-www-form-urlencoded"){
-                console.log("检测到请求为表单格式，发送表单请求")
-                jsonData = dataToFormdata(data)
-            }else{
-                try{
-                    // json格式
-                    console.log("json格式data")
-                    jsonData = JSON.stringify(data);
-                }catch{
-                    console.log("非json，非表单data")
-                    jsonData = data
-                }
+    headers = headers["headers"]
+    contentType = headers["Content-Type"]
+    contentType2 = headers["content-type"]
+    // var jsonData = JSON.stringify(data);
+    // console.log(data)
+    var jsonData = ""
+    if((contentType != undefined && contentType != "") || (contentType2 != undefined && contentType2 != "")){
+        if(contentType == "application/x-www-form-urlencoded"){
+            console.log("检测到请求为表单格式，发送表单请求")
+            jsonData = dataToFormdata(data)
+        }else{
+            try{
+                // json格式
+                console.log("json格式data")
+                jsonData = JSON.stringify(data);
+            }catch{
+                console.log("非json，非表单data")
+                jsonData = data
             }
         }
-        
-        // console.log(headers)
-        // console.log(jsonData)
-        if(option == "get" || option == "GET"){
-            let pos = userContent.length - qlpushFlag  // 计算用户坐标
-            method = "get"
-            resp = fetch(url, {
-                method: method,
-                headers: headers,
-                // body: jsonData
-            })
-            .then(function(response) {
-                // return response.json();
-                return {
-                    status: response.status,
-                    json: response.json(),  // 注意这里返回的是一个 Promise
-                    pos:pos
-                };
-            })
-            .then(function(result) {
-                return result.json.then(data => {
-                    return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
-                });
-            })
-            .then(result => {
-                // 青龙推送标识
-                pos = result.pos
-                flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
-                if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
-                    flagFinish = 1
-                }
-
-                if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
-                    console.log("青龙发起推送")
-                    message = messageMerge()// 将消息数组融合为一条总消息
-                    // push(message); // 推送消息
-                    const { sendNotify } = require('./sendNotify.js'); // commonjs
-                    sendNotify(pushHeader, message);
-                }
-            })
-            .catch(error => {
-                // 捕获并处理在请求或处理响应过程中发生的任何错误
-                console.error('Fetch error:', error);
-            });
-        }else{
-            // 青龙推送标识
-            let pos = userContent.length - qlpushFlag  // 计算用户坐标
-            // console.log("推送：" + pos)
-            method = "post"
-            resp = fetch(url, {
-                method: method,
-                headers: headers,
-                body: jsonData
-            })
-            .then(function(response) {
-                // return response.json();
-                return {
-                    status: response.status,
-                    json: response.json(), // 注意这里返回的是一个 Promise
-                    pos: pos,   // 用户坐标
-                };
-            })
-            .then(function(result) {
-                
-                return result.json.then(data => {
-                    return { status: result.status, json: function json(){return data;} , pos:pos}; // 返回一个新的对象
-                });
-            })
-            .then(result => {
-                // console.log(result)
-                pos = result.pos
-                flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
-                if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
-                    flagFinish = 1
-                }
-
-                if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
-                    console.log("青龙发起推送")
-                    let message = messageMerge()// 将消息数组融合为一条总消息
-                    // push(message); // 推送消息
-                    const { sendNotify } = require('./sendNotify.js'); // commonjs
-                    sendNotify(pushHeader, message);
-                }
-            })
-            .catch(error => {
-                // 捕获并处理在请求或处理响应过程中发生的任何错误
-                console.error('Fetch error:', error);
-            });
-        }
-
     }
+    
+    // console.log(headers)
+    // console.log(jsonData)
+    if(option == "get" || option == "GET"){
+        let pos = userContent.length - qlpushFlag  // 计算用户坐标
+        method = "get"
+        resp = fetch(url, {
+            method: method,
+            headers: headers,
+            // body: jsonData
+        })
+        .then(function(response) {
+            // 首先读取文本内容
+            return response.text().then(text => {
+                // 然后返回包含文本和状态的对象，并保留响应对象以便后续可能需要
+                return {
+                    status: response.status,
+                    text: text, // 文本内容
+                    response: response, // 保留响应对象
+                    pos: pos // 用户坐标
+                };
+            });
+        })
+        .then(function(result) {
+            // 尝试将文本内容解析为JSON
+            try {
+                data = JSON.parse(result.text);
+                return {
+                    status: result.status,
+                    json: function json(){return data;}, // 解析后的JSON数据
+                    text: function text(){return result.text;}, // 原始文本内容
+                    pos: result.pos // 用户坐标
+                };
+            } catch (e) {
+                // 如果文本内容不是有效的JSON，则返回一个错误或者保留原始文本
+                // console.error('Error parsing JSON:', e);
+                return {
+                    status: result.status,
+                    json: null, // 或者你可以返回一个特定的错误对象
+                    text: function text(){return result.text;}, // 原始文本内容
+                    pos: result.pos // 用户坐标
+                };
+            }
+        })
+        .then(result => {
+            // 青龙推送标识
+            pos = result.pos
+            flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
+            if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
+                flagFinish = 1
+            }
+
+            if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
+                console.log("青龙发起推送")
+                message = messageMerge()// 将消息数组融合为一条总消息
+                // push(message); // 推送消息
+                const { sendNotify } = require('./sendNotify.js'); // commonjs
+                sendNotify(pushHeader, message);
+            }
+        })
+        .catch(error => {
+            // 捕获并处理在请求或处理响应过程中发生的任何错误
+            console.error('Fetch error:', error);
+        });
+    }else{
+        // 青龙推送标识
+        let pos = userContent.length - qlpushFlag  // 计算用户坐标
+        // console.log("推送：" + pos)
+        method = "post"
+        resp = fetch(url, {
+            method: method,
+            headers: headers,
+            body: jsonData
+        })
+        .then(function(response) {
+            // 首先读取文本内容
+            return response.text().then(text => {
+                // 然后返回包含文本和状态的对象，并保留响应对象以便后续可能需要
+                return {
+                    status: response.status,
+                    text: text, // 文本内容
+                    response: response, // 保留响应对象
+                    pos: pos // 用户坐标
+                };
+            });
+        })
+        .then(function(result) {
+            // 尝试将文本内容解析为JSON
+            try {
+                data = JSON.parse(result.text);
+                return {
+                    status: result.status,
+                    json: function json(){return data;}, // 解析后的JSON数据
+                    text: function text(){return result.text;}, // 原始文本内容
+                    pos: result.pos // 用户坐标
+                };
+            } catch (e) {
+                // 如果文本内容不是有效的JSON，则返回一个错误或者保留原始文本
+                // console.error('Error parsing JSON:', e);
+                return {
+                    status: result.status,
+                    json: null, // 或者你可以返回一个特定的错误对象
+                    text: function text(){return result.text;}, // 原始文本内容
+                    pos: result.pos // 用户坐标
+                };
+            }
+        })
+        .then(result => {
+            // console.log(result)
+            pos = result.pos
+            flagResultFinish = resultHandle(result, pos)   // 若在resultHandle中又请求则会继续递归执行，执行完才会发出推送
+            if(pos == userContent.length && flagResultFinish == 1){    // 判断是否所有请求都结束
+                flagFinish = 1
+            }
+
+            if(qlpushFlag == 0 && flagFinish == 1){  // 最后才推送
+                console.log("青龙发起推送")
+                let message = messageMerge()// 将消息数组融合为一条总消息
+                // push(message); // 推送消息
+                const { sendNotify } = require('./sendNotify.js'); // commonjs
+                sendNotify(pushHeader, message);
+            }
+        })
+        .catch(error => {
+            // 捕获并处理在请求或处理响应过程中发生的任何错误
+            console.error('Fetch error:', error);
+        });
+    }
+  }
 };
 
 // 覆写
@@ -746,13 +773,8 @@ function getsign(data) {
 
 // =================共用结束===================
 
-// 青龙适配
 // 结果处理函数
 function resultHandle(resp, pos){
-    // 每次进来resultHandle则加一次请求
-    posHttp += 1    // 青龙适配，青龙微适配
-    // console.log(posHttp)
-
     let messageSuccess = "";
     let messageFail = "";
     let messageName = "";
@@ -767,169 +789,33 @@ function resultHandle(resp, pos){
     }
     posLabel = pos-2 ;  // 存放下标，从0开始
     messageHeader[posLabel] = messageName
+    // console.log(messageName)
 
-    data = {
-      "sign_cyclic":"True",
-    }
-
-    // console.log(resp.status)
-    if (resp.status == 200) {
-        if(posHttp < 2 || qlSwitch != 1){  // 只在第一次用, 或者执行金山文档
-            resp = resp.json();
-            // console.log(resp)
-            isSign = resp["data"]["cap_sign"]["sign_daily"]
-
-            // isSign = ~true // 测试
-        }else{
-            isSign = ~true   // 第二次以上进来默认通过
-        }
-      // isSign = true
-      // console.log(isSign)
-      if(isSign == true)
-      {
-        console.log("已经签到过了")
-        reward = resp["data"]["cap_sign"]["sign_daily_reward"] / (1024 * 1024)
-        cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
-        sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
-        
-        // console.log(reward)
-        // content = "帐号：" + messageName + "已经签到过了,奖励"  + String(number) + "MB" + ",总签到" + cur_total_sign_day + "天 " + ",当周已签" + sign_progress + "天 ";
-        content = "总签" + cur_total_sign_day + "天 " + ",周签" + sign_progress + "天,获"  + String(reward) + "MB";
-        messageSuccess += content
-        // messageSuccess += "帐号：" + messageName + "已经签到过了,奖励容量"  + String(number) + "MB";
-        console.log(content)
-        
-        // 青龙适配，青龙微适配
-        flagResultFinish = 1; // 签到结束
-      }else
-      {
-        if(posHttp == 1 || qlSwitch != 1){  // 第一次进来时用
-            console.log("进行签到")
-            // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20000000},"metadata":{}}
-            // {"status":400,"code":44210,"message":"cap_growth_sign_repeat","req_id":"xxxzzz-xxxxxxx","timestamp":17000000}
-            let url2 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/sign?pr=ucpro&fr=pc&uc_param_str="; // 进行签到
-            resp = HTTP.post(
-                url2,
-                JSON.stringify(data),
-                { headers: headers }
-            );
-        }
-
-        // console.log(resp.json())
-
-
-        // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"member_type":"NORMAL","use_capacity":120000000,"cap_growth":{"lost_total_cap":0,"cur_total_cap":11000000,"cur_total_sign_day":46},"88VIP":false,"member_status":{"Z_VIP":"UNPAID","VIP":"UNPAID","SUPER_VIP":"UNPAID","MINI_VIP":"UNPAID"},"cap_sign":{"sign_daily":true,"sign_target":7,"sign_daily_reward":2000000,"sign_progress":4,"sign_rewards":[{"name":"+20MB","reward_cap":2000000},{"name":"+40MB","highlight":"翻倍","reward_cap":4000000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":200000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":2000000},{"name":"+100MB","highlight":"翻五倍","reward_cap":10000000}]},"cap_composition":{"other":21000000,"member_own":100000000,"sign_reward":10000000},"total_capacity":1400000000},"metadata":{}}
-        // if (resp.status == 200) {
-
-        if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
-            // resp = resp.json();
-            // console.log(resp)
-            // resp = {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20971520},"metadata":{}}
-            // 41943040 -> 40MB
-            // reward = resp["data"]["sign_daily_reward"] / (1024 * 1024)
-            // console.log(reward)
-
-
-            // 查询签到天数
-            // resp = HTTP.fetch(url1, {
-            //     method: "get",
-            //     headers: headers,
-            //     // data: data
-            // });
-            url =  "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str=";
-            if(qlSwitch != 1){  // 金山文档
-                resp = HTTP.fetch(url, {
-                    method: "get",
-                    headers: headers,
-                    // data: data
-                });
-            }else{  // 青龙
-                data = {}
-                option = "get"
-                resp = HTTP.post(
-                    url,
-                    data,
-                    { headers: headers },
-                    option
-                );
-            }
-
-        } 
-        
-
-        if(posHttp == 3 || qlSwitch != 1){  // 第三次进来时用
-            resp = resp.json();
-            // console.log(resp)
-            // {
-            //     status: 200,
-            //     code: 0,
-            //     message: '',
-            //     timestamp: ,
-            //     data: {
-            //         member_type: 'NORMAL',
-            //         use_capacity: ,
-            //         cap_growth: {
-            //         lost_total_cap: 0,
-            //         cur_total_cap: ,
-            //         cur_total_sign_day: 85
-            //         },
-            //         '88VIP': false,
-            //         member_status: {
-            //         Z_VIP: 'UNPAID',
-            //         VIP: 'UNPAID',
-            //         MINI_VIP: 'UNPAID',
-            //         SUPER_VIP: 'UNPAID'
-            //         },
-            //         cap_sign: {
-            //         sign_daily: true,
-            //         sign_target: 7,
-            //         sign_daily_reward: 20971520,
-            //         sign_progress: 1,
-            //         sign_rewards: [Array]
-            //         },
-            //         cap_composition: {
-            //         other: ,
-            //         member_own: ,
-            //         sign_reward: 2600468480
-            //         },
-            //         total_capacity: 
-            //     },
-            //     metadata: {}
-            // }
-
-            // 41943040 -> 40MB
-            reward = resp["data"]["cap_sign"]["sign_daily_reward"] / (1024 * 1024)
-            // console.log(reward)
-            cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
-            sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
-            content = "总签" + cur_total_sign_day + "天 " + ",周签" + sign_progress + "天,获"  + String(reward) + "MB";
-            messageSuccess += content
-            console.log(content)
-
-            // 青龙适配，青龙微适配
-            flagResultFinish = 1; // 签到结束
-        }
-            
-        //   }
-      }
-      
+    let Reg = /你已经连续签到(.*?)天，再接再厉！/i;
+    let html = resp.text();
+    // console.log(html)
+    let flagTrue = Reg.test(html); // 判断是否存在字符串
+    if (resp.status == 200 && flagTrue == true) {
+        let result = Reg.exec(html); // 提取匹配的字符串，["你已经连续签到 1 天，再接再厉！"," 1 "]
+        result = result[0];
+        messageSuccess += "帐号：" + messageName + result + "签到成功 ";
     } else {
-    //   console.log(resp.text());
-      messageFail += "帐号：" + messageName + "签到失败 ";
-      console.log("帐号：" + messageName + "签到失败 ");
+        messageFail += "帐号：" + messageName + "签到失败 ";
     }
 
+    // 青龙适配，青龙微适配
+    flagResultFinish = 1; // 签到结束
 
-  // 以最后一次的取到的消息为主
+    sleep(2000);
     if (messageOnlyError == 1) {
-        messageArray[posLabel] = messageFail;
+    messageArray[posLabel] = messageFail;
     } else {
-        messageArray[posLabel] = messageFail + " " + messageSuccess;
+    messageArray[posLabel] = messageFail + " " + messageSuccess;
     }
 
     if(messageArray[posLabel] != "")
     {
-        console.log(messageArray[posLabel]);
+    console.log(messageArray[posLabel]);
     }
 
     return flagResultFinish
@@ -939,35 +825,24 @@ function resultHandle(resp, pos){
 function execHandle(cookie, pos) {
     // 青龙适配，青龙微适配
     qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
-    
+
   // try {
-    let url1 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str="; // 查询是否签到
-    
+    let url = "https://id.tool.lu/sign";
     headers = {
-      "Cookie": cookie,
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586"
+      Cookie: cookie,
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586",
     };
 
-    if(qlSwitch != 1){  // 金山文档
-        resp = HTTP.fetch(url1, {
-            method: "get",
-            headers: headers,
-            // data: data
-        });
-    }else{  // 青龙
-        data = {}
-        option = "get"
-        resp = HTTP.post(
-            url1,
-            data,
-            { headers: headers },
-            option
-        );
-    }
+    // let resp = HTTP.fetch(url, {
+    //   method: "get",
+    //   headers: headers,
+    // });
+    resp = HTTP.get(
+        url,
+        { headers: headers }
+    );
 
-    // 青龙适配，青龙微适配
     if(qlSwitch != 1){  // 选择金山文档
         resultHandle(resp, pos)
     }
-    
 }

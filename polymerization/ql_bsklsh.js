@@ -1,12 +1,11 @@
 /*
-    name: "夸克网盘"
-    cron: 10 30 10 * * *
+    name: "百事可乐上海"
+    cron: 45 30 15 * * *
     脚本兼容: 金山文档， 青龙
     更新时间：20240614
 */
-
-let sheetNameSubConfig = "quark"; // 分配置表名称
-let pushHeader = "【夸克网盘】";
+let sheetNameSubConfig = "bsklsh"; // 分配置表名称（修改这里，这里填表的名称，需要和UPDATE文件中的一致，自定义的）
+let pushHeader = "【百事可乐上海】";    //（修改这里，这里给自己看的，随便填）
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
 let sheetNameEmail = "EMAIL"; // 邮箱表
@@ -744,6 +743,46 @@ function getsign(data) {
     return sign;
 }
 
+// cookie字符串转json格式
+function cookie_to_json(cookies) {
+  var cookie_text = cookies;
+  var arr = [];
+  var text_to_split = cookie_text.split(";");
+  for (var i in text_to_split) {
+    var tmp = text_to_split[i].split("=");
+    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
+  }
+  var res = "{\n" + arr.join(",\n") + "\n}";
+  return JSON.parse(res);
+}
+
+// 获取10 位时间戳
+function getts10() {
+  var ts = Math.round(new Date().getTime() / 1000).toString();
+  return ts;
+}
+
+// 获取13位时间戳
+function getts13(){
+  // var ts = Math.round(new Date().getTime()/1000).toString()  // 获取10 位时间戳
+  let ts = new Date().getTime()
+  return ts
+}
+
+// 符合UUID v4规范的随机字符串 b9ab98bb-b8a9-4a8a-a88a-9aab899a88b9
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0,
+        v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+function getUUIDDigits(length) {
+    var uuid = generateUUID();
+    return uuid.replace(/-/g, '').substr(16, length);
+}
+
 // =================共用结束===================
 
 // 青龙适配
@@ -768,156 +807,68 @@ function resultHandle(resp, pos){
     posLabel = pos-2 ;  // 存放下标，从0开始
     messageHeader[posLabel] = messageName
 
-    data = {
-      "sign_cyclic":"True",
-    }
 
-    // console.log(resp.status)
+     // // status : 401
+  // // {"timestamp":"2024-06-08T06:22:59.490+00:00","status":401,"error":"Unauthorized","message":""}
+  // console.log(resp.status)
+  // params = "?grant_type=client_credential&appid=" + appid +"&secret=" + appsecret
+  // resp = HTTP.post(
+  //   url2,
+  //   data,
+  //   // { headers: headers }
+  // );
+  // // {"errcode":41002,"errmsg":"appid missing rid: 6663f975-5395f3e9-5d62b32f"}
+//   console.log(resp.json())
+
     if (resp.status == 200) {
-        if(posHttp < 2 || qlSwitch != 1){  // 只在第一次用, 或者执行金山文档
-            resp = resp.json();
-            // console.log(resp)
-            isSign = resp["data"]["cap_sign"]["sign_daily"]
+        resp = resp.json();
+        console.log(resp)
 
-            // isSign = ~true // 测试
+        // （修改这里，这里就是自己写了，根据抓包的响应自行修改）
+
+        // 接收到的响应数据是json格式，如下，假设有2种情况
+        // 情况1：{"code": "0","message": "签到成功"}
+        // 情况2：{"code":"-1","message":"签到失败"}
+        // 实际接收：
+        // {"code":"103","msg":"用户未登录","detail":{},"data":{},"location":{},"tracerId":"","success":false}
+        // {"code":"200","msg":"SUCCESS","detail":null,"data":true,"location":null,"tracerId":null,"success":true}
+        // {"code":"999","msg":"今日已签到，已获得积分","detail":{},"data":{},"location":{},"tracerId":"","success":false}
+        respcode = resp["code"]           // 通过resp["键名"]的方式获取值.假设响应数据是情况1，则读取到数字“0”
+        // respmsg = resp["message"]  // 通过resp["键名"]的方式获取值，假设响应数据是情况1，这里取到的值就是“签到成功”
+        if(respcode == 200 || respcode == 999)       // 通过code值来判断是不是签到成功，由抓包的情况1知道，0代表签到成功了,所以让code与0比较
+        { 
+        // 这里是签到成功
+        respmsg = resp["msg"]   
+        if(respmsg == "SUCCESS")
+        {
+            content = "签到成功 "  // // 给自己看的，双引号内可以随便写
         }else{
-            isSign = ~true   // 第二次以上进来默认通过
+            content = respmsg + " "
         }
-      // isSign = true
-      // console.log(isSign)
-      if(isSign == true)
-      {
-        console.log("已经签到过了")
-        reward = resp["data"]["cap_sign"]["sign_daily_reward"] / (1024 * 1024)
-        cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
-        sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
-        
-        // console.log(reward)
-        // content = "帐号：" + messageName + "已经签到过了,奖励"  + String(number) + "MB" + ",总签到" + cur_total_sign_day + "天 " + ",当周已签" + sign_progress + "天 ";
-        content = "总签" + cur_total_sign_day + "天 " + ",周签" + sign_progress + "天,获"  + String(reward) + "MB";
-        messageSuccess += content
-        // messageSuccess += "帐号：" + messageName + "已经签到过了,奖励容量"  + String(number) + "MB";
+
+        messageSuccess += content;
         console.log(content)
+        }
+        else
+        {
+        respmsg = resp["msg"]
+        // 这里是签到失败
+        msg = respmsg + " "   // 给自己看的，可以随便写，如 msg = "失败啦！ " 。
         
-        // 青龙适配，青龙微适配
-        flagResultFinish = 1; // 签到结束
-      }else
-      {
-        if(posHttp == 1 || qlSwitch != 1){  // 第一次进来时用
-            console.log("进行签到")
-            // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20000000},"metadata":{}}
-            // {"status":400,"code":44210,"message":"cap_growth_sign_repeat","req_id":"xxxzzz-xxxxxxx","timestamp":17000000}
-            let url2 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/sign?pr=ucpro&fr=pc&uc_param_str="; // 进行签到
-            resp = HTTP.post(
-                url2,
-                JSON.stringify(data),
-                { headers: headers }
-            );
+        content = msg + " "     
+        messageFail += content;
+        console.log(content)
         }
 
-        // console.log(resp.json())
-
-
-        // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"member_type":"NORMAL","use_capacity":120000000,"cap_growth":{"lost_total_cap":0,"cur_total_cap":11000000,"cur_total_sign_day":46},"88VIP":false,"member_status":{"Z_VIP":"UNPAID","VIP":"UNPAID","SUPER_VIP":"UNPAID","MINI_VIP":"UNPAID"},"cap_sign":{"sign_daily":true,"sign_target":7,"sign_daily_reward":2000000,"sign_progress":4,"sign_rewards":[{"name":"+20MB","reward_cap":2000000},{"name":"+40MB","highlight":"翻倍","reward_cap":4000000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":200000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":2000000},{"name":"+100MB","highlight":"翻五倍","reward_cap":10000000}]},"cap_composition":{"other":21000000,"member_own":100000000,"sign_reward":10000000},"total_capacity":1400000000},"metadata":{}}
-        // if (resp.status == 200) {
-
-        if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
-            // resp = resp.json();
-            // console.log(resp)
-            // resp = {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20971520},"metadata":{}}
-            // 41943040 -> 40MB
-            // reward = resp["data"]["sign_daily_reward"] / (1024 * 1024)
-            // console.log(reward)
-
-
-            // 查询签到天数
-            // resp = HTTP.fetch(url1, {
-            //     method: "get",
-            //     headers: headers,
-            //     // data: data
-            // });
-            url =  "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str=";
-            if(qlSwitch != 1){  // 金山文档
-                resp = HTTP.fetch(url, {
-                    method: "get",
-                    headers: headers,
-                    // data: data
-                });
-            }else{  // 青龙
-                data = {}
-                option = "get"
-                resp = HTTP.post(
-                    url,
-                    data,
-                    { headers: headers },
-                    option
-                );
-            }
-
-        } 
-        
-
-        if(posHttp == 3 || qlSwitch != 1){  // 第三次进来时用
-            resp = resp.json();
-            // console.log(resp)
-            // {
-            //     status: 200,
-            //     code: 0,
-            //     message: '',
-            //     timestamp: ,
-            //     data: {
-            //         member_type: 'NORMAL',
-            //         use_capacity: ,
-            //         cap_growth: {
-            //         lost_total_cap: 0,
-            //         cur_total_cap: ,
-            //         cur_total_sign_day: 85
-            //         },
-            //         '88VIP': false,
-            //         member_status: {
-            //         Z_VIP: 'UNPAID',
-            //         VIP: 'UNPAID',
-            //         MINI_VIP: 'UNPAID',
-            //         SUPER_VIP: 'UNPAID'
-            //         },
-            //         cap_sign: {
-            //         sign_daily: true,
-            //         sign_target: 7,
-            //         sign_daily_reward: 20971520,
-            //         sign_progress: 1,
-            //         sign_rewards: [Array]
-            //         },
-            //         cap_composition: {
-            //         other: ,
-            //         member_own: ,
-            //         sign_reward: 2600468480
-            //         },
-            //         total_capacity: 
-            //     },
-            //     metadata: {}
-            // }
-
-            // 41943040 -> 40MB
-            reward = resp["data"]["cap_sign"]["sign_daily_reward"] / (1024 * 1024)
-            // console.log(reward)
-            cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
-            sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
-            content = "总签" + cur_total_sign_day + "天 " + ",周签" + sign_progress + "天,获"  + String(reward) + "MB";
-            messageSuccess += content
-            console.log(content)
-
-            // 青龙适配，青龙微适配
-            flagResultFinish = 1; // 签到结束
-        }
-            
-        //   }
-      }
-      
     } else {
-    //   console.log(resp.text());
-      messageFail += "帐号：" + messageName + "签到失败 ";
-      console.log("帐号：" + messageName + "签到失败 ");
-    }
+        content = "签到失败 "
+        messageFail += content;
+        console.log(content);
+  }
+
+    // 青龙适配，青龙微适配
+    flagResultFinish = 1; // 签到结束
+
 
 
   // 以最后一次的取到的消息为主
@@ -939,35 +890,41 @@ function resultHandle(resp, pos){
 function execHandle(cookie, pos) {
     // 青龙适配，青龙微适配
     qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
-    
-  // try {
-    let url1 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str="; // 查询是否签到
-    
-    headers = {
-      "Cookie": cookie,
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586"
-    };
 
-    if(qlSwitch != 1){  // 金山文档
-        resp = HTTP.fetch(url1, {
-            method: "get",
-            headers: headers,
-            // data: data
-        });
-    }else{  // 青龙
-        data = {}
-        option = "get"
-        resp = HTTP.post(
-            url1,
-            data,
-            { headers: headers },
-            option
-        );
-    }
+  // =================修改这块区域，区域开始=================
+
+  url = "https://xiaodian.miyatech.com/api/coupon/auth/signIn"; // 签到url（修改这里，这里填抓包获取到的地址）
+  // appid = "wxc1a76b057f9832e4"
+  // appsecret = "37074156107dfc0c28bd2a360f2e3ee1"
+  url2 = "https://api.weixin.qq.com/cgi-bin/token"
+  // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
+  headers= {
+    "content-type": "application/json",
+    "HH-CI": "saas-wechat-app",
+    "HH-APP": Application.Range("D" + pos).Text,
+    "HH-FROM": Application.Range("E" + pos).Text,
+    "Authorization": cookie,
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
+  }
+  // （修改这里，这里填抓包获取data，全部抄进来就可以了，按照如下用引号包裹的格式。POST请求才需要这个，GET请求就不用它了）
+  data = {
+    // "miniappId":"",
+  }
+  
+  // （修改这里，以下请求方式三选一即可)
+  // 请求方式1：POST请求，抓包的data数据格式是 {"aaa":"xxx","bbb":"xxx"} 。则用这个
+  resp = HTTP.post(
+    url,
+    // JSON.stringify(data),
+    data,
+    { headers: headers }
+  );
+
+
+  // =================修改这块区域，区域结束=================
 
     // 青龙适配，青龙微适配
     if(qlSwitch != 1){  // 选择金山文档
         resultHandle(resp, pos)
     }
-    
 }
